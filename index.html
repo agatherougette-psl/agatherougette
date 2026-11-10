@@ -23,7 +23,7 @@
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Inter', 'sans-serif'],
-                        custom: ['MaPolicePerso', 'sans-serif'], /* Ajout de votre police personnalisée */
+                        custom: ['AchilleusScript', 'sans-serif'], // Configuration de votre police
                     }
                 }
             }
@@ -31,11 +31,10 @@
     </script>
 
     <style>
-        /* Déclaration de votre police personnalisée */
+        /* Déclaration directe de votre fichier de police de caractères */
         @font-face {
-            font-family: 'MaPolicePerso';
-            src: url('fonts/ma-police.woff2') format('woff2'),
-                 url('fonts/ma-police.ttf') format('truetype');
+            font-family: 'AchilleusScript';
+            src: url('Achilleus Script.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
         }
@@ -193,12 +192,12 @@
             filter: blur(8px);
         }
 
-        /* Grand titre avec police personnalisée */
+        /* Grand titre avec la police Achilleus Script */
         .hero-title {
-            font-family: 'MaPolicePerso', sans-serif;
-            font-size: clamp(3rem, 7vw, 7.5rem);
+            font-family: 'AchilleusScript', cursive, sans-serif;
+            font-size: clamp(3.5rem, 8vw, 8.5rem);
             line-height: 1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
             color: #09090b;
             text-align: center;
             white-space: nowrap;
@@ -231,7 +230,7 @@
     <!-- Section principale -->
     <main class="relative z-10 flex-1 flex flex-col items-center justify-between overflow-hidden pt-4 pb-6">
         
-        <!-- Grand Titre Agathe Rougette (au-dessus du carrousel) -->
+        <!-- Grand Titre Agathe Rougette avec la police Achilleus Script -->
         <div class="w-full flex items-center justify-center z-20">
             <h1 class="hero-title">Agathe Rougette</h1>
         </div>
@@ -284,135 +283,3 @@
     <!-- Script JavaScript -->
     <script>
         const projects = [
-            {
-                id: 1,
-                title: "Studio Vision",
-                category: "design",
-                cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80",
-                desc: "Conception d'une identité visuelle minimale et expérimentale pour un studio d'architecture contemporain."
-            },
-            {
-                id: 2,
-                title: "Lumière Noire",
-                category: "photo",
-                cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80",
-                desc: "Série photographique explorant les ombres portées et le contraste architectural en milieu urbain."
-            },
-            {
-                id: 3,
-                title: "Écho Organique",
-                category: "art",
-                cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80",
-                desc: "Direction artistique globale centrée sur les textures végétales et les formes fluides."
-            },
-            {
-                id: 4,
-                title: "Formes & Volumes",
-                category: "branding",
-                cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=600&q=80",
-                desc: "Système de design graphique axé sur la typographie sculpturale et le contraste élevé."
-            },
-            {
-                id: 5,
-                title: "Matière Brut",
-                category: "design",
-                cover: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=600&q=80",
-                desc: "Projet d'édition à tirage limité avec gaufrages et textures papier haut de gamme."
-            },
-            {
-                id: 6,
-                title: "Perspective 06",
-                category: "photo",
-                cover: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80",
-                desc: "Exploration visuelle des horizons géométriques à travers l'Europe du Nord."
-            },
-            {
-                id: 7,
-                title: "Minimalisme Pure",
-                category: "art",
-                cover: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=600&q=80",
-                desc: "Composition artistique épurée mettant en avant la puissance du jaune et du noir."
-            }
-        ];
-
-        function renderShelf(items = projects) {
-            const shelf = document.getElementById('shelf-container');
-            shelf.innerHTML = '';
-
-            const total = items.length;
-
-            items.forEach((proj, idx) => {
-                const item = document.createElement('div');
-                item.className = 'card-item';
-                
-                const centerOffset = idx - Math.floor(total / 2);
-                const zIndex = total - Math.abs(centerOffset);
-                item.style.zIndex = zIndex;
-
-                item.innerHTML = `
-                    <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('${proj.cover}');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent p-5 flex flex-col justify-end">
-                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#ECF244]">${proj.category}</span>
-                                <h4 class="font-serif font-bold text-sm text-white leading-tight mt-0.5">${proj.title}</h4>
-                            </div>
-                        </div>
-
-                        <div class="face face-back"></div>
-                        <div class="face face-side-left"></div>
-                        <div class="face face-side-right"></div>
-                        <div class="face face-top"></div>
-                    </div>
-
-                    <div class="shadow-floor"></div>
-                `;
-
-                item.addEventListener('click', () => openModal(proj));
-                shelf.appendChild(item);
-            });
-        }
-
-        function filterCategory(cat, btnElem) {
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.className = 'cat-btn hover:opacity-75 transition-opacity px-2 py-1.5';
-            });
-            btnElem.className = 'cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full';
-
-            if (cat === 'all') {
-                renderShelf(projects);
-            } else {
-                const filtered = projects.filter(p => p.category === cat);
-                renderShelf(filtered.length ? filtered : projects);
-            }
-        }
-
-        function openModal(proj) {
-            document.getElementById('modal-img').src = proj.cover;
-            document.getElementById('modal-title').innerText = proj.title;
-            document.getElementById('modal-category').innerText = proj.category;
-            document.getElementById('modal-desc').innerText = proj.desc;
-
-            const modal = document.getElementById('card-modal');
-            const content = document.getElementById('modal-content');
-
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('card-modal');
-            const content = document.getElementById('modal-content');
-
-            content.classList.remove('scale-100');
-            content.classList.add('scale-95');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        window.onload = function() {
-            renderShelf();
-            if (window.lucide) lucide.createIcons();
-        };
-    </script>
-</body>
-</html>
