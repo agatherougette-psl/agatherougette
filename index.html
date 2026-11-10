@@ -19,14 +19,14 @@
         :root {
             --card-w: 210px;
             --card-h: 310px;
-            --card-d: 18px;
+            --card-d: 10px; /* Épaisseur réduite pour un rendu plus fin */
         }
 
         @media (min-width: 1024px) {
             :root {
                 --card-w: 240px;
                 --card-h: 350px;
-                --card-d: 20px;
+                --card-d: 12px;
             }
         }
 
@@ -78,8 +78,8 @@
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), margin 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            margin-left: -85px;
-            margin-right: -85px;
+            margin-left: -70px;
+            margin-right: -70px;
             flex-shrink: 0;
         }
 
@@ -88,7 +88,8 @@
             height: var(--card-h);
             position: relative;
             transform-style: preserve-3d;
-            transform: rotateY(-36deg) rotateX(10deg) rotateZ(2deg);
+            /* Angle ajusté pour que la tranche droite soit naturelle */
+            transform: rotateY(-14deg) rotateX(5deg) rotateZ(1deg);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -101,9 +102,9 @@
             width: 100%;
             height: 100%;
             transform: translateZ(calc(var(--card-d) / 2));
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: -4px 8px 16px rgba(0, 0, 0, 0.2);
             background-size: cover;
             background-position: center;
         }
@@ -112,8 +113,8 @@
             width: 100%;
             height: 100%;
             transform: translateZ(calc(var(--card-d) / -2)) rotateY(180deg);
-            background: #09090b;
-            border-radius: 12px;
+            background: #111113;
+            border-radius: 10px;
         }
 
         .face-side-left {
@@ -125,14 +126,15 @@
             background: #18181b;
         }
 
+        /* Tranche droite réaliste (finition papier/tranche fine) */
         .face-side-right {
             width: var(--card-d);
             height: 100%;
             right: 0;
             top: 0;
             transform: translateX(50%) rotateY(90deg);
-            background: linear-gradient(to right, #2a2a2e, #141416);
-            box-shadow: inset 1px 0 2px rgba(255, 255, 255, 0.15);
+            background: linear-gradient(to right, #111113, #1f1f23);
+            box-shadow: inset 1px 0 2px rgba(0, 0, 0, 0.4);
         }
 
         .face-top {
@@ -141,7 +143,7 @@
             left: 0;
             top: 0;
             transform: translateY(-50%) rotateX(90deg);
-            background: #3f3f46;
+            background: #27272a;
         }
 
         /* --- OMBRE AU SOL RESTAURÉE & PLUS NATURELLE --- */
@@ -167,7 +169,7 @@
         }
 
         .card-item:hover .card-3d {
-            transform: translateY(-60px) translateZ(150px) rotateY(-10deg) scale(1.1);
+            transform: translateY(-60px) translateZ(150px) rotateY(-4deg) scale(1.08);
         }
 
         .card-item:hover .shadow-floor {
@@ -191,7 +193,7 @@
             <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+        <button class="bg-black text-[#ECF244] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
@@ -304,6 +306,9 @@
             <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">Brief de marque Agatha</button>
         </div>
     </main>
+
+</body>
+</html>
 
 </body>
 </html>
