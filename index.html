@@ -6,32 +6,14 @@
     <title>Agathe Rougette — Portfolio 3D</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
+    <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: '#ECF244'
-                    },
-                    fontFamily: {
-                        serif: ['Playfair Display', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
-                        custom: ['AchilleusScript', 'cursive', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        /* Déclaration de votre police personnalisée */
+        /* Charger votre police */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
@@ -53,16 +35,25 @@
             }
         }
 
-        html, body {
-            min-height: 100vh;
+        body {
             margin: 0;
             padding: 0;
             background-color: #ECF244;
             color: #09090b;
             font-family: 'Inter', sans-serif;
+            min-height: 100vh;
         }
 
-        /* 3D Stage setup */
+        /* Titre principal */
+        .hero-title {
+            font-family: 'AchilleusScript', cursive, sans-serif;
+            font-size: clamp(3rem, 7vw, 7.5rem);
+            line-height: 1;
+            color: #09090b;
+            text-align: center;
+        }
+
+        /* Scène 3D */
         .stage-3d {
             perspective: 1400px;
             perspective-origin: 50% 45%;
@@ -73,43 +64,31 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            min-height: calc(var(--card-h) + 40px);
+            min-height: 380px;
         }
 
-        /* Container per card in the fan layout */
         .card-item {
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.3, 1), margin 0.5s ease;
+            transition: transform 0.4s ease, margin 0.4s ease;
             cursor: pointer;
             margin-left: -85px;
             margin-right: -85px;
             flex-shrink: 0;
         }
 
-        @media (max-width: 768px) {
-            .card-item {
-                margin-left: -105px;
-                margin-right: -105px;
-            }
-        }
-
-        /* Sleek 3D Slab / Card Element */
         .card-3d {
             width: var(--card-w);
             height: var(--card-h);
             position: relative;
             transform-style: preserve-3d;
             transform: rotateY(-36deg) rotateX(10deg) rotateZ(2deg);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform;
+            transition: transform 0.4s ease;
         }
 
-        /* Faces for sleek slab depth */
         .face {
             position: absolute;
             backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
         }
 
         .face-front {
@@ -118,4 +97,166 @@
             transform: translateZ(calc(var(--card-d) / 2));
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 2
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+        }
+
+        .face-back {
+            width: 100%;
+            height: 100%;
+            transform: translateZ(calc(var(--card-d) / -2)) rotateY(180deg);
+            background: #09090b;
+            border-radius: 12px;
+        }
+
+        .face-side-left {
+            width: var(--card-d);
+            height: 100%;
+            left: 0;
+            top: 0;
+            transform: translateX(-50%) rotateY(-90deg);
+            background: #18181b;
+        }
+
+        .face-side-right {
+            width: var(--card-d);
+            height: 100%;
+            right: 0;
+            top: 0;
+            transform: translateX(50%) rotateY(90deg);
+            background: #27272a;
+        }
+
+        .face-top {
+            width: 100%;
+            height: var(--card-d);
+            left: 0;
+            top: 0;
+            transform: translateY(-50%) rotateX(90deg);
+            background: #3f3f46;
+        }
+
+        .shadow-floor {
+            position: absolute;
+            bottom: -30px;
+            left: 5%;
+            width: 90%;
+            height: 30px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 75%);
+            transform: rotateX(80deg) translateZ(-20px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        /* Survol */
+        .card-item:hover {
+            z-index: 120 !important;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+
+        .card-item:hover .card-3d {
+            transform: translateY(-60px) translateZ(150px) rotateY(-10deg) scale(1.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen">
+
+    <!-- Header -->
+    <header class="w-full px-8 py-6 flex items-center justify-between z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-black text-[#ECF244] flex items-center justify-center font-serif font-black text-xl rounded-full">
+                AR
+            </div>
+            <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+            <a href="#" class="hover:opacity-75">Projets</a>
+            <a href="#" class="hover:opacity-75">À propos</a>
+            <a href="#" class="hover:opacity-75">Galerie</a>
+            <a href="#" class="hover:opacity-75">Contact</a>
+        </nav>
+
+        <button class="bg-black text-[#ECF244] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg">
+            Me contacter
+        </button>
+    </header>
+
+    <!-- Zone principale -->
+    <main class="flex-1 flex flex-col items-center justify-around py-4">
+        
+        <!-- Grand Titre -->
+        <h1 class="hero-title my-2">Agathe Rougette</h1>
+
+        <!-- Carrousel 3D -->
+        <div class="w-full max-w-7xl stage-3d my-4">
+            <div id="shelf-container" class="shelf-3d px-6">
+                <!-- Généré par JS -->
+            </div>
+        </div>
+
+        <!-- Filtres du bas -->
+        <div class="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase border border-black/15 py-3 px-6 backdrop-blur-md bg-black/5 rounded-full shadow-md my-2">
+            <button onclick="filterCat('all', this)" class="cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
+            <button onclick="filterCat('design', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Design</button>
+            <button onclick="filterCat('photo', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Photographie</button>
+            <button onclick="filterCat('art', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Art Direction</button>
+            <button onclick="filterCat('branding', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Branding</button>
+        </div>
+    </main>
+
+    <!-- Code JS embarqué -->
+    <script>
+        const projects = [
+            { id: 1, title: "Studio Vision", category: "design", bg: "linear-gradient(135deg, #1e1e24 0%, #2b2d42 100%)" },
+            { id: 2, title: "Lumière Noire", category: "photo", bg: "linear-gradient(135deg, #000000 0%, #434343 100%)" },
+            { id: 3, title: "Écho Organique", category: "art", bg: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)" },
+            { id: 4, title: "Formes & Volumes", category: "branding", bg: "linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)" },
+            { id: 5, title: "Matière Brut", category: "design", bg: "linear-gradient(135deg, #d4145a 0%, #fbb03b 100%)" },
+            { id: 6, title: "Perspective 06", category: "photo", bg: "linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)" },
+            { id: 7, title: "Minimalisme Pure", category: "art", bg: "linear-gradient(135deg, #f857a6 0%, #ff5858 100%)" }
+        ];
+
+        function renderShelf(items = projects) {
+            const shelf = document.getElementById('shelf-container');
+            if (!shelf) return;
+            shelf.innerHTML = '';
+            const total = items.length;
+
+            items.forEach((proj, idx) => {
+                const item = document.createElement('div');
+                item.className = 'card-item';
+                const centerOffset = idx - Math.floor(total / 2);
+                item.style.zIndex = total - Math.abs(centerOffset);
+
+                item.innerHTML = `
+                    <div class="card-3d">
+                        <div class="face face-front" style="background: ${proj.bg};">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent p-5 flex flex-col justify-end">
+                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#ECF244]">${proj.category}</span>
+                                <h4 class="font-serif font-bold text-base text-white mt-1">${proj.title}</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                `;
+                shelf.appendChild(item);
+            });
+        }
+
+        function filterCat(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.className = 'cat-btn px-3 py-1.5 hover:opacity-75');
+            btn.className = 'cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full';
+            renderShelf(cat === 'all' ? projects : projects.filter(p => p.category === cat));
+        }
+
+        // Lancement immédiat
+        renderShelf();
+        window.addEventListener('DOMContentLoaded', renderShelf);
+    </script>
+</body>
+</html>
