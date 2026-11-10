@@ -23,7 +23,7 @@
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Inter', 'sans-serif'],
-                        custom: ['AchilleusScript', 'sans-serif'],
+                        custom: ['AchilleusScript', 'cursive', 'sans-serif'],
                     }
                 }
             }
@@ -31,7 +31,7 @@
     </script>
 
     <style>
-        /* Déclaration de votre police */
+        /* Déclaration de votre police personnalisée */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
@@ -40,24 +40,23 @@
         }
 
         :root {
-            --card-w: 220px;
-            --card-h: 330px;
-            --card-d: 16px;
+            --card-w: 200px;
+            --card-h: 300px;
+            --card-d: 18px;
         }
 
         @media (min-width: 1024px) {
             :root {
-                --card-w: 250px;
-                --card-h: 375px;
+                --card-w: 230px;
+                --card-h: 345px;
                 --card-d: 20px;
             }
         }
 
         html, body {
-            height: 100%;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
-            overflow: auto;
             background-color: #ECF244;
             color: #09090b;
             font-family: 'Inter', sans-serif;
@@ -74,7 +73,7 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            min-height: var(--card-h);
+            min-height: calc(var(--card-h) + 40px);
         }
 
         /* Container per card in the fan layout */
@@ -83,15 +82,15 @@
             transform-style: preserve-3d;
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.3, 1), margin 0.5s ease;
             cursor: pointer;
-            margin-left: -90px;
-            margin-right: -90px;
+            margin-left: -85px;
+            margin-right: -85px;
             flex-shrink: 0;
         }
 
         @media (max-width: 768px) {
             .card-item {
-                margin-left: -110px;
-                margin-right: -110px;
+                margin-left: -105px;
+                margin-right: -105px;
             }
         }
 
@@ -119,127 +118,4 @@
             transform: translateZ(calc(var(--card-d) / 2));
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
-
-        .face-back {
-            width: 100%;
-            height: 100%;
-            transform: translateZ(calc(var(--card-d) / -2)) rotateY(180deg);
-            background: #09090b;
-            border-radius: 12px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
-        }
-
-        .face-side-left {
-            width: var(--card-d);
-            height: 100%;
-            left: 0;
-            top: 0;
-            transform: translateX(-50%) rotateY(-90deg);
-            background: #18181b;
-            border-radius: 2px;
-        }
-
-        .face-side-right {
-            width: var(--card-d);
-            height: 100%;
-            right: 0;
-            top: 0;
-            transform: translateX(50%) rotateY(90deg);
-            background: #27272a;
-            border-radius: 2px;
-        }
-
-        .face-top {
-            width: 100%;
-            height: var(--card-d);
-            left: 0;
-            top: 0;
-            transform: translateY(-50%) rotateX(90deg);
-            background: #3f3f46;
-            border-radius: 2px;
-        }
-
-        /* Floor Shadow under each 3D Slab */
-        .shadow-floor {
-            position: absolute;
-            bottom: -35px;
-            left: 5%;
-            width: 90%;
-            height: 35px;
-            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 75%);
-            transform: rotateX(80deg) translateZ(-20px);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
-        }
-
-        /* --- HOVER ANIMATION: ELEVATE + CENTER --- */
-        .card-item:hover {
-            z-index: 120 !important;
-            margin-left: -20px;
-            margin-right: -20px;
-        }
-
-        .card-item:hover .card-3d {
-            transform: translateY(-80px) translateZ(180px) rotateY(-12deg) rotateX(4deg) rotateZ(0deg) scale(1.15);
-        }
-
-        .card-item:hover .shadow-floor {
-            transform: rotateX(80deg) translateZ(-60px) scale(1.6);
-            opacity: 0.25;
-            filter: blur(8px);
-        }
-
-        /* Grand titre avec la police Achilleus Script */
-        .hero-title {
-            font-family: 'AchilleusScript', cursive, sans-serif;
-            font-size: clamp(3rem, 6.5vw, 6.5rem);
-            line-height: 0.9;
-            letter-spacing: -0.01em;
-            color: #09090b;
-            text-align: center;
-            white-space: nowrap;
-        }
-    </style>
-</head>
-<body class="min-h-screen w-screen flex flex-col justify-between relative selection:bg-black selection:text-[#ECF244]">
-
-    <!-- Header Navigation -->
-    <header class="relative z-50 w-full px-8 py-6 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-black text-[#ECF244] flex items-center justify-center font-serif font-black text-xl rounded-full shadow-md">
-                AR
-            </div>
-            <span class="font-bold text-sm tracking-widest uppercase text-black">Portfolio</span>
-        </div>
-
-        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase text-black/80">
-            <a href="#" class="hover:text-black transition-colors">Projets</a>
-            <a href="#" class="hover:text-black transition-colors">À propos</a>
-            <a href="#" class="hover:text-black transition-colors">Galerie</a>
-            <a href="#" class="hover:text-black transition-colors">Contact</a>
-        </nav>
-
-        <button class="bg-black text-[#ECF244] hover:bg-zinc-900 text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-xl transition-transform hover:scale-105">
-            Me contacter
-        </button>
-    </header>
-
-    <!-- Section principale -->
-    <main class="relative z-10 w-full flex-1 flex flex-col items-center justify-between py-2">
-        
-        <!-- Grand Titre Agathe Rougette -->
-        <div class="w-full flex items-center justify-center z-20 mt-2 mb-4">
-            <h1 class="hero-title">Agathe Rougette</h1>
-        </div>
-
-        <!-- 3D Carousel Stage -->
-        <div class="w-full max-w-7xl mx-auto stage-3d my-auto py-4">
-            <div id="shelf-container" class="shelf-3d px-6">
-                <!-- Cards injected via JS -->
-            </div>
-        </div>
-
-        <!-- Category Menu Bottom Bar -->
-        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 2
