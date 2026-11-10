@@ -6,14 +6,9 @@
     <title>Agathe Rougette — Portfolio 3D</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* Charger votre police */
+        /* Déclaration de la police personnalisée */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
@@ -22,15 +17,15 @@
         }
 
         :root {
-            --card-w: 200px;
-            --card-h: 300px;
+            --card-w: 210px;
+            --card-h: 310px;
             --card-d: 18px;
         }
 
         @media (min-width: 1024px) {
             :root {
-                --card-w: 230px;
-                --card-h: 345px;
+                --card-w: 240px;
+                --card-h: 350px;
                 --card-d: 20px;
             }
         }
@@ -40,31 +35,34 @@
             padding: 0;
             background-color: #ECF244;
             color: #09090b;
-            font-family: 'Inter', sans-serif;
+            font-family: sans-serif;
             min-height: 100vh;
         }
 
-        /* Titre principal */
+        /* Grand Titre avec la police Achilleus Script */
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
             font-size: clamp(3rem, 7vw, 7.5rem);
             line-height: 1;
             color: #09090b;
             text-align: center;
+            margin: 0;
         }
 
         /* Scène 3D */
         .stage-3d {
             perspective: 1400px;
             perspective-origin: 50% 45%;
+            width: 100%;
         }
 
         .shelf-3d {
             transform-style: preserve-3d;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            min-height: 380px;
+            display: flex !important;
+            align-items: flex-end !important;
+            justify-content: center !important;
+            min-height: 360px;
+            width: 100%;
         }
 
         .card-item {
@@ -147,7 +145,7 @@
             pointer-events: none;
         }
 
-        /* Survol */
+        /* Hover */
         .card-item:hover {
             z-index: 120 !important;
             margin-left: -15px;
@@ -161,10 +159,10 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header -->
+    <!-- Header Navigation -->
     <header class="w-full px-8 py-6 flex items-center justify-between z-50">
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-black text-[#ECF244] flex items-center justify-center font-serif font-black text-xl rounded-full">
+            <div class="w-9 h-9 bg-black text-[#ECF244] flex items-center justify-center font-bold text-xl rounded-full">
                 AR
             </div>
             <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
@@ -182,59 +180,22 @@
         </button>
     </header>
 
-    <!-- Zone principale -->
-    <main class="flex-1 flex flex-col items-center justify-around py-4">
+    <!-- Content -->
+    <main class="flex-1 flex flex-col items-center justify-between py-4">
         
-        <!-- Grand Titre -->
+        <!-- Titre Agathe Rougette -->
         <h1 class="hero-title my-2">Agathe Rougette</h1>
 
-        <!-- Carrousel 3D -->
-        <div class="w-full max-w-7xl stage-3d my-4">
+        <!-- Stage 3D -->
+        <div class="stage-3d my-4">
             <div id="shelf-container" class="shelf-3d px-6">
-                <!-- Généré par JS -->
-            </div>
-        </div>
-
-        <!-- Filtres du bas -->
-        <div class="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase border border-black/15 py-3 px-6 backdrop-blur-md bg-black/5 rounded-full shadow-md my-2">
-            <button onclick="filterCat('all', this)" class="cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
-            <button onclick="filterCat('design', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Design</button>
-            <button onclick="filterCat('photo', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Photographie</button>
-            <button onclick="filterCat('art', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Art Direction</button>
-            <button onclick="filterCat('branding', this)" class="cat-btn px-3 py-1.5 hover:opacity-75">Branding</button>
-        </div>
-    </main>
-
-    <!-- Code JS embarqué -->
-    <script>
-        const projects = [
-            { id: 1, title: "Studio Vision", category: "design", bg: "linear-gradient(135deg, #1e1e24 0%, #2b2d42 100%)" },
-            { id: 2, title: "Lumière Noire", category: "photo", bg: "linear-gradient(135deg, #000000 0%, #434343 100%)" },
-            { id: 3, title: "Écho Organique", category: "art", bg: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)" },
-            { id: 4, title: "Formes & Volumes", category: "branding", bg: "linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%)" },
-            { id: 5, title: "Matière Brut", category: "design", bg: "linear-gradient(135deg, #d4145a 0%, #fbb03b 100%)" },
-            { id: 6, title: "Perspective 06", category: "photo", bg: "linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)" },
-            { id: 7, title: "Minimalisme Pure", category: "art", bg: "linear-gradient(135deg, #f857a6 0%, #ff5858 100%)" }
-        ];
-
-        function renderShelf(items = projects) {
-            const shelf = document.getElementById('shelf-container');
-            if (!shelf) return;
-            shelf.innerHTML = '';
-            const total = items.length;
-
-            items.forEach((proj, idx) => {
-                const item = document.createElement('div');
-                item.className = 'card-item';
-                const centerOffset = idx - Math.floor(total / 2);
-                item.style.zIndex = total - Math.abs(centerOffset);
-
-                item.innerHTML = `
+                <!-- Directement écrit en HTML fixe pour garantir l'affichage -->
+                <div class="card-item" style="z-index: 4;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background: ${proj.bg};">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent p-5 flex flex-col justify-end">
-                                <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#ECF244]">${proj.category}</span>
-                                <h4 class="font-serif font-bold text-base text-white mt-1">${proj.title}</h4>
+                        <div class="face face-front" style="background: linear-gradient(135deg, #1e1e24, #2b2d42);">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Design</span>
+                                <h4 class="font-bold text-base mt-1">Studio Vision</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -243,20 +204,83 @@
                         <div class="face face-top"></div>
                     </div>
                     <div class="shadow-floor"></div>
-                `;
-                shelf.appendChild(item);
-            });
-        }
+                </div>
 
-        function filterCat(cat, btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.className = 'cat-btn px-3 py-1.5 hover:opacity-75');
-            btn.className = 'cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full';
-            renderShelf(cat === 'all' ? projects : projects.filter(p => p.category === cat));
-        }
+                <div class="card-item" style="z-index: 5;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background: linear-gradient(135deg, #000000, #434343);">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Photographie</span>
+                                <h4 class="font-bold text-base mt-1">Lumière Noire</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </div>
 
-        // Lancement immédiat
-        renderShelf();
-        window.addEventListener('DOMContentLoaded', renderShelf);
-    </script>
+                <div class="card-item" style="z-index: 7;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Art Direction</span>
+                                <h4 class="font-bold text-base mt-1">Écho Organique</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </div>
+
+                <div class="card-item" style="z-index: 5;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background: linear-gradient(135deg, #8e2de2, #4a00e0);">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Branding</span>
+                                <h4 class="font-bold text-base mt-1">Formes & Volumes</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </div>
+
+                <div class="card-item" style="z-index: 4;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background: linear-gradient(135deg, #d4145a, #fbb03b);">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Design</span>
+                                <h4 class="font-bold text-base mt-1">Matière Brut</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtres du bas -->
+        <div class="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase border border-black/15 py-3 px-6 backdrop-blur-md bg-black/5 rounded-full shadow-md my-2">
+            <button class="bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
+            <button class="px-3 py-1.5 hover:opacity-75">Design</button>
+            <button class="px-3 py-1.5 hover:opacity-75">Photographie</button>
+            <button class="px-3 py-1.5 hover:opacity-75">Art Direction</button>
+            <button class="px-3 py-1.5 hover:opacity-75">Branding</button>
+        </div>
+    </main>
+
 </body>
 </html>
