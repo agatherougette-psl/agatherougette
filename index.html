@@ -31,7 +31,7 @@
     </script>
 
     <style>
-        /* Déclaration de votre police personnalisée */
+        /* Déclaration de votre police */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
@@ -74,6 +74,7 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
+            min-height: var(--card-h);
         }
 
         /* Container per card in the fan layout */
@@ -118,9 +119,7 @@
             transform: translateZ(calc(var(--card-d) / 2));
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.4);
-            background-size: cover;
-            background-position: center;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
         .face-back {
@@ -192,11 +191,11 @@
             filter: blur(8px);
         }
 
-        /* Grand titre avec la police personnalisée */
+        /* Grand titre avec la police Achilleus Script */
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
-            font-size: clamp(2.5rem, 5vw, 5rem);
-            line-height: 0.8;
+            font-size: clamp(3rem, 6.5vw, 6.5rem);
+            line-height: 0.9;
             letter-spacing: -0.01em;
             color: #09090b;
             text-align: center;
@@ -228,41 +227,19 @@
     </header>
 
     <!-- Section principale -->
-    <main class="relative z-10 w-full flex-1 flex flex-col items-center justify-center py-6">
+    <main class="relative z-10 w-full flex-1 flex flex-col items-center justify-between py-2">
         
         <!-- Grand Titre Agathe Rougette -->
-        <div class="w-full flex items-center justify-center z-20 my-4">
+        <div class="w-full flex items-center justify-center z-20 mt-2 mb-4">
             <h1 class="hero-title">Agathe Rougette</h1>
         </div>
 
         <!-- 3D Carousel Stage -->
-        <div class="w-full max-w-7xl mx-auto stage-3d py-6">
+        <div class="w-full max-w-7xl mx-auto stage-3d my-auto py-4">
             <div id="shelf-container" class="shelf-3d px-6">
                 <!-- Cards injected via JS -->
             </div>
         </div>
 
         <!-- Category Menu Bottom Bar -->
-        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text-black rounded-full shadow-lg mt-4">
-            <button onclick="filterCategory('all', this)" class="cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
-            <button onclick="filterCategory('design', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Design</button>
-            <button onclick="filterCategory('photo', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Photographie</button>
-            <button onclick="filterCategory('art', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Art Direction</button>
-            <button onclick="filterCategory('branding', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Branding</button>
-        </div>
-    </main>
-
-    <!-- Modal d'inspection -->
-    <div id="card-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
-        <div id="modal-content" class="bg-black text-white rounded-3xl max-w-2xl w-full p-8 relative shadow-2xl flex flex-col md:flex-row gap-8 transform scale-95 transition-transform duration-300">
-            <button onclick="closeModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white p-2">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
-            <div class="w-52 h-72 flex-shrink-0 mx-auto rounded-xl overflow-hidden shadow-2xl border border-zinc-800">
-                <img id="modal-img" src="" class="w-full h-full object-cover" alt="Project Image">
-            </div>
-
-            <div class="flex-1 flex flex-col justify-between">
-                <div>
-                    <span id="modal-category" class
+        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text
