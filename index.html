@@ -1,4 +1,4 @@
-u<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -39,6 +39,14 @@ u<!DOCTYPE html>
             min-height: 100vh;
         }
 
+        /* Liens du menu avec survol rose #FA378F */
+        .nav-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #FA378F !important;
+        }
+
         /* Grand Titre avec la police Achilleus Script */
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
@@ -68,7 +76,7 @@ u<!DOCTYPE html>
         .card-item {
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.4s ease, margin 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), margin 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
             margin-left: -85px;
             margin-right: -85px;
@@ -81,7 +89,7 @@ u<!DOCTYPE html>
             position: relative;
             transform-style: preserve-3d;
             transform: rotateY(-36deg) rotateX(10deg) rotateZ(2deg);
-            transition: transform 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .face {
@@ -95,7 +103,9 @@ u<!DOCTYPE html>
             transform: translateZ(calc(var(--card-d) / 2));
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            background-size: cover;
+            background-position: center;
         }
 
         .face-back {
@@ -133,19 +143,22 @@ u<!DOCTYPE html>
             background: #3f3f46;
         }
 
+        /* --- OMBRE AU SOL RESTAURÉE & PLUS NATURELLE --- */
         .shadow-floor {
             position: absolute;
-            bottom: -30px;
-            left: 5%;
-            width: 90%;
-            height: 30px;
-            background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 75%);
-            transform: rotateX(80deg) translateZ(-20px);
-            transition: all 0.4s ease;
+            bottom: -22px;
+            left: 10%;
+            width: 80%;
+            height: 18px;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 75%);
+            filter: blur(6px);
+            transform: rotateX(85deg) translateZ(-15px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: none;
+            opacity: 0.8;
         }
 
-        /* Hover */
+        /* Survol des cartes */
         .card-item:hover {
             z-index: 120 !important;
             margin-left: -15px;
@@ -155,23 +168,31 @@ u<!DOCTYPE html>
         .card-item:hover .card-3d {
             transform: translateY(-60px) translateZ(150px) rotateY(-10deg) scale(1.1);
         }
+
+        .card-item:hover .shadow-floor {
+            transform: rotateX(85deg) translateZ(-45px) scale(1.4);
+            opacity: 0.25;
+            filter: blur(12px);
+        }
     </style>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header Navigation -->
+    <!-- Header Navigation avec survol rose #FA378F -->
     <header class="w-full px-8 py-6 flex items-center justify-between z-50">
         <div class="flex items-center gap-3">
-            <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+            <div class="w-9 h-9 bg-black text-[#FA378F] flex items-center justify-center font-bold text-xl rounded-full">
+                AR
+            </div>
             <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
         <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
-            <a href="#" class="hover:opacity-75">Menu</a>
-            <a href="#" class="hover:opacity-75">À propos</a>
+            <a href="#" class="nav-link">Menu</a>
+            <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg">
+        <button class="bg-black text-[#ECF244] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#FA378F] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
@@ -185,10 +206,11 @@ u<!DOCTYPE html>
         <!-- Stage 3D -->
         <div class="stage-3d my-4">
             <div id="shelf-container" class="shelf-3d px-6">
-                <!-- Directement écrit en HTML fixe pour garantir l'affichage -->
+                
+                <!-- Livre 1 -->
                 <div class="card-item" style="z-index: 4;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet1.png'); background-size: cover; background-position: center;">
+                        <div class="face face-front" style="background-image: url('projet1.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
                                 <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet Personnel</span>
                                 <h4 class="font-bold text-base mt-1">Projet Célene</h4>
@@ -202,12 +224,13 @@ u<!DOCTYPE html>
                     <div class="shadow-floor"></div>
                 </div>
 
+                <!-- Livre 2 -->
                 <div class="card-item" style="z-index: 5;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet2.png'); background-size: cover; background-position: center;">
+                        <div class="face face-front" style="background-image: url('projet2.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
                                 <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Photographie</span>
-                                <h4 class="font-bold text-base mt-1">DA, shoot et retouche</h4>
+                                <h4 class="font-bold text-base mt-1">DA, Shoot, Retouches</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -218,12 +241,13 @@ u<!DOCTYPE html>
                     <div class="shadow-floor"></div>
                 </div>
 
+                <!-- Livre 3 (GIF) -->
                 <div class="card-item" style="z-index: 7;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet3.gif'); background-size: cover; background-position: center;">
+                        <div class="face face-front" style="background-image: url('projet3.gif');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
                                 <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Indesign</span>
-                                <h4 class="font-bold text-base mt-1">Création d'un fascicule</h4>
+                                <h4 class="font-bold text-base mt-1">Fascicule</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -234,12 +258,13 @@ u<!DOCTYPE html>
                     <div class="shadow-floor"></div>
                 </div>
 
+                <!-- Livre 4 -->
                 <div class="card-item" style="z-index: 5;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet4.png'); background-size: cover; background-position: center;">
+                        <div class="face face-front" style="background-image: url('projet4.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
                                 <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
-                                <h4 class="font-bold text-base mt-1">Projet de marque Agatha</h4>
+                                <h4 class="font-bold text-base mt-1">Brief de marque Agatha</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -250,12 +275,13 @@ u<!DOCTYPE html>
                     <div class="shadow-floor"></div>
                 </div>
 
+                <!-- Livre 5 -->
                 <div class="card-item" style="z-index: 4;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet4.png'); background-size: cover; background-position: center;">
+                        <div class="face face-front" style="background-image: url('projet4.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
-                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de groupe</span>
-                                <h4 class="font-bold text-base mt-1">Projet de marque Agatha</h4>
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
+                                <h4 class="font-bold text-base mt-1">Brief de marque Agatha</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -265,17 +291,18 @@ u<!DOCTYPE html>
                     </div>
                     <div class="shadow-floor"></div>
                 </div>
+
             </div>
         </div>
 
         <!-- Filtres du bas -->
         <div class="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase border border-black/15 py-3 px-6 backdrop-blur-md bg-black/5 rounded-full shadow-md my-2">
             <button class="bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
-            <button class="px-3 py-1.5 hover:opacity-75">Projet Célene</button>
-            <button class="px-3 py-1.5 hover:opacity-75">DA/shoot/Retouches</button>
-            <button class="px-3 py-1.5 hover:opacity-75">Création d'un Fasicule</button>
-            <button class="px-3 py-1.5 hover:opacity-75">Projet de marque Agatha</button>
-            <button class="px-3 py-1.5 hover:opacity-75">Projet de marque Agatha</button>
+            <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">Projet Célene</button>
+            <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">DA, Shoot, Retouches</button>
+            <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">Facsicule</button>
+            <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">Brief de marque Agatha</button>
+            <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">Brief de marque Agatha</button>
         </div>
     </main>
 
