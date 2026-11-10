@@ -1,5 +1,4 @@
-# agatherougette
-<!DOCTYPE html>
+
 <html lang="fr" class="dark">
 <head>
     <meta charset="UTF-8">
