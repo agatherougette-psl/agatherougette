@@ -23,6 +23,7 @@
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Inter', 'sans-serif'],
+                        custom: ['MaPolicePerso', 'sans-serif'], /* Ajout de votre police personnalisée */
                     }
                 }
             }
@@ -30,6 +31,15 @@
     </script>
 
     <style>
+        /* Déclaration de votre police personnalisée */
+        @font-face {
+            font-family: 'MaPolicePerso';
+            src: url('fonts/ma-police.woff2') format('woff2'),
+                 url('fonts/ma-police.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
             --card-w: 220px;
             --card-h: 330px;
@@ -183,12 +193,13 @@
             filter: blur(8px);
         }
 
-        /* Giant Background Text */
+        /* Grand titre avec police personnalisée */
         .hero-title {
-            font-size: clamp(4rem, 15vw, 18rem);
-            line-height: 0.85;
-            letter-spacing: -0.05em;
-            color: rgba(9, 9, 11, 0.88);
+            font-family: 'MaPolicePerso', sans-serif;
+            font-size: clamp(3rem, 7vw, 7.5rem);
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: #09090b;
             text-align: center;
             white-space: nowrap;
         }
@@ -217,23 +228,23 @@
         </button>
     </header>
 
-    <!-- Main 3D Display Stage -->
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-center overflow-hidden">
+    <!-- Section principale -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-between overflow-hidden pt-4 pb-6">
         
-        <!-- Big Background Typography "Agathe Rougette" -->
-        <div class="absolute inset-0 flex items-center justify-center -z-10 select-none pointer-events-none">
-            <h1 class="hero-title font-serif font-black">Agathe Rougette</h1>
+        <!-- Grand Titre Agathe Rougette (au-dessus du carrousel) -->
+        <div class="w-full flex items-center justify-center z-20">
+            <h1 class="hero-title">Agathe Rougette</h1>
         </div>
 
         <!-- 3D Carousel Stage -->
-        <div class="w-full max-w-7xl mx-auto stage-3d my-auto pt-12 pb-16">
+        <div class="w-full max-w-7xl mx-auto stage-3d my-auto pt-4 pb-8">
             <div id="shelf-container" class="shelf-3d px-6">
                 <!-- Cards injected via JS -->
             </div>
         </div>
 
         <!-- Category Menu Bottom Bar -->
-        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text-black rounded-full shadow-lg mb-4">
+        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text-black rounded-full shadow-lg">
             <button onclick="filterCategory('all', this)" class="cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
             <button onclick="filterCategory('design', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Design</button>
             <button onclick="filterCategory('photo', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Photographie</button>
@@ -242,7 +253,7 @@
         </div>
     </main>
 
-    <!-- Inspection Modal -->
+    <!-- Modal d'inspection -->
     <div id="card-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
         <div id="modal-content" class="bg-black text-white rounded-3xl max-w-2xl w-full p-8 relative shadow-2xl flex flex-col md:flex-row gap-8 transform scale-95 transition-transform duration-300">
             <button onclick="closeModal()" class="absolute top-5 right-5 text-zinc-400 hover:text-white p-2">
@@ -270,7 +281,7 @@
         </div>
     </div>
 
-    <!-- Logic & Data -->
+    <!-- Script JavaScript -->
     <script>
         const projects = [
             {
@@ -340,7 +351,6 @@
 
                 item.innerHTML = `
                     <div class="card-3d">
-                        <!-- Front Face -->
                         <div class="face face-front" style="background-image: url('${proj.cover}');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent p-5 flex flex-col justify-end">
                                 <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#ECF244]">${proj.category}</span>
@@ -348,16 +358,12 @@
                             </div>
                         </div>
 
-                        <!-- Back Face -->
                         <div class="face face-back"></div>
-
-                        <!-- Side Faces for 3D depth -->
                         <div class="face face-side-left"></div>
                         <div class="face face-side-right"></div>
                         <div class="face face-top"></div>
                     </div>
 
-                    <!-- Floor Shadow -->
                     <div class="shadow-floor"></div>
                 `;
 
