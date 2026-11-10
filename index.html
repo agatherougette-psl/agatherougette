@@ -23,7 +23,7 @@
                     fontFamily: {
                         serif: ['Playfair Display', 'serif'],
                         sans: ['Inter', 'sans-serif'],
-                        custom: ['AchilleusScript', 'sans-serif'], // Configuration de votre police
+                        custom: ['AchilleusScript', 'sans-serif'],
                     }
                 }
             }
@@ -31,7 +31,7 @@
     </script>
 
     <style>
-        /* Déclaration directe de votre fichier de police de caractères */
+        /* Déclaration de votre police personnalisée */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
@@ -57,7 +57,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow: auto;
             background-color: #ECF244;
             color: #09090b;
             font-family: 'Inter', sans-serif;
@@ -192,11 +192,11 @@
             filter: blur(8px);
         }
 
-        /* Grand titre avec la police Achilleus Script */
+        /* Grand titre avec la police personnalisée */
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
-            font-size: clamp(2.5rem, 6vw, 6rem);
-            line-height: 0.9;
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            line-height: 0.8;
             letter-spacing: -0.01em;
             color: #09090b;
             text-align: center;
@@ -204,7 +204,7 @@
         }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col justify-between relative selection:bg-black selection:text-[#ECF244]">
+<body class="min-h-screen w-screen flex flex-col justify-between relative selection:bg-black selection:text-[#ECF244]">
 
     <!-- Header Navigation -->
     <header class="relative z-50 w-full px-8 py-6 flex items-center justify-between">
@@ -228,22 +228,22 @@
     </header>
 
     <!-- Section principale -->
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-between overflow-hidden pt-4 pb-6">
+    <main class="relative z-10 w-full flex-1 flex flex-col items-center justify-center py-6">
         
-        <!-- Grand Titre Agathe Rougette avec la police Achilleus Script -->
-        <div class="w-full flex items-center justify-center z-20">
+        <!-- Grand Titre Agathe Rougette -->
+        <div class="w-full flex items-center justify-center z-20 my-4">
             <h1 class="hero-title">Agathe Rougette</h1>
         </div>
 
         <!-- 3D Carousel Stage -->
-        <div class="w-full max-w-7xl mx-auto stage-3d my-auto pt-4 pb-8">
+        <div class="w-full max-w-7xl mx-auto stage-3d py-6">
             <div id="shelf-container" class="shelf-3d px-6">
                 <!-- Cards injected via JS -->
             </div>
         </div>
 
         <!-- Category Menu Bottom Bar -->
-        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text-black rounded-full shadow-lg">
+        <div class="z-30 flex flex-wrap justify-center items-center gap-4 text-xs font-bold uppercase tracking-wider border border-black/15 py-3.5 px-8 backdrop-blur-md bg-black/5 text-black rounded-full shadow-lg mt-4">
             <button onclick="filterCategory('all', this)" class="cat-btn bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
             <button onclick="filterCategory('design', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Design</button>
             <button onclick="filterCategory('photo', this)" class="cat-btn hover:opacity-75 transition-opacity px-2 py-1.5">Photographie</button>
@@ -265,21 +265,4 @@
 
             <div class="flex-1 flex flex-col justify-between">
                 <div>
-                    <span id="modal-category" class="text-[10px] font-extrabold tracking-widest uppercase text-[#ECF244]">Catégorie</span>
-                    <h2 id="modal-title" class="text-3xl font-serif font-bold text-white mt-1">Titre du Projet</h2>
-                    <p id="modal-author" class="text-xs text-zinc-400 mt-1">Par Agathe Rougette</p>
-                    <p id="modal-desc" class="text-xs text-zinc-300 mt-4 leading-relaxed">Description du projet...</p>
-                </div>
-
-                <div class="mt-6 flex items-center gap-4">
-                    <button class="flex-1 bg-[#ECF244] text-black font-bold text-xs py-3 rounded-full hover:bg-yellow-300 transition-colors uppercase tracking-wider">
-                        Voir le projet
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Script JavaScript -->
-    <script>
-        const projects = [
+                    <span id="modal-category" class
