@@ -21,8 +21,7 @@
             background-color: #ffffff;
             color: #09090b;
             font-family: sans-serif;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
         header {
@@ -37,13 +36,13 @@
         }
     </style>
 </head>
-<body class="flex flex-col justify-between h-screen">
+<body class="flex flex-col justify-between min-h-screen">
 
     <!-- Header Navigation (Fond Jaune #ECF244) -->
-    <header class="w-full px-8 py-4 flex items-center justify-between z-50 shadow-sm shrink-0">
+    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
         <div class="flex items-center gap-3">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
             </a>
             <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
         </div>
@@ -53,61 +52,67 @@
             <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
 
-    <!-- Main Content (Mise en page selon schéma) -->
-    <main class="flex-1 w-full max-w-7xl mx-auto px-6 relative flex items-center justify-center">
+    <!-- Main Content (Espace d'exposition avec fil connecté) -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 relative min-h-[1100px]">
         
-        <!-- 1. Image rectangle au-dessus du logo central (Schéma noir) -->
-        <div class="absolute top-2 left-1/2 -translate-x-[60%] w-44 md:w-64 z-10">
-            <img src="projet2.png" alt="Visuel haut centre" class="w-full h-auto object-cover">
+        <!-- Canvas SVG du Fil Magenta (#FA378F) qui relie toutes les images -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 1100">
+            <!-- Trajet continu du fil rose -->
+            <path d="M 170,120 C 170,220 380,240 380,240 C 580,240 680,210 680,210 C 650,420 340,510 340,510 C 340,780 430,790 430,790 C 640,810 740,740 740,740 L 1200,680" 
+                  fill="none" 
+                  stroke="#FA378F" 
+                  stroke-width="5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"/>
+        </svg>
+
+        <!-- 1. Logo Maison Célene (Haut Gauche) -->
+        <div class="absolute top-6 left-6 md:left-12 w-64 md:w-80 z-20">
+            <img src="logorestau.png" alt="Maison Célene" class="w-full h-auto object-contain">
         </div>
 
-        <!-- 2. Logo Central Maison Célene (En dessous du rectangle central) -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[-10%] w-64 md:w-[380px] z-20 pointer-events-none">
-            <img src="logorestau.png" alt="Logo central" class="w-full h-auto object-contain">
+        <!-- 2. Texte de Description (Haut Droite) -->
+        <div class="absolute top-8 right-6 md:right-12 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+            <p>
+                Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
+            </p>
         </div>
 
-        <!-- 3. Image Haut Gauche (Tablier) -->
-        <div class="absolute top-2 left-4 md:left-8 w-44 md:w-60 z-10">
-            <img src="projet1.png" alt="Visuel 1" class="w-full h-auto object-cover">
+        <!-- 3. Visuel Menu Dentelle Blanc (Haut Centre) -->
+        <div class="absolute top-20 left-1/3 -translate-x-12 w-64 md:w-80 z-20">
+            <img src="cartebar.png" alt="Menu Dentelle Blanc" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 4. Image Haut Droite (Dentelle blanche) -->
-        <div class="absolute top-2 right-4 md:right-8 w-48 md:w-64 z-10">
-            <img src="cartebar.png" alt="Visuel haut droit" class="w-full h-auto object-cover">
+        <!-- 4. Visuel Cadre Brun 2 Cartes (Haut Droite) -->
+        <div class="absolute top-36 right-6 md:right-12 w-80 md:w-[440px] z-20">
+            <img src="carte2celene.png" alt="Cartes Fond Brun" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 5. Image Bas Gauche (carte2celene / 2 menus brown) -->
-        <div class="absolute bottom-4 left-4 md:left-8 w-56 md:w-72 z-30">
-            <img src="carte2celene.png" alt="Visuel bas gauche" class="w-full h-auto object-cover">
+        <!-- 5. Visuel Verre Olives / Cocktail (Milieu Gauche) -->
+        <div class="absolute top-[420px] left-8 md:left-16 w-64 md:w-80 z-20">
+            <img src="projet3.gif" alt="Verre Olives" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 6. Groupe Bas Droite (Verre cocktail + Tenue Agatha selon schéma rose) -->
-        <div class="absolute bottom-4 right-4 md:right-8 flex items-end gap-3 z-30">
-            <!-- Image Verre Cocktail (Carré rose) -->
-            <div class="w-36 md:w-52">
-                <img src="mockupcelene.png" alt="Visuel cocktail verre" class="w-full h-auto object-cover">
-            </div>
-            <!-- Image Dos Tenue (Cercle rose tout à droite) -->
-            <div class="w-36 md:w-52">
-                <img src="projet4.png" alt="Visuel tenue agatha" class="w-full h-auto object-cover">
-            </div>
+        <!-- 6. Visuel Tablier 1 (Bas Centre) -->
+        <div class="absolute top-[580px] left-1/3 md:left-[35%] w-72 md:w-96 z-20">
+            <img src="projet1.png" alt="Tablier Visuel 1" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+        <!-- 7. Visuel Tablier 2 (Bas Droite) -->
+        <div class="absolute top-[540px] right-6 md:right-12 w-72 md:w-96 z-20">
+            <img src="projet4.png" alt="Tablier Visuel 2" class="w-full h-auto object-cover shadow-sm">
         </div>
 
     </main>
 
-    <!-- Footer & Description -->
-    <footer class="w-full px-8 py-3 flex flex-col md:flex-row items-center justify-between border-t border-black/10 shrink-0 text-xs">
-        <p class="font-medium text-zinc-700 max-w-lg text-center md:text-left">
-            Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
-        </p>
-        <p class="font-bold uppercase tracking-widest text-zinc-400 mt-2 md:mt-0">
-            © Agathe Rougette
-        </p>
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0">
+        © Agathe Rougette — Tous droits réservés
     </footer>
 
 </body>
