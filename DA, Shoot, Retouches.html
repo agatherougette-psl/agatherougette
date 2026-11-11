@@ -1,1 +1,116 @@
-a
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Photo — Agathe Rougette</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @font-face {
+            font-family: 'AchilleusScript';
+            src: url('Achilleus Script.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #09090b;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header avec son fond jaune conservé */
+        header {
+            background-color: #ECF244;
+        }
+
+        /* Liens du menu avec survol rose #FA378F */
+        .nav-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #FA378F !important;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen">
+
+    <!-- Header Navigation Identique (Fond Jaune #ECF244) -->
+    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
+        <div class="flex items-center gap-3">
+            <a href="index.html">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+            </a>
+            <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+            <a href="index.html" class="nav-link">Menu</a>
+            <a href="#" class="nav-link">À propos</a>
+        </nav>
+
+        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+            Me contacter
+        </button>
+    </header>
+
+    <!-- Main Content (Pleine largeur sans marges latérales) -->
+    <main class="flex-1 w-full py-8 relative min-h-[1400px] overflow-hidden">
+        
+        <!-- Canvas SVG du Fil Magenta (#FA378F) qui serpente entre les visuels -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 1400">
+            <!-- Parcours continu du fil rose selon la maquette photo -->
+            <path d="M 60,80 C 60,180 340,240 340,240 C 560,240 700,320 620,400 C 540,480 320,460 260,560 C 200,660 520,880 520,880 C 520,1080 340,1220 340,1400" 
+                  fill="none" 
+                  stroke="#FA378F" 
+                  stroke-width="5" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"/>
+        </svg>
+
+        <!-- 1. Flacon Chanel (Haut Gauche - Collé au bord gauche) -->
+        <div class="absolute top-8 left-0 w-80 md:w-[420px] z-20">
+            <img src="photo1.jpg" alt="Parfum Chanel Chance" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+        <!-- 2. Texte de Description (Haut Droite - Collé au bord droit) -->
+        <div class="absolute top-8 right-8 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+            <p>
+                Texte de description
+            </p>
+        </div>
+
+        <!-- 3. Baskets Nike (Haut Droite - Sous le texte, collé au bord droit) -->
+        <div class="absolute top-28 right-0 w-96 md:w-[580px] z-20">
+            <img src="photo2.jpg" alt="Sneakers Nike 90" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+        <!-- 4. Portrait Fond Bleu (Milieu Droite - Collé au bord droit) -->
+        <div class="absolute top-[450px] right-0 w-[85%] md:w-[680px] z-20">
+            <img src="photo3.jpg" alt="Portrait fond bleu maquillage" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+        <!-- 5. Portrait Veste en Cuir (Bas Gauche - Collé au bord gauche) -->
+        <div class="absolute top-[720px] left-0 w-80 md:w-[460px] z-20">
+            <img src="photo4.jpg" alt="Portrait veste en cuir fond noir" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+        <!-- 6. Portrait Fond Orange (Bas Droite - Collé au bord droit) -->
+        <div class="absolute top-[880px] right-0 w-80 md:w-[460px] z-20">
+            <img src="photo5.jpg" alt="Portrait fond orange grimace" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0">
+        © Agathe Rougette — Tous droits réservés
+    </footer>
+
+</body>
+</html>
