@@ -58,36 +58,43 @@
         </button>
     </header>
 
-    <!-- Main Content (Espace de gravitation optimisé) -->
+    <!-- Main Content (Mise en page selon schéma) -->
     <main class="flex-1 w-full max-w-7xl mx-auto px-6 relative flex items-center justify-center">
         
-        <!-- Logo Central -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-[420px] z-20 pointer-events-none">
+        <!-- 1. Image rectangle au-dessus du logo central (Schéma noir) -->
+        <div class="absolute top-2 left-1/2 -translate-x-[60%] w-44 md:w-64 z-10">
+            <img src="projet2.png" alt="Visuel haut centre" class="w-full h-auto object-cover">
+        </div>
+
+        <!-- 2. Logo Central Maison Célene (En dessous du rectangle central) -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[-10%] w-64 md:w-[380px] z-20 pointer-events-none">
             <img src="logorestau.png" alt="Logo central" class="w-full h-auto object-contain">
         </div>
 
-        <!-- 1. Image Haut Gauche -->
-        <div class="absolute top-4 left-4 md:left-10 w-44 md:w-64 z-10">
+        <!-- 3. Image Haut Gauche (Tablier) -->
+        <div class="absolute top-2 left-4 md:left-8 w-44 md:w-60 z-10">
             <img src="projet1.png" alt="Visuel 1" class="w-full h-auto object-cover">
         </div>
 
-        <!-- 2. Image Haut Droite -->
-        <div class="absolute top-2 right-4 md:right-10 w-52 md:w-72 z-10">
+        <!-- 4. Image Haut Droite (Dentelle blanche) -->
+        <div class="absolute top-2 right-4 md:right-8 w-48 md:w-64 z-10">
             <img src="cartebar.png" alt="Visuel haut droit" class="w-full h-auto object-cover">
         </div>
 
-        <!-- 3. Image Bas Gauche (Bien plus grande et calée dans l'espace blanc) -->
-        <div class="absolute bottom-4 left-4 md:left-10 w-64 md:w-96 z-30">
+        <!-- 5. Image Bas Gauche (carte2celene / 2 menus brown) -->
+        <div class="absolute bottom-4 left-4 md:left-8 w-56 md:w-72 z-30">
             <img src="carte2celene.png" alt="Visuel bas gauche" class="w-full h-auto object-cover">
         </div>
 
-        <!-- 4. Groupe Bas Droite -->
-        <div class="absolute bottom-4 right-4 md:right-10 flex items-end gap-3 z-30">
-            <div class="w-32 md:w-48">
-                <img src="mockupcelene.png" alt="GIF" class="w-full h-auto object-cover">
-            </div>
+        <!-- 6. Groupe Bas Droite (Verre cocktail + Tenue Agatha selon schéma rose) -->
+        <div class="absolute bottom-4 right-4 md:right-8 flex items-end gap-3 z-30">
+            <!-- Image Verre Cocktail (Carré rose) -->
             <div class="w-36 md:w-52">
-                <img src="projet4.png" alt="Visuel bas droit" class="w-full h-auto object-cover">
+                <img src="mockupcelene.png" alt="Visuel cocktail verre" class="w-full h-auto object-cover">
+            </div>
+            <!-- Image Dos Tenue (Cercle rose tout à droite) -->
+            <div class="w-36 md:w-52">
+                <img src="projet4.png" alt="Visuel tenue agatha" class="w-full h-auto object-cover">
             </div>
         </div>
 
