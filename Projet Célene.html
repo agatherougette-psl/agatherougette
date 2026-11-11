@@ -22,7 +22,7 @@
             color: #09090b;
             font-family: sans-serif;
             height: 100vh;
-            overflow: hidden; /* Bloque le scroll pour que tout tienne sur la page */
+            overflow: hidden;
         }
 
         header {
@@ -58,42 +58,42 @@
         </button>
     </header>
 
-    <!-- Main Content (Espace de gravitation sans scroll) -->
+    <!-- Main Content (Espace de gravitation optimisé) -->
     <main class="flex-1 w-full max-w-7xl mx-auto px-6 relative flex items-center justify-center">
         
-        <!-- Logo Central (Statique au milieu exact) -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-[380px] z-20 pointer-events-none">
+        <!-- Logo Central -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-[420px] z-20 pointer-events-none">
             <img src="logorestau.png" alt="Logo central" class="w-full h-auto object-contain">
         </div>
 
         <!-- 1. Image Haut Gauche -->
-        <div class="absolute top-4 left-6 md:left-12 w-36 md:w-52 z-10">
+        <div class="absolute top-4 left-4 md:left-10 w-44 md:w-64 z-10">
             <img src="projet1.png" alt="Visuel 1" class="w-full h-auto object-cover">
         </div>
 
-        <!-- 2. Image Haut Droite (cartebar) -->
-        <div class="absolute top-4 right-6 md:right-12 w-40 md:w-56 z-10">
+        <!-- 2. Image Haut Droite (cartebar bien agrandie) -->
+        <div class="absolute top-2 right-4 md:right-10 w-52 md:w-72 z-10">
             <img src="cartebar.png" alt="Visuel haut droit" class="w-full h-auto object-cover">
         </div>
 
-        <!-- 3. Image Bas Gauche (carte2celene) -->
-        <div class="absolute bottom-6 left-6 md:left-12 w-44 md:w-60 z-30">
+        <!-- 3. Image Bas Gauche (carte2celene bien plus grande) -->
+        <div class="absolute bottom-4 left-4 md:left-10 w-56 md:w-72 z-30">
             <img src="carte2celene.png" alt="Visuel bas gauche" class="w-full h-auto object-cover">
         </div>
 
-        <!-- 4. Groupe Bas Droite (GIF + Projet 4 en orbite) -->
-        <div class="absolute bottom-6 right-6 md:right-12 flex items-end gap-3 z-30">
-            <div class="w-28 md:w-40">
+        <!-- 4. Groupe Bas Droite (GIF + Projet 4 agrandis en orbite) -->
+        <div class="absolute bottom-4 right-4 md:right-10 flex items-end gap-3 z-30">
+            <div class="w-32 md:w-48">
                 <img src="projet3.gif" alt="GIF" class="w-full h-auto object-cover">
             </div>
-            <div class="w-32 md:w-44">
+            <div class="w-36 md:w-52">
                 <img src="projet4.png" alt="Visuel bas droit" class="w-full h-auto object-cover">
             </div>
         </div>
 
     </main>
 
-    <!-- Footer & Description intégrés proprement en bas de page -->
+    <!-- Footer & Description -->
     <footer class="w-full px-8 py-3 flex flex-col md:flex-row items-center justify-between border-t border-black/10 shrink-0 text-xs">
         <p class="font-medium text-zinc-700 max-w-lg text-center md:text-left">
             Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
