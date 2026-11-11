@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projet Photo — Agathe Rougette</title>
+    <title>DA, Shoot, Retouches — Agathe Rougette</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -40,7 +40,7 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header Navigation Identique (Fond Jaune #ECF244) -->
+    <!-- Header Navigation (Fond Jaune #ECF244) -->
     <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
         <div class="flex items-center gap-3">
             <a href="index.html">
@@ -59,13 +59,13 @@
         </button>
     </header>
 
-    <!-- Main Content (Pleine largeur sans marges latérales) -->
-    <main class="flex-1 w-full py-8 relative min-h-[1400px] overflow-hidden">
+    <!-- Main Content (Aéré sur la hauteur avec défilement) -->
+    <main class="flex-1 w-full py-8 relative min-h-[2200px] overflow-hidden">
         
-        <!-- Canvas SVG du Fil Magenta (#FA378F) qui serpente entre les visuels -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 1400">
-            <!-- Parcours continu du fil rose selon la maquette photo -->
-            <path d="M 60,80 C 60,180 340,240 340,240 C 560,240 700,320 620,400 C 540,480 320,460 260,560 C 200,660 520,880 520,880 C 520,1080 340,1220 340,1400" 
+        <!-- Canvas SVG du Fil Magenta (#FA378F) réajusté sur la hauteur -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 2200">
+            <!-- Parcours du fil rose sur toute la longueur de la page -->
+            <path d="M 60,100 C 60,250 400,320 400,320 C 650,320 800,480 680,620 C 560,760 280,720 220,950 C 160,1180 600,1400 600,1400 C 600,1650 380,1850 380,2200" 
                   fill="none" 
                   stroke="#FA378F" 
                   stroke-width="5" 
@@ -73,35 +73,35 @@
                   stroke-linejoin="round"/>
         </svg>
 
-        <!-- 1. Flacon Chanel (Haut Gauche - Collé au bord gauche) -->
-        <div class="absolute top-8 left-0 w-80 md:w-[420px] z-20">
+        <!-- 1. Flacon Chanel (Haut Gauche) -->
+        <div class="absolute top-12 left-0 w-80 md:w-[440px] z-20">
             <img src="photo1.jpg" alt="Parfum Chanel Chance" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 2. Texte de Description (Haut Droite - Collé au bord droit) -->
-        <div class="absolute top-8 right-8 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+        <!-- 2. Texte de Description (Haut Droite - Décollé du bord droit) -->
+        <div class="absolute top-12 right-12 md:right-16 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
             <p>
-                Texte de description
+                Ce projet explore la direction artistique, la prise de vue studio ainsi que le travail de retouche numérique sur différents univers éditoriaux.
             </p>
         </div>
 
-        <!-- 3. Baskets Nike (Haut Droite - Sous le texte, collé au bord droit) -->
-        <div class="absolute top-28 right-0 w-96 md:w-[580px] z-20">
+        <!-- 3. Baskets Nike (Haut Droite - Bien espacé sous le texte) -->
+        <div class="absolute top-48 right-0 w-96 md:w-[580px] z-20">
             <img src="photo2.jpg" alt="Sneakers Nike 90" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 4. Portrait Fond Bleu (Milieu Droite - Collé au bord droit) -->
-        <div class="absolute top-[450px] right-0 w-[85%] md:w-[680px] z-20">
+        <!-- 4. Portrait Fond Bleu (Milieu Droite - Descendu pour ne pas coller la basket) -->
+        <div class="absolute top-[750px] right-0 w-[85%] md:w-[680px] z-20">
             <img src="photo3.jpg" alt="Portrait fond bleu maquillage" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 5. Portrait Veste en Cuir (Bas Gauche - Collé au bord gauche) -->
-        <div class="absolute top-[720px] left-0 w-80 md:w-[460px] z-20">
+        <!-- 5. Portrait Veste en Cuir (Bas Gauche - Bien espacé) -->
+        <div class="absolute top-[1200px] left-0 w-80 md:w-[480px] z-20">
             <img src="photo4.jpg" alt="Portrait veste en cuir fond noir" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 6. Portrait Fond Orange (Bas Droite - Collé au bord droit) -->
-        <div class="absolute top-[880px] right-0 w-80 md:w-[460px] z-20">
+        <!-- 6. Portrait Fond Orange (Bas Droite) -->
+        <div class="absolute top-[1520px] right-0 w-80 md:w-[480px] z-20">
             <img src="photo5.jpg" alt="Portrait fond orange grimace" class="w-full h-auto object-cover shadow-sm">
         </div>
 
