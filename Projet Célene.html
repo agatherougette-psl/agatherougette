@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* Déclaration de la police personnalisée */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
@@ -22,15 +21,14 @@
             background-color: #ffffff;
             color: #09090b;
             font-family: sans-serif;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden; /* Bloque le scroll pour que tout tienne sur la page */
         }
 
-        /* Header avec son fond jaune conservé */
         header {
             background-color: #ECF244;
         }
 
-        /* Liens du menu avec survol rose #FA378F */
         .nav-link {
             transition: color 0.2s ease-in-out;
         }
@@ -39,13 +37,13 @@
         }
     </style>
 </head>
-<body class="flex flex-col justify-between min-h-screen">
+<body class="flex flex-col justify-between h-screen">
 
     <!-- Header Navigation (Fond Jaune #ECF244) -->
-    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm">
+    <header class="w-full px-8 py-4 flex items-center justify-between z-50 shadow-sm shrink-0">
         <div class="flex items-center gap-3">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 w-auto object-contain">
             </a>
             <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
         </div>
@@ -55,63 +53,54 @@
             <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
 
-    <!-- Main Content (Fond Blanc) -->
-    <main class="flex-1 w-full max-w-7xl mx-auto px-6 pt-4 pb-6 flex flex-col justify-between">
+    <!-- Main Content (Espace de gravitation sans scroll) -->
+    <main class="flex-1 w-full max-w-7xl mx-auto px-6 relative flex items-center justify-center">
         
-        <!-- Composition de style Moodboard / Collage compacte et centrée -->
-        <div class="relative w-full min-h-[460px] md:min-h-[520px] flex items-center justify-center my-2">
-
-            <!-- 1. Image en haut à gauche -->
-            <div class="absolute top-0 left-2 md:left-8 w-44 md:w-60 z-10">
-                <img src="projet1.png" alt="Visuel 1" class="w-full h-auto object-cover">
-            </div>
-
-            <!-- 2. Image centrale (Logo) -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-[420px] z-20">
-                <img src="logorestau.png" alt="Logo central" class="w-full h-auto object-contain">
-            </div>
-
-            <!-- 3. Portrait en haut à droite -->
-            <div class="absolute top-0 right-2 md:right-8 w-48 md:w-64 z-10">
-                <img src="cartebar.png" alt="Visuel haut droit" class="w-full h-auto object-cover">
-            </div>
-
-            <!-- 4. Image en bas à gauche -->
-            <div class="absolute bottom-2 left-4 md:left-16 w-40 md:w-56 z-30">
-                <img src="carte2celene.png" alt="Visuel bas gauche" class="w-full h-auto object-cover">
-            </div>
-
-            <!-- 5. Groupe d'images juxtaposées en bas à droite -->
-            <div class="absolute bottom-2 right-4 md:right-16 flex gap-3 z-30">
-                <div class="w-32 md:w-48">
-                    <img src="projet3.gif" alt="Visuel bas droit 1" class="w-full h-auto object-cover">
-                </div>
-                <div class="w-32 md:w-48">
-                    <img src="projet4.png" alt="Visuel bas droit 2" class="w-full h-auto object-cover">
-                </div>
-            </div>
-
+        <!-- Logo Central (Statique au milieu exact) -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 md:w-[380px] z-20 pointer-events-none">
+            <img src="logorestau.png" alt="Logo central" class="w-full h-auto object-contain">
         </div>
 
-        <!-- Description du projet en bas à droite (visible immédiatement) -->
-        <div class="w-full flex justify-end mt-4">
-            <div class="max-w-md text-xs md:text-sm font-medium leading-relaxed text-zinc-800 text-left md:text-right px-4">
-                <p>
-                    Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime. Travail sur les matières, la typographie et la direction artistique globale.
-                </p>
+        <!-- 1. Image Haut Gauche -->
+        <div class="absolute top-4 left-6 md:left-12 w-36 md:w-52 z-10">
+            <img src="projet1.png" alt="Visuel 1" class="w-full h-auto object-cover">
+        </div>
+
+        <!-- 2. Image Haut Droite (cartebar) -->
+        <div class="absolute top-4 right-6 md:right-12 w-40 md:w-56 z-10">
+            <img src="cartebar.png" alt="Visuel haut droit" class="w-full h-auto object-cover">
+        </div>
+
+        <!-- 3. Image Bas Gauche (carte2celene) -->
+        <div class="absolute bottom-6 left-6 md:left-12 w-44 md:w-60 z-30">
+            <img src="carte2celene.png" alt="Visuel bas gauche" class="w-full h-auto object-cover">
+        </div>
+
+        <!-- 4. Groupe Bas Droite (GIF + Projet 4 en orbite) -->
+        <div class="absolute bottom-6 right-6 md:right-12 flex items-end gap-3 z-30">
+            <div class="w-28 md:w-40">
+                <img src="projet3.gif" alt="GIF" class="w-full h-auto object-cover">
+            </div>
+            <div class="w-32 md:w-44">
+                <img src="projet4.png" alt="Visuel bas droit" class="w-full h-auto object-cover">
             </div>
         </div>
 
     </main>
 
-    <!-- Footer simple -->
-    <footer class="w-full py-4 text-center text-xs font-bold uppercase tracking-widest text-zinc-400">
-        © Agathe Rougette — Tous droits réservés
+    <!-- Footer & Description intégrés proprement en bas de page -->
+    <footer class="w-full px-8 py-3 flex flex-col md:flex-row items-center justify-between border-t border-black/10 shrink-0 text-xs">
+        <p class="font-medium text-zinc-700 max-w-lg text-center md:text-left">
+            Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
+        </p>
+        <p class="font-bold uppercase tracking-widest text-zinc-400 mt-2 md:mt-0">
+            © Agathe Rougette
+        </p>
     </footer>
 
 </body>
