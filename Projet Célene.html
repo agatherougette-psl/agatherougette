@@ -57,13 +57,13 @@
         </button>
     </header>
 
-    <!-- Main Content (Espace d'exposition avec fil connecté) -->
-    <main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 relative min-h-[1100px]">
+    <!-- Main Content (100% Pleine Largeur sans marges latérales) -->
+    <main class="flex-1 w-full py-8 relative min-h-[1100px] overflow-hidden">
         
-        <!-- Canvas SVG du Fil Magenta (#FA378F) qui relie toutes les images -->
+        <!-- Canvas SVG du Fil Magenta (#FA378F) passant derrière les cartes -->
         <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 1100">
-            <!-- Trajet continu du fil rose -->
-            <path d="M 170,120 C 170,220 380,240 380,240 C 580,240 680,210 680,210 C 650,420 340,510 340,510 C 340,780 430,790 430,790 C 640,810 740,740 740,740 L 1200,680" 
+            <!-- Tracé continu du fil qui passe derrière le menu blanc puis traverse l'image brune en haut à droite -->
+            <path d="M 160,130 C 160,250 360,250 360,250 C 560,250 780,180 880,260 C 980,340 700,420 400,520 C 250,570 200,720 200,780 C 200,840 450,830 450,830 C 650,830 780,780 780,780 L 1200,720" 
                   fill="none" 
                   stroke="#FA378F" 
                   stroke-width="5" 
@@ -71,13 +71,13 @@
                   stroke-linejoin="round"/>
         </svg>
 
-        <!-- 1. Logo Maison Célene (Haut Gauche) -->
-        <div class="absolute top-6 left-6 md:left-12 w-64 md:w-80 z-20">
+        <!-- 1. Logo Maison Célene (Haut Gauche - Collé au bord) -->
+        <div class="absolute top-6 left-4 md:left-8 w-64 md:w-80 z-20">
             <img src="logorestau.png" alt="Maison Célene" class="w-full h-auto object-contain">
         </div>
 
-        <!-- 2. Texte de Description (Haut Droite) -->
-        <div class="absolute top-8 right-6 md:right-12 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+        <!-- 2. Texte de Description (Haut Droite - Collé au bord) -->
+        <div class="absolute top-8 right-4 md:right-8 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
             <p>
                 Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
             </p>
@@ -88,14 +88,14 @@
             <img src="cartebar.png" alt="Menu Dentelle Blanc" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 4. Visuel Cadre Brun 2 Cartes (Haut Droite) -->
-        <div class="absolute top-36 right-6 md:right-12 w-80 md:w-[440px] z-20">
+        <!-- 4. Visuel Cadre Brun 2 Cartes (Haut Droite - Collé au bord droit, par-dessus le fil) -->
+        <div class="absolute top-36 right-0 w-80 md:w-[460px] z-20">
             <img src="carte2celene.png" alt="Cartes Fond Brun" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 5. Visuel Verre Olives / Cocktail (Milieu Gauche) -->
-        <div class="absolute top-[420px] left-8 md:left-16 w-64 md:w-80 z-20">
-            <img src="projet3.gif" alt="Verre Olives" class="w-full h-auto object-cover shadow-sm">
+        <!-- 5. Visuel Livre / Carte (Milieu Gauche - Collé au bord gauche) -->
+        <div class="absolute top-[420px] left-0 w-64 md:w-80 z-20">
+            <img src="projet3.gif" alt="Visuel livre" class="w-full h-auto object-cover shadow-sm">
         </div>
 
         <!-- 6. Visuel Tablier 1 (Bas Centre) -->
@@ -103,9 +103,9 @@
             <img src="projet1.png" alt="Tablier Visuel 1" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 7. Visuel Tablier 2 (Bas Droite) -->
-        <div class="absolute top-[540px] right-6 md:right-12 w-72 md:w-96 z-20">
-            <img src="projet4.png" alt="Tablier Visuel 2" class="w-full h-auto object-cover shadow-sm">
+        <!-- 7. Visuel Agatha / Tenue (Bas Droite - Collé au bord droit) -->
+        <div class="absolute top-[540px] right-0 w-72 md:w-96 z-20">
+            <img src="projet4.png" alt="Visuel Agatha Paris" class="w-full h-auto object-cover shadow-sm">
         </div>
 
     </main>
