@@ -1,1 +1,96 @@
-a
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fascicule — Agathe Rougette</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @font-face {
+            font-family: 'AchilleusScript';
+            src: url('Achilleus Script.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #09090b;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Header avec son fond jaune conservé */
+        header {
+            background-color: #ECF244;
+        }
+
+        /* Liens du menu avec survol rose #FA378F */
+        .nav-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #FA378F !important;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen">
+
+    <!-- Header Navigation Identique (Fond Jaune #ECF244) -->
+    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
+        <div class="flex items-center gap-3">
+            <a href="index.html">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+            </a>
+            <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+            <a href="index.html" class="nav-link">Menu</a>
+            <a href="#" class="nav-link">À propos</a>
+        </nav>
+
+        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+            Me contacter
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full py-8 relative min-h-[1000px] overflow-hidden">
+        
+        <!-- Canvas SVG du Fil Magenta (#FA378F) formant la grande boucle sous l'image -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 1000">
+            <!-- Trajet du fil rose entrant par la gauche, bouclant sous le visuel et repartant vers la droite -->
+            <path d="M 0,760 Q 200,850 400,700 T 800,700 T 1200,380" 
+                  fill="none" 
+                  stroke="#FA378F" 
+                  stroke-width="6" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Texte de Description (Haut Droite - Espacé du bord) -->
+        <div class="absolute top-8 right-12 md:right-20 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+            <p>
+                Texte de description
+            </p>
+        </div>
+
+        <!-- Grande Image Centrale (Fascicule) -->
+        <div class="absolute top-24 left-1/2 -translate-x-1/2 w-[90%] md:w-[850px] z-20">
+            <img src="projet3.gif" alt="Maquette Fascicule InDesign" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0">
+        © Agathe Rougette — Tous droits réservés
+    </footer>
+
+</body>
+</html>
