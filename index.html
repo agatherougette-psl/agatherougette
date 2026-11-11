@@ -19,7 +19,7 @@
         :root {
             --card-w: 210px;
             --card-h: 310px;
-            --card-d: 10px; /* Épaisseur réduite pour un rendu plus fin */
+            --card-d: 10px;
         }
 
         @media (min-width: 1024px) {
@@ -39,7 +39,6 @@
             min-height: 100vh;
         }
 
-        /* Liens du menu avec survol rose #FA378F */
         .nav-link {
             transition: color 0.2s ease-in-out;
         }
@@ -47,7 +46,6 @@
             color: #FA378F !important;
         }
 
-        /* Grand Titre avec la police Achilleus Script */
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
             font-size: clamp(3rem, 7vw, 7.5rem);
@@ -57,7 +55,6 @@
             margin: 0;
         }
 
-        /* Scène 3D */
         .stage-3d {
             perspective: 1400px;
             perspective-origin: 50% 45%;
@@ -88,7 +85,6 @@
             height: var(--card-h);
             position: relative;
             transform-style: preserve-3d;
-            /* Angle ajusté pour que la tranche droite soit naturelle */
             transform: rotateY(-14deg) rotateX(5deg) rotateZ(1deg);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -126,7 +122,6 @@
             background: #18181b;
         }
 
-        /* Tranche droite réaliste (finition papier/tranche fine) */
         .face-side-right {
             width: var(--card-d);
             height: 100%;
@@ -146,7 +141,6 @@
             background: #27272a;
         }
 
-        /* OMBRE AU SOL */
         .shadow-floor {
             position: absolute;
             bottom: -22px;
@@ -161,7 +155,6 @@
             opacity: 0.8;
         }
 
-        /* Survol des cartes */
         .card-item:hover {
             z-index: 120 !important;
             margin-left: -15px;
@@ -189,3 +182,121 @@
         </div>
 
         <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+            <a href="#" class="nav-link">Menu</a>
+            <a href="#" class="nav-link">À propos</a>
+        </nav>
+
+        <button class="bg-black text-[#ECF244] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+            Me contacter
+        </button>
+    </header>
+
+    <!-- Content -->
+    <main class="flex-1 flex flex-col items-center justify-between py-4">
+        
+        <h1 class="hero-title my-2">Agathe Rougette</h1>
+
+        <!-- Stage 3D -->
+        <div class="stage-3d my-4">
+            <div id="shelf-container" class="shelf-3d px-6">
+                
+                <!-- Livre 1 : Projet Célene -->
+                <a href="Projet Célene.html" class="card-item" style="z-index: 4; display: block; text-decoration: none;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background-image: url('projet1.png');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet Personnel</span>
+                                <h4 class="font-bold text-base mt-1">Projet Célene</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </a>
+
+                <!-- Livre 2 : DA, Shoot, Retouches -->
+                <a href="DA, Shoot, Retouches.html" class="card-item" style="z-index: 5; display: block; text-decoration: none;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background-image: url('projet2.png');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Photographie</span>
+                                <h4 class="font-bold text-base mt-1">DA, Shoot, Retouches</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </a>
+
+                <!-- Livre 3 : Fascicule -->
+                <a href="Fascicule.html" class="card-item" style="z-index: 7; display: block; text-decoration: none;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background-image: url('projet3.gif');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Indesign</span>
+                                <h4 class="font-bold text-base mt-1">Fascicule</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </a>
+
+                <!-- Livre 4 : Brief Agatha -->
+                <div class="card-item" style="z-index: 5;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background-image: url('projet4.png');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
+                                <h4 class="font-bold text-base mt-1">Brief de marque Agatha</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </div>
+
+                <!-- Livre 5 : Brief Agatha -->
+                <div class="card-item" style="z-index: 4;">
+                    <div class="card-3d">
+                        <div class="face face-front" style="background-image: url('projet4.png');">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-5 flex flex-col justify-end text-white">
+                                <span class="text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
+                                <h4 class="font-bold text-base mt-1">Brief de marque Agatha</h4>
+                            </div>
+                        </div>
+                        <div class="face face-back"></div>
+                        <div class="face face-side-left"></div>
+                        <div class="face face-side-right"></div>
+                        <div class="face face-top"></div>
+                    </div>
+                    <div class="shadow-floor"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Filtres du bas -->
+        <div class="flex flex-wrap justify-center gap-3 text-xs font-bold uppercase border border-black/15 py-3 px-6 backdrop-blur-md bg-black/5 rounded-full shadow-md my-2">
+            <button class="bg-black text-[#ECF244] px-4 py-1.5 rounded-full">Tous</button>
+            <a href="Projet Célene.html" class="px-3 py-1.5 hover:text-[#FA378F] transition-colors inline-block">Projet Célene</a>
+            <a href="DA, Shoot, Retouches.html" class="px-3 py-1.5 hover:text-[#FA378F] transition-colors inline-block">DA, Shoot, Retouches</a>
+            <a href="Fascicule.html" class="px-3 py-1.5 hover:text-[#FA378F] transition-colors inline-block">Fascicule</a>
+            <button class="px-3 py-1.5 hover:text-[#FA378F] transition-colors">Brief de marque Agatha</button>
+        </div>
+    </main>
+
+</body>
+</html>
