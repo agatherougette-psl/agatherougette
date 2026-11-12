@@ -39,12 +39,12 @@
 <body class="flex flex-col justify-between min-h-screen">
 
     <!-- Header Navigation Identique (Fond Jaune #ECF244) -->
-    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
+    <header class="w-full px-6 md:px-8 py-4 md:py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
         <div class="flex items-center gap-3">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
             </a>
-            <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
+            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
         <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
@@ -52,16 +52,16 @@
             <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+        <button class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 w-full py-10 relative overflow-hidden">
+    <main class="flex-1 w-full py-8 md:py-10 relative overflow-hidden">
         
-        <!-- Fil conducteur rose magenta (#FA378F) en arrière-plan -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" preserveAspectRatio="none" viewBox="0 0 1200 2400">
+        <!-- Fil conducteur rose magenta (#FA378F) masqué sur mobile, visible uniquement sur desktop (hidden md:block) -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block" preserveAspectRatio="none" viewBox="0 0 1200 2400">
             <path d="M 180,220 
                      C 350,350 650,480 860,440 
                      C 980,420 820,320 780,380 
@@ -80,16 +80,16 @@
         </svg>
 
         <!-- Conteneur global des sections -->
-        <div class="relative z-10 w-full px-6 md:px-14 space-y-20">
+        <div class="relative z-10 w-full px-6 md:px-14 space-y-12 md:space-y-20">
 
             <!-- RANGÉE 1 : 3 images à gauche + grand texte descriptif à droite -->
             <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div class="lg:col-span-7">
-                    <p class="text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
+                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
                         Direction artistique &amp; campagne visuelle<br>
                         Univers estival Agatha Paris.
                     </p>
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="grid grid-cols-3 gap-2 md:gap-3">
                         <img src="projet4.png" alt="Visuel Agatha 1" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="kvagatha.png" alt="Visuel Agatha 2" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="kvagatha2.png" alt="Visuel Agatha 3" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
@@ -104,13 +104,13 @@
             </section>
 
             <!-- RANGÉE 2 : 3 images décalées à droite -->
-            <section class="flex justify-end">
+            <section class="flex justify-start lg:justify-end">
                 <div class="w-full lg:w-[62%]">
-                    <p class="text-[11px] font-extrabold uppercase tracking-wider mb-3 text-right leading-snug">
+                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-left lg:text-right leading-snug">
                         Déclinaison éditoriale &amp; affichage<br>
                         Série portraits et détails bijoux.
                     </p>
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="grid grid-cols-3 gap-2 md:gap-3">
                         <img src="agathavideo1.mov" alt="Visuel Agatha 4" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="agathavideo2.mov" alt="Visuel Agatha 5" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="agathavideo3.mov" alt="Visuel Agatha 6" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
@@ -121,11 +121,11 @@
             <!-- RANGÉE 3 : 3 images alignées à gauche -->
             <section class="flex justify-start">
                 <div class="w-full lg:w-[62%]">
-                    <p class="text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
+                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
                         Identité graphique &amp; illustrations<br>
                         Intégration des motifs dessinés à la main.
                     </p>
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="grid grid-cols-3 gap-2 md:gap-3">
                         <img src="mockupagatha.mov" alt="Visuel Agatha 7" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="mockupext1.png" alt="Visuel Agatha 8" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="mockupext2.png" alt="Visuel Agatha 9" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
@@ -136,23 +136,23 @@
             <!-- RANGÉE 4 : Vitrines + Intérieur boutique + Packaging -->
             <section class="w-full">
                 <div class="lg:ml-[32%] mb-3">
-                    <p class="text-[11px] font-extrabold uppercase tracking-wider leading-snug">
+                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider leading-snug">
                         Scénographie vitrine &amp; packaging<br>
                         Déploiement point de vente et expérience client.
                     </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4 items-start">
                     <!-- Vitrine 1 -->
-                    <div class="md:col-span-3">
+                    <div class="col-span-1 md:col-span-3">
                         <img src="boutiquemockup2.png" alt="Vitrine boutique Agatha 1" class="w-full aspect-square object-cover shadow-sm bg-zinc-100">
                     </div>
                     <!-- Vitrine 2 -->
-                    <div class="md:col-span-3">
+                    <div class="col-span-1 md:col-span-3">
                         <img src="boutiquemockup3.png" alt="Vitrine boutique Agatha 2" class="w-full aspect-square object-cover shadow-sm bg-zinc-100">
                     </div>
                     <!-- Intérieur boutique + Packaging -->
-                    <div class="md:col-span-6 space-y-3">
-                        <div class="grid grid-cols-2 gap-3">
+                    <div class="col-span-1 md:col-span-6 space-y-3">
+                        <div class="grid grid-cols-2 gap-2 md:gap-3">
                             <img src="intboutique.png" alt="Intérieur boutique Agatha" class="w-full aspect-[4/3] object-cover shadow-sm bg-zinc-100">
                             <img src="mockupboutique.png" alt="Packaging et sac Agatha" class="w-full aspect-[4/3] object-contain bg-white p-2">
                         </div>
@@ -163,11 +163,11 @@
             <!-- RANGÉE 5 : 2 images en bas à gauche/centre -->
             <section class="flex justify-start lg:pl-[8%] pb-12">
                 <div class="w-full md:w-[45%]">
-                    <p class="text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
+                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
                         Focus collection capsule<br>
                         Mise en scène produit et réseaux sociaux.
                     </p>
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-2 gap-2 md:gap-3">
                         <img src="instagatha.mov" alt="Visuel Agatha 10" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="mockupinsta2.png" alt="Visuel Agatha 11" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                     </div>
