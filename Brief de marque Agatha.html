@@ -79,7 +79,7 @@
         <!-- Conteneur global des sections -->
         <div class="relative z-10 w-full px-6 md:px-14 space-y-12 md:space-y-20">
 
-            <!-- RANGÉE 1 -->
+            <!-- RANGÉE 1 : 3 images à gauche + texte descriptif à droite -->
             <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 <div class="lg:col-span-7">
                     <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
@@ -100,7 +100,7 @@
                 </div>
             </section>
 
-            <!-- RANGÉE 2 -->
+            <!-- RANGÉE 2 : 3 vidéos décalées à droite -->
             <section class="flex justify-start lg:justify-end">
                 <div class="w-full lg:w-[62%]">
                     <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-left lg:text-right leading-snug">
@@ -108,14 +108,23 @@
                         Série portraits et détails bijoux.
                     </p>
                     <div class="grid grid-cols-3 gap-2 md:gap-3">
-                        <video src="agathavideo1.mov" alt="Visuel Agatha 4" controls playsinline class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                        <video src="agathavideo2.mov" alt="Visuel Agatha 5" controls playsinline class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                        <video src="agathavideo3.mov" alt="Visuel Agatha 6" controls playsinline class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                        <video controls playsinline preload="metadata" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                            <source src="agathavideo1.mov" type="video/quicktime">
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
+                        <video controls playsinline preload="metadata" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                            <source src="agathavideo2.mov" type="video/quicktime">
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
+                        <video controls playsinline preload="metadata" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                            <source src="agathavideo3.mov" type="video/quicktime">
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
                     </div>
                 </div>
             </section>
 
-            <!-- RANGÉE 3 -->
+            <!-- RANGÉE 3 : 1 vidéo + 2 images alignées à gauche -->
             <section class="flex justify-start">
                 <div class="w-full lg:w-[62%]">
                     <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
@@ -123,14 +132,17 @@
                         Intégration des motifs dessinés à la main.
                     </p>
                     <div class="grid grid-cols-3 gap-2 md:gap-3">
-                        <video src="mockupagatha.mov" alt="Visuel Agatha 7" controls playsinline class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                        <video controls playsinline preload="metadata" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                            <source src="mockupagatha.mov" type="video/quicktime">
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
                         <img src="mockupext1.png" alt="Visuel Agatha 8" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                         <img src="mockupext2.png" alt="Visuel Agatha 9" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                     </div>
                 </div>
             </section>
 
-            <!-- RANGÉE 4 -->
+            <!-- RANGÉE 4 : Vitrines + Intérieur boutique + Packaging -->
             <section class="w-full">
                 <div class="lg:ml-[32%] mb-3">
                     <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider leading-snug">
@@ -154,7 +166,7 @@
                 </div>
             </section>
 
-            <!-- RANGÉE 5 -->
+            <!-- RANGÉE 5 : 1 vidéo + 1 image en bas à gauche/centre -->
             <section class="flex justify-start lg:pl-[8%] pb-12">
                 <div class="w-full md:w-[45%]">
                     <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
@@ -162,7 +174,10 @@
                         Mise en scène produit et réseaux sociaux.
                     </p>
                     <div class="grid grid-cols-2 gap-2 md:gap-3">
-                        <video src="instagatha.mov" alt="Visuel Agatha 10" controls playsinline class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                        <video controls playsinline preload="metadata" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                            <source src="instagatha.mov" type="video/quicktime">
+                            Votre navigateur ne supporte pas la vidéo.
+                        </video>
                         <img src="mockupinsta2.png" alt="Visuel Agatha 11" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
                     </div>
                 </div>
