@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Fascicule — Agathe Rougette</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,6 +15,10 @@
             font-style: normal;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -22,11 +26,14 @@
             color: #09090b;
             font-family: sans-serif;
             min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
         }
 
         /* Header avec son fond jaune conservé */
         header {
             background-color: #ECF244;
+            padding-top: env(safe-area-inset-top, 0px);
         }
 
         /* Liens du menu avec survol rose #FA378F */
@@ -36,68 +43,132 @@
         .nav-link:hover {
             color: #FA378F !important;
         }
+
+        /* Titre de la page */
+        .page-title {
+            font-family: 'AchilleusScript', cursive, sans-serif;
+            font-size: clamp(3rem, 13vw, 6.5rem);
+            line-height: 1;
+            color: #09090b;
+        }
+
+        /* Le fil rose se dessine à l'arrivée sur la page */
+        .draw-line {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+            animation: draw 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+        }
+        .draw-line.delay {
+            animation-delay: 0.7s;
+        }
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Apparition douce du contenu */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeUp 0.7s ease-out forwards;
+        }
+        .fade-up.d1 { animation-delay: 0.1s; }
+        .fade-up.d2 { animation-delay: 0.25s; }
+        .fade-up.d3 { animation-delay: 0.4s; }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Lien projet précédent / suivant */
+        .proj-link {
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .proj-link:hover {
+            color: #FA378F;
+        }
+        .proj-link.prev:hover { transform: translateX(-4px); }
+        .proj-link.next:hover { transform: translateX(4px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .draw-line { animation: none; stroke-dashoffset: 0; }
+            .fade-up { animation: none; opacity: 1; transform: none; }
+        }
+
+        footer {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+        }
     </style>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header Navigation Identique (Fond Jaune #ECF244) -->
-    <header class="w-full px-6 md:px-8 py-4 md:py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
-        <div class="flex items-center gap-3">
+    <!-- Header Navigation (fond jaune #ECF244), menu visible aussi sur mobile -->
+    <header class="w-full px-3 md:px-8 py-4 md:py-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 z-50 shadow-sm shrink-0 sticky top-0">
+        <div class="flex items-center gap-2 md:gap-3 shrink-0">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain">
             </a>
-            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
+            <span class="font-bold text-[10px] md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
-        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+        <nav class="flex items-center space-x-3 md:space-x-10 text-[9px] md:text-xs font-bold tracking-widest uppercase shrink-0">
             <a href="index.html" class="nav-link">Menu</a>
             <a href="apropos.html" class="nav-link">À propos</a>
         </nav>
 
-        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center">
+        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[9px] md:text-xs font-bold uppercase tracking-wider px-3 md:px-6 py-2 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center shrink-0">
             Me contacter
         </a>
     </header>
 
-    <!-- Main Content : Fluide sur mobile, positionnement d'origine sur desktop (md:) -->
-    <main class="flex-1 w-full py-10 px-6 md:px-0 relative md:min-h-[1000px] flex flex-col items-center justify-center gap-8 md:block overflow-hidden">
-        
-        <!-- Fil SVG Mobile : Adapté au format vertical smartphone -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 md:hidden" preserveAspectRatio="none" viewBox="0 0 400 700">
-            <path d="M 0,160 C 120,140 280,220 400,190 M 0,520 C 140,610 260,580 400,460" 
-                  fill="none" 
-                  stroke="#FA378F" 
-                  stroke-width="5" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round"/>
+    <!-- Main Content -->
+    <main class="flex-1 w-full relative overflow-hidden px-5 md:px-10 pt-8 md:pt-12 pb-32 md:pb-56">
+
+        <!-- Fil rose Mobile (format vertical) -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-0 md:hidden" preserveAspectRatio="none" viewBox="0 0 400 700" aria-hidden="true">
+            <path class="draw-line" pathLength="1" d="M 0,160 C 120,140 280,220 400,190"
+                  fill="none" stroke="#FA378F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path class="draw-line delay" pathLength="1" d="M 0,520 C 140,610 260,580 400,460"
+                  fill="none" stroke="#FA378F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
 
-        <!-- Canvas SVG Desktop : Grande boucle sous l'image (inchangée sur ordi) -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 hidden md:block" preserveAspectRatio="none" viewBox="0 0 1200 1000">
-            <path d="M 0,760 Q 200,850 400,700 T 800,700 T 1200,380" 
-                  fill="none" 
-                  stroke="#FA378F" 
-                  stroke-width="6" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round"/>
+        <!-- Fil rose Desktop : grande boucle sous l'image -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-0 hidden md:block" preserveAspectRatio="none" viewBox="0 0 1200 1000" aria-hidden="true">
+            <path class="draw-line" pathLength="1" d="M 0,760 Q 200,850 400,700 T 800,700 T 1200,380"
+                  fill="none" stroke="#FA378F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
 
-        <!-- Texte de Description (Centré en haut sur mobile, haut droite sur desktop) -->
-        <div class="w-full md:max-w-md md:absolute md:top-8 md:right-20 text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-center md:text-right z-20">
-            <p>
-                Texte de description
-            </p>
-        </div>
+        <div class="relative z-10 w-full max-w-[900px] mx-auto">
 
-        <!-- Grande Image Centrale (Fascicule GIF animé en boucle automatique) -->
-        <div class="w-full max-w-lg md:max-w-none md:w-[850px] md:absolute md:top-24 md:left-1/2 md:-translate-x-1/2 z-20">
-            <img id="fascicule-gif" src="projet3.gif" alt="Maquette Fascicule InDesign" loading="eager" class="w-full h-auto object-cover shadow-sm">
+            <!-- Titre + description -->
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-10 mb-6 md:mb-8 text-center md:text-left">
+                <div class="fade-up d1">
+                    <span class="block text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-zinc-700 mb-1">Indesign</span>
+                    <h1 class="page-title">fascicule</h1>
+                </div>
+
+                <div class="fade-up d2 md:max-w-xs text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed md:text-right">
+                    <p>
+                        Texte de description
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grande Image Centrale (Fascicule GIF animé en boucle automatique) -->
+            <div class="fade-up d3 w-full">
+                <img id="fascicule-gif" src="projet3.gif" alt="Maquette Fascicule InDesign" loading="eager" class="w-full h-auto object-cover shadow-lg">
+            </div>
+
+            <!-- Navigation entre projets -->
+            <nav class="mt-8 md:mt-12 flex items-center justify-between gap-4 text-[10px] md:text-xs font-bold uppercase tracking-widest" aria-label="Projets">
+                <a href="DA, Shoot, Retouches.html" class="proj-link prev bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">← DA, Shoot, Retouches</a>
+                <a href="Brief de marque Agatha.html" class="proj-link next bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">Brief Agatha →</a>
+            </nav>
+
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
+    <footer class="w-full pt-6 px-4 text-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
         © Agathe Rougette — Tous droits réservés
     </footer>
 
