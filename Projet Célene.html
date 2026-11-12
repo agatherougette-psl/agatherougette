@@ -39,12 +39,12 @@
 <body class="flex flex-col justify-between min-h-screen">
 
     <!-- Header Navigation (Fond Jaune #ECF244) -->
-    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
+    <header class="w-full px-6 md:px-8 py-4 md:py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
         <div class="flex items-center gap-3">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
             </a>
-            <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
+            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
         <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
@@ -52,17 +52,29 @@
             <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+        <button class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
 
-    <!-- Main Content (100% Pleine Largeur sans marges latérales) -->
-    <main class="flex-1 w-full py-8 relative min-h-[1100px] overflow-hidden">
+    <!-- Main Content -->
+    <main class="flex-1 w-full py-8 px-6 md:px-0 relative md:min-h-[1100px] flex flex-col items-center gap-8 md:block overflow-hidden">
         
-        <!-- Canvas SVG du Fil Magenta (#FA378F) passant derrière les cartes -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 1100">
-            <!-- Tracé continu du fil qui passe derrière le menu blanc puis traverse l'image brune en haut à droite -->
+        <!-- Fil SVG Mobile : Tracé expressif et adapté à l'empilement vertical sur smartphone -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 md:hidden" preserveAspectRatio="none" viewBox="0 0 400 1200">
+            <path d="M 40,60 
+                     C 180,180 340,240 320,400 
+                     C 300,560 60,640 80,820 
+                     C 100,1000 340,1080 200,1160" 
+                  fill="none" 
+                  stroke="#FA378F" 
+                  stroke-width="4" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Canvas SVG Desktop : Tracé d'origine sur grand écran -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 hidden md:block" preserveAspectRatio="none" viewBox="0 0 1200 1100">
             <path d="M 160,130 C 160,250 360,250 360,250 C 560,250 780,180 880,260 C 980,340 700,420 400,520 C 250,570 200,720 200,780 C 200,840 450,830 450,830 C 650,830 780,780 780,780 L 1200,720" 
                   fill="none" 
                   stroke="#FA378F" 
@@ -71,47 +83,47 @@
                   stroke-linejoin="round"/>
         </svg>
 
-        <!-- 1. Logo Maison Célene (Haut Gauche - Collé au bord) -->
-        <div class="absolute top-6 left-4 md:left-8 w-64 md:w-80 z-20">
-            <img src="logorestau.png" alt="Maison Célene" class="w-full h-auto object-contain">
-        </div>
-
-        <!-- 2. Texte de Description (Haut Droite - Collé au bord) -->
-        <div class="absolute top-8 right-4 md:right-8 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+        <!-- 1. Texte de Description (Haut sur mobile, haut droite sur desktop) -->
+        <div class="w-full md:max-w-md md:absolute md:top-8 md:right-8 text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-center md:text-right z-20 order-1">
             <p>
                 Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
             </p>
         </div>
 
-        <!-- 3. Visuel Menu Dentelle Blanc (Haut Centre) -->
-        <div class="absolute top-20 left-1/3 -translate-x-12 w-64 md:w-80 z-20">
+        <!-- 2. Logo Maison Célene (Haut Gauche) -->
+        <div class="w-48 self-start md:w-80 md:absolute md:top-6 md:left-8 z-20 order-2">
+            <img src="logorestau.png" alt="Maison Célene" class="w-full h-auto object-contain">
+        </div>
+
+        <!-- 3. Visuel Menu Dentelle Blanc -->
+        <div class="w-64 self-end md:w-80 md:absolute md:top-20 md:left-1/3 md:-translate-x-12 z-20 order-3">
             <img src="cartebar.png" alt="Menu Dentelle Blanc" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 4. Visuel Cadre Brun 2 Cartes (Haut Droite - Collé au bord droit, par-dessus le fil) -->
-        <div class="absolute top-36 right-0 w-80 md:w-[460px] z-20">
+        <!-- 4. Visuel Cadre Brun 2 Cartes -->
+        <div class="w-4/5 self-start md:w-[460px] md:absolute md:top-36 md:right-0 z-20 order-4">
             <img src="carte2celene.png" alt="Cartes Fond Brun" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 5. Visuel Livre / Carte (Milieu Gauche - Collé au bord gauche) -->
-        <div class="absolute top-[420px] left-0 w-64 md:w-80 z-20">
+        <!-- 5. Visuel Livre / Carte -->
+        <div class="w-64 self-end md:w-80 md:absolute md:top-[420px] md:left-0 z-20 order-5">
             <img src="mockupcelene.png" alt="Visuel livre" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 6. Visuel Tablier 1 (Bas Centre) -->
-        <div class="absolute top-[580px] left-1/3 md:left-[35%] w-72 md:w-96 z-20">
+        <!-- 6. Visuel Tablier 1 -->
+        <div class="w-72 self-start md:w-96 md:absolute md:top-[580px] md:left-[35%] z-20 order-6">
             <img src="projet1.png" alt="Tablier Visuel 1" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 7. Visuel Agatha / Tenue (Bas Droite - Collé au bord droit) -->
-        <div class="absolute top-[540px] right-0 w-72 md:w-96 z-20">
+        <!-- 7. Visuel Agatha / Tenue -->
+        <div class="w-72 self-end md:w-96 md:absolute md:top-[540px] md:right-0 z-20 order-7">
             <img src="projet4.png" alt="Visuel Agatha Paris" class="w-full h-auto object-cover shadow-sm">
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0">
+    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
         © Agathe Rougette — Tous droits réservés
     </footer>
 
