@@ -42,14 +42,18 @@
 
         .about-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
-            font-size: clamp(2.8rem, 14vw, 7rem);
-            line-height: 1;
+            font-size: clamp(2.6rem, 12vw, 7rem);
+            line-height: 1.15;
             color: #09090b;
+            /* marge intérieure : les boucles de la police cursive dépassent des lettres */
+            padding: 0.05em 0.25em;
+            overflow: visible;
         }
 
         @media (min-width: 768px) {
             .about-title {
                 font-size: clamp(3.2rem, 7.5vw, 7rem);
+                white-space: nowrap;
             }
         }
 
@@ -93,16 +97,20 @@
 
         /* Photo : taille proportionnelle à l'écran sur mobile */
         .photo-wrap {
-            width: min(70vw, 300px);
+            --pw: min(70vw, 300px);
+            width: var(--pw);
+            /* espace réservé autour de la photo pour les traits roses : ils ne touchent jamais le texte */
+            margin: calc(var(--pw) * 0.3) 0;
         }
         @media (min-width: 768px) {
             .photo-wrap {
-                width: 350px;
+                --pw: 350px;
             }
         }
-        @media (min-width: 1280px) {
+        @media (min-width: 1024px) {
             .photo-wrap {
-                width: 400px;
+                --pw: clamp(260px, 25vw, 400px);
+                margin: 0;
             }
         }
 
@@ -127,14 +135,6 @@
             pointer-events: none;
             z-index: 10;
             overflow: visible;
-        }
-        @media (min-width: 768px) {
-            .lines-svg {
-                top: -8rem;
-                left: -8rem;
-                width: calc(100% + 16rem);
-                height: calc(100% + 16rem);
-            }
         }
 
         /* Flèches de navigation en bas */
@@ -213,7 +213,7 @@
             </div>
 
             <!-- Colonne de Droite : Photo carrée entourée de ses traits roses -->
-            <div class="reveal d3 lg:col-span-5 flex justify-center lg:justify-end relative my-8 lg:my-0 lg:pr-10">
+            <div class="reveal d3 lg:col-span-5 flex justify-center lg:justify-end relative lg:pr-12 lg:pl-8">
 
                 <div class="photo-wrap relative aspect-square flex items-center justify-center">
 
