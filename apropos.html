@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>À propos — Agathe Rougette</title>
+    <script>document.documentElement.classList.add('js');</script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -29,6 +30,7 @@
             min-height: 100vh;
             min-height: 100dvh;
             overflow-x: hidden;
+            padding-top: env(safe-area-inset-top, 0px);
         }
 
         .nav-link {
@@ -51,7 +53,26 @@
             }
         }
 
-        /* Animation de tremblement pour les traits roses autour de la photo */
+        /* Apparition douce du contenu */
+        .js .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            animation: fadeUp 0.7s ease-out forwards;
+        }
+        .reveal.d1 { animation-delay: 0.1s; }
+        .reveal.d2 { animation-delay: 0.25s; }
+        .reveal.d3 { animation-delay: 0.4s; }
+        .reveal.d4 { animation-delay: 0.55s; }
+        .reveal.d5 { animation-delay: 0.7s; }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Traits roses : ils se dessinent un à un, puis tremblent */
+        @keyframes draw {
+            from { stroke-dashoffset: 1; }
+            to { stroke-dashoffset: 0; }
+        }
         @keyframes tremble {
             0% { transform: translate(0, 0) rotate(0deg); }
             25% { transform: translate(-1.5px, 1px) rotate(-1.5deg); }
@@ -61,9 +82,13 @@
         }
 
         .tremble-line {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 0;
             transform-box: fill-box;
             transform-origin: center;
-            animation: tremble 0.35s ease-in-out infinite;
+            animation:
+                draw 0.45s ease-out var(--d, 0s) backwards,
+                tremble 0.35s ease-in-out calc(var(--d, 0s) + 0.45s) infinite;
         }
 
         /* Photo : taille proportionnelle à l'écran sur mobile */
@@ -73,6 +98,22 @@
         @media (min-width: 768px) {
             .photo-wrap {
                 width: 350px;
+            }
+        }
+        @media (min-width: 1280px) {
+            .photo-wrap {
+                width: 400px;
+            }
+        }
+
+        /* Léger mouvement de la photo au survol (ordi) */
+        @media (hover: hover) {
+            .photo-card {
+                transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+            }
+            .photo-wrap:hover .photo-card {
+                transform: rotate(-1.5deg) scale(1.03);
+                box-shadow: 0 22px 48px rgba(0, 0, 0, 0.25);
             }
         }
 
@@ -94,6 +135,22 @@
                 width: calc(100% + 16rem);
                 height: calc(100% + 16rem);
             }
+        }
+
+        /* Flèches de navigation en bas */
+        .proj-link {
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .proj-link:hover {
+            color: #FA378F;
+        }
+        .proj-link.prev:hover { transform: translateX(-4px); }
+        .proj-link.next:hover { transform: translateX(4px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .js .reveal { animation: none; opacity: 1; transform: none; }
+            .tremble-line { animation: none; }
+            .photo-wrap:hover .photo-card { transform: none; }
         }
 
         /* Mobile : marge de sécurité en bas */
@@ -124,10 +181,10 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 w-full px-5 md:px-14 pt-2 pb-16 relative max-w-[1400px] mx-auto flex flex-col justify-center">
+    <main class="flex-1 w-full px-5 md:px-14 pt-2 pb-12 md:pb-16 relative max-w-[1400px] mx-auto flex flex-col justify-center">
 
         <!-- Grand Titre Centré + Sous-titre calé à droite de "rougette" -->
-        <div class="w-full flex justify-center mb-8 md:mb-14 relative z-20">
+        <div class="reveal d1 w-full flex justify-center mb-8 md:mb-14 relative z-20">
             <div class="relative inline-block text-center max-w-full">
                 <h1 class="about-title">agathe rougette</h1>
                 <span class="block md:absolute md:-bottom-3 md:-right-6 text-xs md:text-sm font-bold tracking-tight text-zinc-900 mt-1 md:mt-0">
@@ -140,52 +197,50 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
 
             <!-- Colonne de Gauche : 4 Paragraphes -->
-            <div class="lg:col-span-7 space-y-4 text-[14px] md:text-[14px] font-medium text-[#09090b] leading-[1.5] md:leading-[1.45] text-left z-20">
-                <p>
+            <div class="lg:col-span-7 space-y-4 text-[14px] md:text-[15px] font-medium text-[#09090b] leading-[1.5] md:leading-[1.55] text-left z-20 lg:max-w-[640px]">
+                <p class="reveal d2">
                     Basée à Paris, je suis étudiante en communication visuelle et direction artistique à la Paris School of Luxury. Passionnée par l'image, l'identité visuelle et la création de contenus engageants, j'accompagne des marques, des projets culturels et des maisons de mode dans la construction de leur univers visuel.
                 </p>
-                <p>
+                <p class="reveal d3">
                     J'aime par-dessus tout les choses colorées, peps et fun, et je puise mon inspiration dans le pop art : ses aplats vifs, son énergie et son sens du mélange entre culture populaire et création. J'allie cette audace graphique à une forte sensibilité photographique et à une vision stratégique de la communication. De la direction de shootings à la conception de supports print et digitaux, je crée des récits cohérents et pleins de peps qui révèlent l'essence de chaque projet.
                 </p>
-                <p>
+                <p class="reveal d4">
                     Mon parcours me l'a déjà permis de le faire sur le terrain. Chez Studio MVO (mode et musique), j'ai créé des contenus pour les réseaux sociaux, géré des plannings et des séances photo, trié les fichiers et assuré le montage et la retouche de contenus filmés de défilés. J'ai aussi fait mes armes à la Parfumerie Sesame et dans un atelier d'architecture d'intérieur, ce qui m'a appris à m'adapter vite, à travailler en équipe et à soigner chaque détail, du plateau de shooting jusqu'au rendu final.
                 </p>
-                <p>
+                <p class="reveal d5">
                     Je travaille avec Photoshop, InDesign, Illustrator, Lightroom, CapCut et Canva, et je parle français, anglais et espagnol.
                 </p>
             </div>
 
             <!-- Colonne de Droite : Photo carrée entourée de ses traits roses -->
-            <div class="lg:col-span-5 flex justify-center lg:justify-end relative my-8 lg:my-0">
+            <div class="reveal d3 lg:col-span-5 flex justify-center lg:justify-end relative my-8 lg:my-0 lg:pr-10">
 
                 <div class="photo-wrap relative aspect-square flex items-center justify-center">
 
-                    <!-- SVG contenant TOUS les traits roses disposés autour de la photo -->
-                    <svg class="lines-svg" viewBox="0 0 500 500">
-                        <!-- 1. Trait vertical haut-gauche -->
-                        <line x1="125" y1="95" x2="125" y2="125" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.1s;" />
-
-                        <!-- 2. Grand trait oblique haut-droite (gauche) -->
-                        <line x1="330" y1="95" x2="385" y2="35" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.2s;" />
-
-                        <!-- 3. Trait oblique haut-droite (droite) -->
-                        <line x1="375" y1="125" x2="415" y2="90" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.05s;" />
-
-                        <!-- 4. Trait oblique bas-gauche -->
-                        <line x1="140" y1="410" x2="175" y2="375" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.25s;" />
-
-                        <!-- 5. Petit trait vertical bas-gauche -->
-                        <line x1="185" y1="420" x2="185" y2="455" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.15s;" />
-
-                        <!-- 6. Trait vertical bas-droite (gauche) -->
-                        <line x1="375" y1="365" x2="375" y2="400" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.3s;" />
-
-                        <!-- 7. Trait vertical bas-droite (droite) -->
-                        <line x1="405" y1="380" x2="405" y2="415" stroke="#FA378F" stroke-width="12" stroke-linecap="round" class="tremble-line" style="animation-delay: 0.1s;" />
+                    <!-- Traits roses disposés en "éclats" aux 4 coins de la photo (jamais cachés derrière elle) -->
+                    <svg class="lines-svg" viewBox="0 0 500 500" aria-hidden="true">
+                        <g stroke="#FA378F" stroke-width="12" stroke-linecap="round" fill="none">
+                            <!-- Haut-gauche -->
+                            <line pathLength="1" class="tremble-line" style="--d:0s"    x1="82"  y1="82"  x2="52"  y2="52" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.08s" x1="101" y1="76"  x2="101" y2="38" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.16s" x1="76"  y1="101" x2="40"  y2="101" />
+                            <!-- Haut-droite -->
+                            <line pathLength="1" class="tremble-line" style="--d:0.24s" x1="418" y1="82"  x2="450" y2="50" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.32s" x1="399" y1="76"  x2="399" y2="44" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.4s"  x1="424" y1="101" x2="460" y2="101" />
+                            <!-- Bas-gauche -->
+                            <line pathLength="1" class="tremble-line" style="--d:0.48s" x1="82"  y1="418" x2="50"  y2="450" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.56s" x1="101" y1="424" x2="101" y2="460" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.64s" x1="76"  y1="399" x2="44"  y2="399" />
+                            <!-- Bas-droite -->
+                            <line pathLength="1" class="tremble-line" style="--d:0.72s" x1="418" y1="418" x2="452" y2="452" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.8s"  x1="399" y1="424" x2="399" y2="456" />
+                            <line pathLength="1" class="tremble-line" style="--d:0.88s" x1="424" y1="399" x2="458" y2="399" />
+                        </g>
                     </svg>
 
                     <!-- Image portrait de profil -->
-                    <div class="w-full h-full relative z-20 shadow-md rounded-md overflow-hidden bg-zinc-200">
+                    <div class="photo-card w-full h-full relative z-20 shadow-md rounded-md overflow-hidden bg-zinc-200">
                         <img src="photomoi2.png" alt="Agathe Rougette" class="w-full h-full object-cover">
                     </div>
 
@@ -194,6 +249,12 @@
             </div>
 
         </div>
+
+        <!-- Navigation en bas -->
+        <nav class="reveal d5 mt-14 md:mt-20 flex items-center justify-between gap-3 text-[10px] md:text-xs font-bold uppercase tracking-widest" aria-label="Navigation">
+            <a href="index.html" class="proj-link prev bg-black/10 px-3 py-2 rounded-full">← Tous les projets</a>
+            <a href="mecontacter.html" class="proj-link next bg-black/10 px-3 py-2 rounded-full">Me contacter →</a>
+        </nav>
 
     </main>
 
