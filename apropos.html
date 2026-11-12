@@ -1,1 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos — Agathe Rougette</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
+    <style>
+        /* Déclaration de la police personnalisée */
+        @font-face {
+            font-family: 'AchilleusScript';
+            src: url('Achilleus Script.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ECF244;
+            color: #09090b;
+            font-family: sans-serif;
+            min-height: 100vh;
+        }
+
+        .nav-link {
+            transition: color 0.2s ease-in-out;
+        }
+        .nav-link:hover {
+            color: #FA378F !important;
+        }
+
+        .about-title {
+            font-family: 'AchilleusScript', cursive, sans-serif;
+            font-size: clamp(3rem, 7vw, 6.5rem);
+            line-height: 1;
+            color: #09090b;
+        }
+
+        /* Animation de tremblement pour les petits traits roses */
+        @keyframes tremble {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-1px, 1.5px) rotate(-1.5deg); }
+            40% { transform: translate(1.5px, -1px) rotate(1deg); }
+            60% { transform: translate(-1.5px, -1.5px) rotate(-0.5deg); }
+            80% { transform: translate(1px, 1px) rotate(1.5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .tremble-trait {
+            display: inline-block;
+            animation: tremble 0.35s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col justify-between min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="w-full px-6 md:px-8 py-4 md:py-6 flex items-center justify-between z-50 shrink-0">
+        <div class="flex items-center gap-2.5 md:gap-3">
+            <a href="index.html">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
+            </a>
+            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+            <a href="index.html" class="nav-link">Menu</a>
+            <a href="apropos.html" class="nav-link text-[#FA378F]">À propos</a>
+        </nav>
+
+        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center">
+            Me contacter
+        </a>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 w-full px-6 md:px-14 py-8 md:py-12 relative max-w-7xl mx-auto">
+        
+        <!-- Section Titre avec traits roses animés autour -->
+        <div class="relative flex flex-col md:flex-row items-center md:items-start justify-between mb-8 md:mb-12">
+            
+            <!-- Grand Titre -->
+            <div class="text-center md:text-left z-10 w-full md:w-auto">
+                <h1 class="about-title">agathe rougette</h1>
+                <p class="text-xs md:text-sm font-bold uppercase tracking-widest mt-1 text-zinc-900">(qui s'est ?????)</p>
+            </div>
+
+            <!-- Trait rose haut droit 1 -->
+            <div class="absolute right-32 top-0 hidden md:block tremble-trait" style="animation-delay: 0.1s;">
+                <div class="w-6 h-2 bg-[#FA378F] rounded-full rotate-45"></div>
+            </div>
+            <!-- Trait rose haut droit 2 -->
+            <div class="absolute right-12 top-6 hidden md:block tremble-trait" style="animation-delay: 0.25s;">
+                <div class="w-8 h-2 bg-[#FA378F] rounded-full rotate-[30deg]"></div>
+            </div>
+            <!-- Trait rose milieu droit -->
+            <div class="absolute right-2 top-28 hidden md:block tremble-trait" style="animation-delay: 0.15s;">
+                <div class="w-7 h-2 bg-[#FA378F] rounded-full rotate-[60deg]"></div>
+            </div>
+        </div>
+
+        <!-- Section Contenu : Texte à gauche, Image à droite -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start relative">
+            
+            <!-- Texte descriptif (Colonnes de gauche) -->
+            <div class="lg:col-span-7 space-y-4 md:space-y-6 text-xs md:text-sm font-medium uppercase tracking-wide text-zinc-900 leading-relaxed text-justify">
+                <p>
+                    Basée à Paris, je suis étudiante en communication visuelle et direction artistique à la Paris School of Luxury. Passionnée par l'image, l'identité visuelle et la création de contenus engageants, j'accompagne des marques, des projets culturels et des maisons de mode dans la construction de leur univers visuel.
+                </p>
+                <p>
+                    J'aime par-dessus tout les choses colorées, peps et fun, et je puise mon inspiration dans le pop art : ses aplats vifs, son énergie et son sens du mélange entre culture populaire et création. J'allie cette audace graphique à une forte sensibilité photographique et à une vision stratégique de la communication. De la direction de shootings à la conception de supports print et digitaux, je crée des récits cohérents et pleins de peps qui révèlent l'essence de chaque projet.
+                </p>
+                <p>
+                    Mon parcours me l'a déjà permis de le faire sur le terrain. Chez Studio MVO (mode et musique), j'ai créé des contenus pour les réseaux sociaux, géré des plannings et des séances photo, trié les fichiers et assuré le montage et la retouche de contenus filmés de défilés. J'ai aussi fait mes armes à la Parfumerie Sesame et dans un atelier d'architecture d'intérieur, ce qui m'a appris à m'adapter vite, à travailler en équipe et à soigner chaque détail, du plateau de shooting jusqu'au rendu final.
+                </p>
+                <p>
+                    Je travaille avec Photoshop, InDesign, Illustrator, Lightroom, CapCut et Canva, et je parle français, anglais et espagnol.
+                </p>
+            </div>
+
+            <!-- Image portrait à droite -->
+            <div class="lg:col-span-5 relative flex justify-center lg:justify-end mt-4 lg:mt-0">
+                <div class="w-full max-w-sm md:max-w-md relative">
+                    <img src="apropos.png" alt="Agathe Rougette" class="w-full h-auto object-cover shadow-md rounded-md bg-zinc-200">
+                </div>
+
+                <!-- Trait rose bas droit 1 -->
+                <div class="absolute -bottom-6 right-24 hidden md:block tremble-trait" style="animation-delay: 0.3s;">
+                    <div class="w-6 h-2 bg-[#FA378F] rounded-full rotate-[20deg]"></div>
+                </div>
+                <!-- Trait rose bas droit 2 -->
+                <div class="absolute -bottom-2 right-4 hidden md:block tremble-trait" style="animation-delay: 0.1s;">
+                    <div class="w-8 h-2 bg-[#FA378F] rounded-full rotate-[45deg]"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Trait rose bas gauche -->
+        <div class="absolute left-1/3 -bottom-4 hidden md:block tremble-trait" style="animation-delay: 0.2s;">
+            <div class="w-7 h-2 bg-[#FA378F] rounded-full rotate-[35deg]"></div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-600 border-t border-black/10 shrink-0 bg-[#ECF244]">
+        © Agathe Rougette — Tous droits réservés
+    </footer>
+
+</body>
+</html>
