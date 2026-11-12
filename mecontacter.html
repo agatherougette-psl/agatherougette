@@ -32,6 +32,12 @@
             padding-top: env(safe-area-inset-top, 0px);
         }
 
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid #FA378F;
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
         .nav-link {
             transition: color 0.2s ease-in-out;
         }
@@ -52,14 +58,61 @@
             }
         }
 
+        /* ---------- LA LIGNE ROSE (comme sur les autres pages) ---------- */
+        .flow-line {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .flow-line path {
+            fill: none;
+            stroke: #FA378F;
+            stroke-width: 5px;
+            stroke-linecap: round;
+            vector-effect: non-scaling-stroke;
+            /* la ligne se dessine toute seule à l'arrivée */
+            stroke-dasharray: 1;
+            stroke-dashoffset: 0;
+            animation: drawLine 2.4s cubic-bezier(0.55, 0, 0.25, 1) 0.2s backwards;
+        }
+        @media (min-width: 768px) {
+            .flow-line path { stroke-width: 7px; }
+        }
+        @keyframes drawLine {
+            from { stroke-dashoffset: 1; }
+        }
+
+        .content-layer { position: relative; z-index: 1; }
+
+        /* Léger halo jaune là où la ligne passe derrière le texte */
+        .halo {
+            text-shadow:
+                0 0 8px #ECF244, 0 0 8px #ECF244,
+                0 0 16px #ECF244, 0 0 16px #ECF244;
+        }
+
+        /* Le titre arrive en deux temps, un mot après l'autre */
+        .word {
+            display: inline-block;
+            white-space: nowrap;
+            animation: wordIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+        @keyframes wordIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: none; }
+        }
+
         /* Apparition douce */
         .fade-up {
             opacity: 0;
             transform: translateY(16px);
             animation: fadeUp 0.7s ease-out forwards;
         }
-        .fade-up.d1 { animation-delay: 0.1s; }
-        .fade-up.d2 { animation-delay: 0.3s; }
+        .fade-up.d2 { animation-delay: 0.8s; }
         @keyframes fadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
@@ -81,14 +134,19 @@
         }
 
         .copy-btn {
-            transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .copy-btn:active {
-            transform: scale(0.95);
+        .copy-btn:hover { transform: scale(1.06); }
+        .copy-btn:active { transform: scale(0.94); }
+        .copy-btn.is-done {
+            background-color: #FA378F;
+            color: #09090b;
+            transform: scale(1.06);
         }
 
         @media (prefers-reduced-motion: reduce) {
             .fade-up { animation: none; opacity: 1; transform: none; }
+            .word, .flow-line path { animation: none; }
         }
 
         footer {
@@ -118,16 +176,28 @@
     </header>
 
     <!-- Main Content : diagonale (titre en haut à droite / coordonnées en bas à gauche) -->
-    <main class="flex-1 w-full px-5 md:px-14 py-10 md:py-20 flex flex-col justify-between gap-16">
+    <main class="relative flex-1 w-full px-5 md:px-14 py-10 md:py-20 flex flex-col justify-between gap-16">
+
+        <!-- Ligne rose qui traverse la page, derrière le contenu -->
+        <svg class="flow-line" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+            <path pathLength="1" d="M-20 330 C 120 460, 260 500, 420 380 S 640 60, 780 230 S 940 520, 1030 90">
+                <!-- la courbe ondule doucement en continu -->
+                <animate attributeName="d" dur="10s" repeatCount="indefinite"
+                    calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1"
+                    values="M-20 330 C 120 460, 260 500, 420 380 S 640 60, 780 230 S 940 520, 1030 90;
+                            M-20 390 C 140 540, 300 460, 440 320 S 620 150, 780 310 S 960 420, 1030 150;
+                            M-20 330 C 120 460, 260 500, 420 380 S 640 60, 780 230 S 940 520, 1030 90"/>
+            </path>
+        </svg>
 
         <!-- Grand Titre stylisé en haut à droite -->
-        <div class="fade-up d1 w-full flex justify-end mt-2 md:mt-10">
-            <h1 class="contact-title text-right">Me contacter</h1>
+        <div class="content-layer w-full flex justify-end mt-2 md:mt-10">
+            <h1 class="contact-title text-right" id="contact-title">Me contacter</h1>
         </div>
 
         <!-- Coordonnées en bas à gauche -->
-        <div class="fade-up d2 w-full flex justify-start mb-4 md:mb-16">
-            <div class="space-y-4 md:space-y-3 text-[15px] md:text-lg font-bold tracking-tight text-[#09090b] max-w-full">
+        <div class="content-layer fade-up d2 w-full flex justify-start mb-4 md:mb-16">
+            <div class="halo space-y-4 md:space-y-3 text-[15px] md:text-lg font-bold tracking-tight text-[#09090b] max-w-full">
 
                 <div>
                     <p class="flex flex-wrap items-center gap-x-2 gap-y-2">
@@ -154,16 +224,37 @@
         © Agathe Rougette — Tous droits réservés
     </footer>
 
-    <!-- Bouton "Copier l'adresse" -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            /* Titre : chaque mot arrive l'un après l'autre (la police reste intacte) */
+            const title = document.getElementById('contact-title');
+            if (title) {
+                const text = title.textContent.trim();
+                title.setAttribute('aria-label', text);
+                title.textContent = '';
+                text.split(' ').forEach((w, i, arr) => {
+                    const span = document.createElement('span');
+                    span.className = 'word';
+                    span.setAttribute('aria-hidden', 'true');
+                    span.textContent = w;
+                    span.style.animationDelay = (0.4 + i * 0.2) + 's';
+                    title.appendChild(span);
+                    if (i < arr.length - 1) title.appendChild(document.createTextNode(' '));
+                });
+            }
+
+            /* Bouton "Copier l'adresse" */
             const btn = document.getElementById('copy-email');
             const email = 'rougette.agathe9@gmail.com';
             if (!btn) return;
 
             const done = () => {
                 btn.textContent = 'Copié ✓';
-                setTimeout(() => { btn.textContent = "Copier l'adresse"; }, 1800);
+                btn.classList.add('is-done');
+                setTimeout(() => {
+                    btn.textContent = "Copier l'adresse";
+                    btn.classList.remove('is-done');
+                }, 1800);
             };
 
             btn.addEventListener('click', async () => {
