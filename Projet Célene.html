@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Projet Célene — Agathe Rougette</title>
+    <script>document.documentElement.classList.add('js');</script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -15,6 +16,10 @@
             font-style: normal;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -22,10 +27,13 @@
             color: #09090b;
             font-family: sans-serif;
             min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
         }
 
         header {
             background-color: #ECF244;
+            padding-top: env(safe-area-inset-top, 0px);
         }
 
         .nav-link {
@@ -34,98 +42,239 @@
         .nav-link:hover {
             color: #FA378F !important;
         }
+
+        /* Titre de la page */
+        .page-title {
+            font-family: 'AchilleusScript', cursive, sans-serif;
+            font-size: clamp(2.8rem, 13vw, 6rem);
+            line-height: 1.05;
+            color: #09090b;
+        }
+
+        /* Apparition douce des éléments quand on arrive dessus */
+        .js .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .js .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Le fil rose : il se dessine au fil du défilement */
+        #thread-path {
+            fill: none;
+            stroke: #FA378F;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        @media (max-width: 767px) {
+            #thread-path { stroke-width: 4; }
+        }
+
+        /* Petit effet sur les visuels au survol (ordi) */
+        @media (hover: hover) {
+            .shot img {
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            }
+            .shot:hover img {
+                transform: scale(1.02) rotate(-0.4deg);
+                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+            }
+        }
+
+        /* Flèches de navigation en bas */
+        .proj-link {
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .proj-link:hover {
+            color: #FA378F;
+        }
+        .proj-link.prev:hover { transform: translateX(-4px); }
+        .proj-link.next:hover { transform: translateX(4px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .js .reveal { opacity: 1; transform: none; transition: none; }
+            .shot:hover img { transform: none !important; }
+        }
+
+        footer {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+        }
     </style>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header Navigation (Fond Jaune #ECF244) -->
-    <header class="w-full px-6 md:px-8 py-4 md:py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
-        <div class="flex items-center gap-3">
+    <!-- Header Navigation (Fond Jaune #ECF244), menu visible aussi sur mobile -->
+    <header class="w-full px-3 md:px-8 py-4 md:py-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 z-50 shadow-sm shrink-0 sticky top-0">
+        <div class="flex items-center gap-2 md:gap-3 shrink-0">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain">
             </a>
-            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
+            <span class="font-bold text-[10px] md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
-        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+        <nav class="flex items-center space-x-3 md:space-x-10 text-[9px] md:text-xs font-bold tracking-widest uppercase shrink-0">
             <a href="index.html" class="nav-link">Menu</a>
             <a href="apropos.html" class="nav-link">À propos</a>
         </nav>
 
-        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center">
+        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[9px] md:text-xs font-bold uppercase tracking-wider px-3 md:px-6 py-2 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center shrink-0">
             Me contacter
         </a>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 w-full py-8 px-6 md:px-0 relative md:min-h-[1100px] flex flex-col items-center gap-8 md:block overflow-hidden">
-        
-        <!-- Fil SVG Mobile : Tracé expressif et adapté à l'empilement vertical sur smartphone -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 md:hidden" preserveAspectRatio="none" viewBox="0 0 400 1200">
-            <path d="M 40,60 
-                     C 180,180 340,240 320,400 
-                     C 300,560 60,640 80,820 
-                     C 100,1000 340,1080 200,1160" 
-                  fill="none" 
-                  stroke="#FA378F" 
-                  stroke-width="4" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round"/>
-        </svg>
+    <main class="flex-1 w-full px-5 md:px-10 pt-8 md:pt-12 pb-10 md:pb-16">
 
-        <!-- Canvas SVG Desktop : Tracé d'origine sur grand écran -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 hidden md:block" preserveAspectRatio="none" viewBox="0 0 1200 1100">
-            <path d="M 160,130 C 160,250 360,250 360,250 C 560,250 780,180 880,260 C 980,340 700,420 400,520 C 250,570 200,720 200,780 C 200,840 450,830 450,830 C 650,830 780,780 780,780 L 1200,720" 
-                  fill="none" 
-                  stroke="#FA378F" 
-                  stroke-width="5" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round"/>
-        </svg>
-
-        <!-- 1. Texte de Description (Haut sur mobile, haut droite sur desktop) -->
-        <div class="w-full md:max-w-md md:absolute md:top-8 md:right-8 text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-center md:text-right z-20 order-1">
-            <p>
-                Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
-            </p>
+        <!-- Titre de la page -->
+        <div class="max-w-[1200px] mx-auto text-center md:text-left mb-8 md:mb-12">
+            <span class="block text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-zinc-700 mb-1">Projet Personnel</span>
+            <h1 class="page-title">projet célene</h1>
         </div>
 
-        <!-- 2. Logo Maison Célene (Haut Gauche) -->
-        <div class="w-48 self-start md:w-80 md:absolute md:top-6 md:left-8 z-20 order-2">
-            <img src="logorestau.png" alt="Maison Célene" class="w-full h-auto object-contain">
+        <!-- Galerie : le fil rose est calculé automatiquement d'après la position des visuels -->
+        <div id="gallery" class="relative max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-y-10 md:gap-y-16 gap-x-6">
+
+            <!-- Fil SVG (se redimensionne et se redessine tout seul) -->
+            <svg id="thread" class="absolute inset-0 pointer-events-none z-0 overflow-visible" aria-hidden="true">
+                <path id="thread-path" d=""/>
+            </svg>
+
+            <!-- 1. Texte de Description -->
+            <div class="relative z-10 md:col-start-8 md:col-span-5 md:row-start-1 self-start text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-center md:text-right">
+                <p class="reveal">
+                    Ce projet explore les compositions graphiques brutes et les références littéraires à travers une approche éditoriale intime.
+                </p>
+            </div>
+
+            <!-- 2. Logo Maison Célene (pas de fil derrière : il est transparent) -->
+            <div class="relative z-10 w-40 justify-self-start md:w-auto md:justify-self-stretch md:col-start-1 md:col-span-3 md:row-start-1 self-start">
+                <img src="logorestau.png" alt="Maison Célene" class="reveal w-full h-auto object-contain">
+            </div>
+
+            <!-- 3. Visuel Menu Dentelle Blanc -->
+            <div class="shot relative z-10 w-3/5 justify-self-end md:w-auto md:justify-self-stretch md:col-start-4 md:col-span-4 md:row-start-1 md:mt-8">
+                <img src="cartebar.png" alt="Menu Dentelle Blanc" class="reveal w-full h-auto object-cover shadow-md">
+            </div>
+
+            <!-- 4. Visuel Cadre Brun 2 Cartes -->
+            <div class="shot relative z-10 w-4/5 justify-self-start md:w-auto md:justify-self-stretch md:col-start-8 md:col-span-5 md:row-start-2 md:-mt-24">
+                <img src="carte2celene.png" alt="Cartes Fond Brun" class="reveal w-full h-auto object-cover shadow-md">
+            </div>
+
+            <!-- 5. Visuel Livre / Carte -->
+            <div class="shot relative z-10 w-3/5 justify-self-end md:w-auto md:justify-self-stretch md:col-start-1 md:col-span-4 md:row-start-2 md:mt-4">
+                <img src="mockupcelene.png" alt="Visuel livre" class="reveal w-full h-auto object-cover shadow-md">
+            </div>
+
+            <!-- 6. Visuel Tablier 1 -->
+            <div class="shot relative z-10 w-4/5 justify-self-start md:w-auto md:justify-self-stretch md:col-start-3 md:col-span-5 md:row-start-3">
+                <img src="projet1.png" alt="Tablier Visuel 1" class="reveal w-full h-auto object-cover shadow-md">
+            </div>
+
+            <!-- 7. Visuel Agatha / Tenue -->
+            <div class="shot relative z-10 w-4/5 justify-self-end md:w-auto md:justify-self-stretch md:col-start-8 md:col-span-5 md:row-start-3 md:mt-16">
+                <img src="projet4.png" alt="Visuel Agatha Paris" class="reveal w-full h-auto object-cover shadow-md">
+            </div>
+
         </div>
 
-        <!-- 3. Visuel Menu Dentelle Blanc -->
-        <div class="w-64 self-end md:w-80 md:absolute md:top-20 md:left-1/3 md:-translate-x-12 z-20 order-3">
-            <img src="cartebar.png" alt="Menu Dentelle Blanc" class="w-full h-auto object-cover shadow-sm">
-        </div>
-
-        <!-- 4. Visuel Cadre Brun 2 Cartes -->
-        <div class="w-4/5 self-start md:w-[460px] md:absolute md:top-36 md:right-0 z-20 order-4">
-            <img src="carte2celene.png" alt="Cartes Fond Brun" class="w-full h-auto object-cover shadow-sm">
-        </div>
-
-        <!-- 5. Visuel Livre / Carte -->
-        <div class="w-64 self-end md:w-80 md:absolute md:top-[420px] md:left-0 z-20 order-5">
-            <img src="mockupcelene.png" alt="Visuel livre" class="w-full h-auto object-cover shadow-sm">
-        </div>
-
-        <!-- 6. Visuel Tablier 1 -->
-        <div class="w-72 self-start md:w-96 md:absolute md:top-[580px] md:left-[35%] z-20 order-6">
-            <img src="projet1.png" alt="Tablier Visuel 1" class="w-full h-auto object-cover shadow-sm">
-        </div>
-
-        <!-- 7. Visuel Agatha / Tenue -->
-        <div class="w-72 self-end md:w-96 md:absolute md:top-[540px] md:right-0 z-20 order-7">
-            <img src="projet4.png" alt="Visuel Agatha Paris" class="w-full h-auto object-cover shadow-sm">
-        </div>
+        <!-- Navigation entre projets -->
+        <nav class="max-w-[1200px] mx-auto mt-14 md:mt-24 flex items-center justify-between gap-3 text-[10px] md:text-xs font-bold uppercase tracking-widest" aria-label="Projets">
+            <a href="index.html" class="proj-link prev bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">← Tous les projets</a>
+            <a href="DA, Shoot, Retouches.html" class="proj-link next bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">DA, Shoot, Retouches →</a>
+        </nav>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
+    <footer class="w-full pt-6 px-4 text-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
         © Agathe Rougette — Tous droits réservés
     </footer>
+
+    <script>
+        (function () {
+            const gallery = document.getElementById('gallery');
+            const svg = document.getElementById('thread');
+            const path = document.getElementById('thread-path');
+            const shots = gallery.querySelectorAll('.shot');
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let len = 0;
+
+            /* Courbe douce qui passe par le centre de chaque visuel (elle reste derrière) */
+            function buildThread() {
+                const r = gallery.getBoundingClientRect();
+                const W = r.width, H = r.height;
+                if (!W || !H) return;
+                svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+                svg.setAttribute('width', W);
+                svg.setAttribute('height', H);
+
+                const pts = [{ x: W * 0.06, y: -10 }];
+                shots.forEach(function (el) {
+                    const b = el.getBoundingClientRect();
+                    pts.push({ x: b.left - r.left + b.width / 2, y: b.top - r.top + b.height / 2 });
+                });
+                pts.push({ x: W * 0.5, y: H + 10 });
+
+                let d = 'M ' + pts[0].x + ',' + pts[0].y;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i - 1] || pts[i];
+                    const p1 = pts[i];
+                    const p2 = pts[i + 1];
+                    const p3 = pts[i + 2] || p2;
+                    const c1x = p1.x + (p2.x - p0.x) / 6;
+                    const c1y = p1.y + (p2.y - p0.y) / 6;
+                    const c2x = p2.x - (p3.x - p1.x) / 6;
+                    const c2y = p2.y - (p3.y - p1.y) / 6;
+                    d += ' C ' + c1x + ',' + c1y + ' ' + c2x + ',' + c2y + ' ' + p2.x + ',' + p2.y;
+                }
+                path.setAttribute('d', d);
+
+                len = path.getTotalLength();
+                path.style.strokeDasharray = len;
+                updateThread();
+            }
+
+            /* Le fil se dessine au fil du défilement */
+            function updateThread() {
+                if (!len) return;
+                if (reduce) { path.style.strokeDashoffset = 0; return; }
+                const r = gallery.getBoundingClientRect();
+                const drawnY = window.innerHeight * 0.85 - r.top;
+                const p = Math.max(0, Math.min(1, drawnY / r.height));
+                path.style.strokeDashoffset = len * (1 - p);
+            }
+
+            /* Apparition des éléments */
+            const reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (e.isIntersecting) {
+                            e.target.classList.add('in');
+                            io.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+                reveals.forEach(function (el) { io.observe(el); });
+            } else {
+                reveals.forEach(function (el) { el.classList.add('in'); });
+            }
+
+            gallery.querySelectorAll('img').forEach(function (img) {
+                if (!img.complete) img.addEventListener('load', buildThread);
+            });
+            window.addEventListener('load', buildThread);
+            window.addEventListener('resize', buildThread);
+            window.addEventListener('scroll', updateThread, { passive: true });
+            if ('ResizeObserver' in window) new ResizeObserver(buildThread).observe(gallery);
+            buildThread();
+        })();
+    </script>
 
 </body>
 </html>
