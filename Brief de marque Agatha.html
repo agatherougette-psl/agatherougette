@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Brief de marque Agatha — Agathe Rougette</title>
+    <script>document.documentElement.classList.add('js');</script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -15,6 +16,10 @@
             font-style: normal;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -22,10 +27,13 @@
             color: #09090b;
             font-family: sans-serif;
             min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
         }
 
         header {
             background-color: #ECF244;
+            padding-top: env(safe-area-inset-top, 0px);
         }
 
         .nav-link {
@@ -34,162 +42,314 @@
         .nav-link:hover {
             color: #FA378F !important;
         }
+
+        /* Titre de la page */
+        .page-title {
+            font-family: 'AchilleusScript', cursive, sans-serif;
+            font-size: clamp(2.6rem, 11vw, 6rem);
+            line-height: 1.05;
+            color: #09090b;
+        }
+
+        /* Apparition douce des blocs quand on arrive dessus */
+        .js .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .js .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Le fil rose : il se dessine au fil du défilement */
+        #thread-path {
+            fill: none;
+            stroke: #FA378F;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        @media (max-width: 767px) {
+            #thread-path { stroke-width: 4; }
+        }
+
+        /* Léger zoom au survol des visuels (ordi) */
+        @media (hover: hover) {
+            .media-grid img,
+            .media-grid video {
+                position: relative;
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            }
+            .media-grid img:hover,
+            .media-grid video:hover {
+                transform: scale(1.04);
+                z-index: 5;
+                box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+            }
+        }
+
+        /* Flèches de navigation en bas */
+        .proj-link {
+            transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .proj-link:hover {
+            color: #FA378F;
+        }
+        .proj-link.prev:hover { transform: translateX(-4px); }
+        .proj-link.next:hover { transform: translateX(4px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .js .reveal { opacity: 1; transform: none; transition: none; }
+            .media-grid img:hover, .media-grid video:hover { transform: none !important; }
+        }
+
+        footer {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+        }
     </style>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header Navigation Identique (Fond Jaune #ECF244) -->
-    <header class="w-full px-6 md:px-8 py-4 md:py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
-        <div class="flex items-center gap-3">
+    <!-- Header Navigation (Fond Jaune #ECF244), menu visible aussi sur mobile -->
+    <header class="w-full px-3 md:px-8 py-4 md:py-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 z-50 shadow-sm shrink-0 sticky top-0">
+        <div class="flex items-center gap-2 md:gap-3 shrink-0">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain">
             </a>
-            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
+            <span class="font-bold text-[10px] md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
-        <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
+        <nav class="flex items-center space-x-3 md:space-x-10 text-[9px] md:text-xs font-bold tracking-widest uppercase shrink-0">
             <a href="index.html" class="nav-link">Menu</a>
             <a href="apropos.html" class="nav-link">À propos</a>
         </nav>
 
-        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center">
+        <a href="mecontacter.html" class="bg-black text-[#FA378F] text-[9px] md:text-xs font-bold uppercase tracking-wider px-3 md:px-6 py-2 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center shrink-0">
             Me contacter
         </a>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 w-full py-8 md:py-10 relative overflow-hidden">
-        
-        <!-- Fil conducteur rose magenta (#FA378F) adapté pour mobile et desktop -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" preserveAspectRatio="none" viewBox="0 0 1200 2400">
-            <path d="M 100,180 
-                     C 300,320 700,300 900,420 
-                     C 1050,520 800,680 600,750 
-                     C 350,830 100,1050 250,1250 
-                     C 400,1450 900,1350 1100,1550 
-                     C 1250,1700 600,1900 200,2100
-                     C 50,2180 400,2300 1000,2350" 
-                  fill="none" 
-                  stroke="#FA378F" 
-                  stroke-width="5" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round"/>
-        </svg>
+    <main class="flex-1 w-full px-5 md:px-14 pt-8 md:pt-12 pb-10 md:pb-16">
 
-        <!-- Conteneur global des sections -->
-        <div class="relative z-10 w-full px-6 md:px-14 space-y-12 md:space-y-20">
+        <!-- Titre de la page -->
+        <div class="max-w-[1400px] mx-auto text-center md:text-left mb-8 md:mb-14">
+            <span class="block text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-zinc-700 mb-1">Projet de Groupe</span>
+            <h1 class="page-title">brief de marque agatha</h1>
+        </div>
 
-            <!-- RANGÉE 1 : 3 images à gauche + texte descriptif à droite -->
-            <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div class="lg:col-span-7">
-                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
-                        Direction artistique &amp; campagne visuelle<br>
-                        Univers estival Agatha Paris.
-                    </p>
-                    <div class="grid grid-cols-3 gap-2 md:gap-3">
-                        <img src="projet4.png" alt="Visuel Agatha 1" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                        <img src="kvagatha.png" alt="Visuel Agatha 2" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                        <img src="kvagatha2.png" alt="Visuel Agatha 3" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                    </div>
-                </div>
+        <!-- Conteneur global : le fil rose est calculé d'après la position des rangées -->
+        <div id="gallery" class="relative max-w-[1400px] mx-auto">
 
-                <div class="lg:col-span-5 lg:pl-6 pt-1">
-                    <p class="text-[11px] md:text-xs font-bold uppercase tracking-wide leading-relaxed text-zinc-800 text-justify">
-                        Ce projet de groupe consiste en la refonte créative et la déclinaison de l'identité saisonnière de la marque Agatha Paris. L'objectif était d'associer les bijoux iconiques de la maison à des illustrations graphiques inspirées de l'univers marin et estival, afin de moderniser la prise de parole en boutique et sur les supports digitaux.
-                    </p>
-                </div>
-            </section>
+            <!-- Fil SVG (se redimensionne et se redessine tout seul) -->
+            <svg id="thread" class="absolute inset-0 pointer-events-none z-0 overflow-visible" aria-hidden="true">
+                <path id="thread-path" d=""/>
+            </svg>
 
-            <!-- RANGÉE 2 : 3 vidéos décalées à droite -->
-            <section class="flex justify-start lg:justify-end">
-                <div class="w-full lg:w-[62%]">
-                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-left lg:text-right leading-snug">
-                        Déclinaison éditoriale &amp; affichage<br>
-                        Série portraits et détails bijoux.
-                    </p>
-                    <div class="grid grid-cols-3 gap-2 md:gap-3">
-                        <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                            <source src="agathavideo1.mov" type="video/quicktime">
-                            Votre navigateur ne supporte pas la vidéo.
-                        </video>
-                        <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                            <source src="agathavideo2.mov" type="video/quicktime">
-                            Votre navigateur ne supporte pas la vidéo.
-                        </video>
-                        <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                            <source src="agathavideo3.mov" type="video/quicktime">
-                            Votre navigateur ne supporte pas la vidéo.
-                        </video>
-                    </div>
-                </div>
-            </section>
+            <div class="relative z-10 w-full space-y-14 md:space-y-24">
 
-            <!-- RANGÉE 3 : 1 vidéo + 2 images alignées à gauche -->
-            <section class="flex justify-start">
-                <div class="w-full lg:w-[62%]">
-                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
-                        Identité graphique &amp; illustrations<br>
-                        Intégration des motifs dessinés à la main.
-                    </p>
-                    <div class="grid grid-cols-3 gap-2 md:gap-3">
-                        <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                            <source src="mockupagatha.mov" type="video/quicktime">
-                            Votre navigateur ne supporte pas la vidéo.
-                        </video>
-                        <img src="mockupext1.png" alt="Visuel Agatha 8" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                        <img src="mockupext2.png" alt="Visuel Agatha 9" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                    </div>
-                </div>
-            </section>
-
-            <!-- RANGÉE 4 : Vitrines + Intérieur boutique + Packaging -->
-            <section class="w-full">
-                <div class="lg:ml-[32%] mb-3">
-                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider leading-snug">
-                        Scénographie vitrine &amp; packaging<br>
-                        Déploiement point de vente et expérience client.
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4 items-start">
-                    <div class="col-span-1 md:col-span-3">
-                        <img src="boutiquemockup2.png" alt="Vitrine boutique Agatha 1" class="w-full aspect-square object-cover shadow-sm bg-zinc-100">
-                    </div>
-                    <div class="col-span-1 md:col-span-3">
-                        <img src="boutiquemockup3.png" alt="Vitrine boutique Agatha 2" class="w-full aspect-square object-cover shadow-sm bg-zinc-100">
-                    </div>
-                    <div class="col-span-1 md:col-span-6 space-y-3">
-                        <div class="grid grid-cols-2 gap-2 md:gap-3">
-                            <img src="intboutique.png" alt="Intérieur boutique Agatha" class="w-full aspect-[4/3] object-cover shadow-sm bg-zinc-100">
-                            <img src="mockupboutique.png" alt="Packaging et sac Agatha" class="w-full aspect-[4/3] object-contain bg-white p-2">
+                <!-- RANGÉE 1 : 3 images à gauche + texte descriptif à droite -->
+                <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-7">
+                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
+                            Direction artistique &amp; campagne visuelle<br>
+                            Univers estival Agatha Paris.
+                        </p>
+                        <div class="thread-pt media-grid reveal grid grid-cols-3 gap-2 md:gap-3">
+                            <img src="projet4.png" alt="Visuel Agatha 1" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                            <img src="kvagatha.png" alt="Visuel Agatha 2" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                            <img src="kvagatha2.png" alt="Visuel Agatha 3" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
                         </div>
                     </div>
-                </div>
-            </section>
 
-            <!-- RANGÉE 5 : 1 vidéo + 1 image en bas à gauche/centre -->
-            <section class="flex justify-start lg:pl-[8%] pb-12">
-                <div class="w-full md:w-[45%]">
-                    <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
-                        Focus collection capsule<br>
-                        Mise en scène produit et réseaux sociaux.
-                    </p>
-                    <div class="grid grid-cols-2 gap-2 md:gap-3">
-                        <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
-                            <source src="instagatha.mov" type="video/quicktime">
-                            Votre navigateur ne supporte pas la vidéo.
-                        </video>
-                        <img src="mockupinsta2.png" alt="Visuel Agatha 11" class="w-full aspect-[3/4] object-cover shadow-sm bg-zinc-100">
+                    <div class="lg:col-span-5 lg:pl-6 pt-1">
+                        <p class="reveal text-[11px] md:text-xs font-bold uppercase tracking-wide leading-relaxed text-zinc-800 text-justify">
+                            Ce projet de groupe consiste en la refonte créative et la déclinaison de l'identité saisonnière de la marque Agatha Paris. L'objectif était d'associer les bijoux iconiques de la maison à des illustrations graphiques inspirées de l'univers marin et estival, afin de moderniser la prise de parole en boutique et sur les supports digitaux.
+                        </p>
                     </div>
-                </div>
-            </section>
+                </section>
 
+                <!-- RANGÉE 2 : 3 vidéos décalées à droite -->
+                <section class="flex justify-start lg:justify-end">
+                    <div class="w-full lg:w-[62%]">
+                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-left lg:text-right leading-snug">
+                            Déclinaison éditoriale &amp; affichage<br>
+                            Série portraits et détails bijoux.
+                        </p>
+                        <div class="thread-pt media-grid reveal grid grid-cols-3 gap-2 md:gap-3">
+                            <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                                <source src="agathavideo1.mov">
+                                Votre navigateur ne supporte pas la vidéo.
+                            </video>
+                            <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                                <source src="agathavideo2.mov">
+                                Votre navigateur ne supporte pas la vidéo.
+                            </video>
+                            <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                                <source src="agathavideo3.mov">
+                                Votre navigateur ne supporte pas la vidéo.
+                            </video>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RANGÉE 3 : 1 vidéo + 2 images alignées à gauche -->
+                <section class="flex justify-start">
+                    <div class="w-full lg:w-[62%]">
+                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
+                            Identité graphique &amp; illustrations<br>
+                            Intégration des motifs dessinés à la main.
+                        </p>
+                        <div class="thread-pt media-grid reveal grid grid-cols-3 gap-2 md:gap-3">
+                            <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                                <source src="mockupagatha.mov">
+                                Votre navigateur ne supporte pas la vidéo.
+                            </video>
+                            <img src="mockupext1.png" alt="Visuel Agatha 8" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                            <img src="mockupext2.png" alt="Visuel Agatha 9" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RANGÉE 4 : Vitrines + Intérieur boutique + Packaging -->
+                <section class="w-full">
+                    <div class="reveal lg:ml-[32%] mb-3">
+                        <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider leading-snug">
+                            Scénographie vitrine &amp; packaging<br>
+                            Déploiement point de vente et expérience client.
+                        </p>
+                    </div>
+                    <div class="thread-pt media-grid reveal grid grid-cols-2 md:grid-cols-12 gap-2 md:gap-4 items-start">
+                        <div class="col-span-1 md:col-span-3">
+                            <img src="boutiquemockup2.png" alt="Vitrine boutique Agatha 1" class="w-full aspect-square object-cover shadow-md bg-zinc-100">
+                        </div>
+                        <div class="col-span-1 md:col-span-3">
+                            <img src="boutiquemockup3.png" alt="Vitrine boutique Agatha 2" class="w-full aspect-square object-cover shadow-md bg-zinc-100">
+                        </div>
+                        <div class="col-span-2 md:col-span-6">
+                            <div class="grid grid-cols-2 gap-2 md:gap-3">
+                                <img src="intboutique.png" alt="Intérieur boutique Agatha" class="w-full aspect-[4/3] object-cover shadow-md bg-zinc-100">
+                                <img src="mockupboutique.png" alt="Packaging et sac Agatha" class="w-full aspect-[4/3] object-contain bg-white p-2">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RANGÉE 5 : 1 vidéo + 1 image en bas à gauche/centre -->
+                <section class="flex justify-start lg:pl-[8%]">
+                    <div class="w-full md:w-[60%] lg:w-[45%]">
+                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
+                            Focus collection capsule<br>
+                            Mise en scène produit et réseaux sociaux.
+                        </p>
+                        <div class="thread-pt media-grid reveal grid grid-cols-2 gap-2 md:gap-3">
+                            <video autoplay loop muted playsinline preload="auto" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                                <source src="instagatha.mov">
+                                Votre navigateur ne supporte pas la vidéo.
+                            </video>
+                            <img src="mockupinsta2.png" alt="Visuel Agatha 11" class="w-full aspect-[3/4] object-cover shadow-md bg-zinc-100">
+                        </div>
+                    </div>
+                </section>
+
+            </div>
         </div>
+
+        <!-- Navigation entre projets -->
+        <nav class="max-w-[1400px] mx-auto mt-14 md:mt-24 flex items-center justify-between gap-3 text-[10px] md:text-xs font-bold uppercase tracking-widest" aria-label="Projets">
+            <a href="Fascicule.html" class="proj-link prev bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">← Fascicule</a>
+            <a href="index.html" class="proj-link hidden sm:inline-block bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">Tous les projets</a>
+            <a href="mecontacter.html" class="proj-link next bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full">Me contacter →</a>
+        </nav>
+
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
+    <footer class="w-full pt-6 px-4 text-center text-[10px] md:text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
         © Agathe Rougette — Tous droits réservés
     </footer>
+
+    <script>
+        (function () {
+            const gallery = document.getElementById('gallery');
+            const svg = document.getElementById('thread');
+            const path = document.getElementById('thread-path');
+            const points = gallery.querySelectorAll('.thread-pt');
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let len = 0;
+
+            /* Courbe douce qui passe par le centre de chaque rangée (elle reste derrière) */
+            function buildThread() {
+                const r = gallery.getBoundingClientRect();
+                const W = r.width, H = r.height;
+                if (!W || !H) return;
+                svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+                svg.setAttribute('width', W);
+                svg.setAttribute('height', H);
+
+                const pts = [{ x: W * 0.06, y: -10 }];
+                points.forEach(function (el) {
+                    const b = el.getBoundingClientRect();
+                    pts.push({ x: b.left - r.left + b.width / 2, y: b.top - r.top + b.height / 2 });
+                });
+                pts.push({ x: W * 0.5, y: H + 10 });
+
+                let d = 'M ' + pts[0].x + ',' + pts[0].y;
+                for (let i = 0; i < pts.length - 1; i++) {
+                    const p0 = pts[i - 1] || pts[i];
+                    const p1 = pts[i];
+                    const p2 = pts[i + 1];
+                    const p3 = pts[i + 2] || p2;
+                    const c1x = p1.x + (p2.x - p0.x) / 6;
+                    const c1y = p1.y + (p2.y - p0.y) / 6;
+                    const c2x = p2.x - (p3.x - p1.x) / 6;
+                    const c2y = p2.y - (p3.y - p1.y) / 6;
+                    d += ' C ' + c1x + ',' + c1y + ' ' + c2x + ',' + c2y + ' ' + p2.x + ',' + p2.y;
+                }
+                path.setAttribute('d', d);
+
+                len = path.getTotalLength();
+                path.style.strokeDasharray = len;
+                updateThread();
+            }
+
+            /* Le fil se dessine au fil du défilement */
+            function updateThread() {
+                if (!len) return;
+                if (reduce) { path.style.strokeDashoffset = 0; return; }
+                const r = gallery.getBoundingClientRect();
+                const drawnY = window.innerHeight * 0.85 - r.top;
+                const p = Math.max(0, Math.min(1, drawnY / r.height));
+                path.style.strokeDashoffset = len * (1 - p);
+            }
+
+            /* Apparition des blocs */
+            const reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        if (e.isIntersecting) {
+                            e.target.classList.add('in');
+                            io.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.08 });
+                reveals.forEach(function (el) { io.observe(el); });
+            } else {
+                reveals.forEach(function (el) { el.classList.add('in'); });
+            }
+
+            gallery.querySelectorAll('img').forEach(function (img) {
+                if (!img.complete) img.addEventListener('load', buildThread);
+            });
+            window.addEventListener('load', buildThread);
+            window.addEventListener('resize', buildThread);
+            window.addEventListener('scroll', updateThread, { passive: true });
+            if ('ResizeObserver' in window) new ResizeObserver(buildThread).observe(gallery);
+            buildThread();
+        })();
+    </script>
 
 </body>
 </html>
