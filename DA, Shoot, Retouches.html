@@ -41,12 +41,12 @@
 <body class="flex flex-col justify-between min-h-screen">
 
     <!-- Header Navigation (Fond Jaune #ECF244) -->
-    <header class="w-full px-8 py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
+    <header class="w-full px-6 md:px-8 py-4 md:py-5 flex items-center justify-between z-50 shadow-sm shrink-0 sticky top-0">
         <div class="flex items-center gap-3">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-8 md:h-9 w-auto object-contain">
             </a>
-            <span class="font-bold text-sm tracking-widest uppercase">Portfolio</span>
+            <span class="font-bold text-xs md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
         <nav class="hidden md:flex items-center space-x-10 text-xs font-bold tracking-widest uppercase">
@@ -54,17 +54,30 @@
             <a href="#" class="nav-link">À propos</a>
         </nav>
 
-        <button class="bg-black text-[#FA378F] text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
+        <button class="bg-black text-[#FA378F] text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 md:px-6 py-2.5 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors">
             Me contacter
         </button>
     </header>
 
-    <!-- Main Content (Aéré sur la hauteur avec défilement) -->
-    <main class="flex-1 w-full py-8 relative min-h-[2200px] overflow-hidden">
+    <!-- Main Content : Fluide et centré sur mobile, positionnement absolu sur desktop (md:) -->
+    <main class="flex-1 w-full py-8 px-6 md:px-0 relative md:min-h-[2200px] flex flex-col items-center gap-10 md:block overflow-hidden">
         
-        <!-- Canvas SVG du Fil Magenta (#FA378F) réajusté sur la hauteur -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveAspectRatio="none" viewBox="0 0 1200 2200">
-            <!-- Parcours du fil rose sur toute la longueur de la page -->
+        <!-- Fil SVG Mobile : Expressif et adapté à l'empilement vertical sur smartphone -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 md:hidden" preserveAspectRatio="none" viewBox="0 0 400 2200">
+            <path d="M 40,80 
+                     C 180,220 360,280 340,480 
+                     C 320,680 40,760 60,980 
+                     C 80,1200 360,1280 340,1520 
+                     C 320,1760 60,1880 180,2180" 
+                  fill="none" 
+                  stroke="#FA378F" 
+                  stroke-width="4" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"/>
+        </svg>
+
+        <!-- Fil SVG Desktop : Tracé d'origine sur grand écran -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-10 hidden md:block" preserveAspectRatio="none" viewBox="0 0 1200 2200">
             <path d="M 60,100 C 60,250 400,320 400,320 C 650,320 800,480 680,620 C 560,760 280,720 220,950 C 160,1180 600,1400 600,1400 C 600,1650 380,1850 380,2200" 
                   fill="none" 
                   stroke="#FA378F" 
@@ -73,42 +86,42 @@
                   stroke-linejoin="round"/>
         </svg>
 
-        <!-- 1. Flacon Chanel (Haut Gauche) -->
-        <div class="absolute top-12 left-0 w-80 md:w-[440px] z-20">
-            <img src="retoucheparfum.png" alt="Parfum Chanel Chance" class="w-full h-auto object-cover shadow-sm">
-        </div>
-
-        <!-- 2. Texte de Description (Haut Droite - Décollé du bord droit) -->
-        <div class="absolute top-12 right-12 md:right-16 max-w-xs md:max-w-md text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-right z-20">
+        <!-- 1. Texte de Description (En haut sur mobile pour introduire le projet, en haut à droite sur desktop) -->
+        <div class="w-full md:max-w-md md:absolute md:top-12 md:right-16 text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-center md:text-right z-20 order-1">
             <p>
                 Ce projet explore la direction artistique, la prise de vue studio ainsi que le travail de retouche numérique sur différents univers éditoriaux.
             </p>
         </div>
 
-        <!-- 3. Baskets Nike (Haut Droite - Bien espacé sous le texte) -->
-        <div class="absolute top-48 right-0 w-96 md:w-[580px] z-20">
+        <!-- 2. Flacon Chanel (Haut Gauche sur desktop) -->
+        <div class="w-4/5 self-start md:w-[440px] md:absolute md:top-12 md:left-0 z-20 order-2">
+            <img src="retoucheparfum.png" alt="Parfum Chanel Chance" class="w-full h-auto object-cover shadow-sm">
+        </div>
+
+        <!-- 3. Baskets Nike (Haut Droite sur desktop) -->
+        <div class="w-11/12 self-end md:w-[580px] md:absolute md:top-48 md:right-0 z-20 order-3">
             <img src="retouchebasket.png" alt="Sneakers Nike 90" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 4. Portrait Fond Bleu (Milieu Droite - Descendu pour ne pas coller la basket) -->
-        <div class="absolute top-[750px] right-0 w-[85%] md:w-[680px] z-20">
+        <!-- 4. Portrait Fond Bleu (Milieu Droite sur desktop) -->
+        <div class="w-full md:w-[680px] md:absolute md:top-[750px] md:right-0 z-20 order-4">
             <img src="projet2.png" alt="Portrait fond bleu maquillage" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 5. Portrait Veste en Cuir (Bas Gauche - Bien espacé) -->
-        <div class="absolute top-[1200px] left-0 w-80 md:w-[480px] z-20">
+        <!-- 5. Portrait Veste en Cuir (Bas Gauche sur desktop) -->
+        <div class="w-4/5 self-start md:w-[480px] md:absolute md:top-[1200px] md:left-0 z-20 order-5">
             <img src="retouchevisage2.png" alt="Portrait veste en cuir fond noir" class="w-full h-auto object-cover shadow-sm">
         </div>
 
-        <!-- 6. Portrait Fond Orange (Bas Droite) -->
-        <div class="absolute top-[1520px] right-0 w-80 md:w-[480px] z-20">
+        <!-- 6. Portrait Fond Orange (Bas Droite sur desktop) -->
+        <div class="w-4/5 self-end md:w-[480px] md:absolute md:top-[1520px] md:right-0 z-20 order-6">
             <img src="retouchevisage.png" alt="Portrait fond orange grimace" class="w-full h-auto object-cover shadow-sm">
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0">
+    <footer class="w-full py-6 text-center text-xs font-bold uppercase tracking-widest text-zinc-400 border-t border-zinc-100 shrink-0 bg-white z-20">
         © Agathe Rougette — Tous droits réservés
     </footer>
 
