@@ -144,7 +144,14 @@
 
             <!-- Fil SVG (se redimensionne et se redessine tout seul) -->
             <svg id="thread" class="absolute inset-0 pointer-events-none z-0 overflow-visible" aria-hidden="true">
-                <path id="thread-path" d=""/>
+                <defs>
+                    <!-- Le fil est "effacé" autour de chaque texte pour ne jamais le gêner -->
+                    <mask id="thread-mask" maskUnits="userSpaceOnUse">
+                        <rect id="mask-bg" fill="#fff"/>
+                        <g id="mask-holes" fill="#000"></g>
+                    </mask>
+                </defs>
+                <path id="thread-path" d="" mask="url(#thread-mask)"/>
             </svg>
 
             <div class="relative z-10 w-full space-y-14 md:space-y-24">
@@ -152,7 +159,7 @@
                 <!-- RANGÉE 1 : 3 images à gauche + texte descriptif à droite -->
                 <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div class="lg:col-span-7">
-                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
+                        <p class="no-line reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
                             Direction artistique &amp; campagne visuelle<br>
                             Univers estival Agatha Paris.
                         </p>
@@ -164,7 +171,7 @@
                     </div>
 
                     <div class="lg:col-span-5 lg:pl-6 pt-1">
-                        <p class="reveal text-[11px] md:text-xs font-bold uppercase tracking-wide leading-relaxed text-zinc-800 text-justify">
+                        <p class="no-line reveal text-[11px] md:text-xs font-bold uppercase tracking-wide leading-relaxed text-zinc-800 text-justify">
                             Ce projet de groupe consiste en la refonte créative et la déclinaison de l'identité saisonnière de la marque Agatha Paris. L'objectif était d'associer les bijoux iconiques de la maison à des illustrations graphiques inspirées de l'univers marin et estival, afin de moderniser la prise de parole en boutique et sur les supports digitaux.
                         </p>
                     </div>
@@ -173,7 +180,7 @@
                 <!-- RANGÉE 2 : 3 vidéos décalées à droite -->
                 <section class="flex justify-start lg:justify-end">
                     <div class="w-full lg:w-[62%]">
-                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-left lg:text-right leading-snug">
+                        <p class="no-line reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-left lg:text-right leading-snug">
                             Déclinaison éditoriale &amp; affichage<br>
                             Série portraits et détails bijoux.
                         </p>
@@ -197,7 +204,7 @@
                 <!-- RANGÉE 3 : 1 vidéo + 2 images alignées à gauche -->
                 <section class="flex justify-start">
                     <div class="w-full lg:w-[62%]">
-                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
+                        <p class="no-line reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 leading-snug">
                             Identité graphique &amp; illustrations<br>
                             Intégration des motifs dessinés à la main.
                         </p>
@@ -215,7 +222,7 @@
                 <!-- RANGÉE 4 : Vitrines + Intérieur boutique + Packaging -->
                 <section class="w-full">
                     <div class="reveal lg:ml-[32%] mb-3">
-                        <p class="text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider leading-snug">
+                        <p class="no-line text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider leading-snug">
                             Scénographie vitrine &amp; packaging<br>
                             Déploiement point de vente et expérience client.
                         </p>
@@ -239,7 +246,7 @@
                 <!-- RANGÉE 5 : 1 vidéo + 1 image en bas à gauche/centre -->
                 <section class="flex justify-start lg:pl-[8%]">
                     <div class="w-full md:w-[60%] lg:w-[45%]">
-                        <p class="reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
+                        <p class="no-line reveal text-[10px] md:text-[11px] font-extrabold uppercase tracking-wider mb-3 text-center leading-snug">
                             Focus collection capsule<br>
                             Mise en scène produit et réseaux sociaux.
                         </p>
@@ -276,6 +283,7 @@
             const svg = document.getElementById('thread');
             const path = document.getElementById('thread-path');
             const points = gallery.querySelectorAll('.thread-pt');
+            const textBlocks = gallery.querySelectorAll('.no-line');
             const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let len = 0;
 
@@ -309,6 +317,33 @@
                 }
                 path.setAttribute('d', d);
 
+                /* Zones de texte : on mesure chaque ligne de texte et on "efface" le fil autour */
+                const bg = document.getElementById('mask-bg');
+                const mask = document.getElementById('thread-mask');
+                const holes = document.getElementById('mask-holes');
+                const pad = 14;
+                [bg, mask].forEach(function (el) {
+                    el.setAttribute('x', -60);
+                    el.setAttribute('y', -60);
+                    el.setAttribute('width', W + 120);
+                    el.setAttribute('height', H + 120);
+                });
+                while (holes.firstChild) holes.removeChild(holes.firstChild);
+                textBlocks.forEach(function (el) {
+                    const range = document.createRange();
+                    range.selectNodeContents(el);
+                    Array.prototype.forEach.call(range.getClientRects(), function (tr) {
+                        if (tr.width < 2 || tr.height < 2) return;
+                        const hole = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                        hole.setAttribute('x', tr.left - r.left - pad);
+                        hole.setAttribute('y', tr.top - r.top - pad * 0.6);
+                        hole.setAttribute('width', tr.width + pad * 2);
+                        hole.setAttribute('height', tr.height + pad * 1.2);
+                        hole.setAttribute('rx', 6);
+                        holes.appendChild(hole);
+                    });
+                });
+
                 len = path.getTotalLength();
                 path.style.strokeDasharray = len;
                 updateThread();
@@ -332,6 +367,7 @@
                         if (e.isIntersecting) {
                             e.target.classList.add('in');
                             io.unobserve(e.target);
+                            setTimeout(buildThread, 900);
                         }
                     });
                 }, { threshold: 0.08 });
