@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Agathe Rougette — Portfolio 3D</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,14 +16,13 @@
             font-style: normal;
         }
 
-        /* Taille mobile par défaut pour que toute l'étagère 3D tienne sur smartphone */
+        /* Mobile par défaut */
         :root {
-            --card-w: 135px;
-            --card-h: 205px;
+            --card-w: 150px;
+            --card-h: 225px;
             --card-d: 8px;
         }
 
-        /* Taille tablette / petit desktop d'origine */
         @media (min-width: 768px) {
             :root {
                 --card-w: 210px;
@@ -32,13 +31,16 @@
             }
         }
 
-        /* Taille grand desktop d'origine */
         @media (min-width: 1024px) {
             :root {
                 --card-w: 240px;
                 --card-h: 350px;
                 --card-d: 12px;
             }
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
@@ -48,7 +50,9 @@
             color: #09090b;
             font-family: sans-serif;
             min-height: 100vh;
+            min-height: 100dvh;
             overflow-x: hidden;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         .nav-link {
@@ -60,7 +64,7 @@
 
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
-            font-size: clamp(2.8rem, 7vw, 7.5rem);
+            font-size: clamp(2.8rem, 12vw, 7.5rem);
             line-height: 1;
             color: #09090b;
             text-align: center;
@@ -93,17 +97,10 @@
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), margin 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            margin-left: -38px;
-            margin-right: -38px;
+            margin-left: -70px;
+            margin-right: -70px;
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
-        }
-
-        @media (min-width: 768px) {
-            .card-item {
-                margin-left: -70px;
-                margin-right: -70px;
-            }
         }
 
         .card-3d {
@@ -196,60 +193,105 @@
             }
         }
 
-        /* Effet de soulèvement 3D : au survol (ordi) OU au tap actif (téléphone) */
-        .card-item:hover,
-        .card-item.is-lifted {
-            z-index: 120 !important;
-            margin-left: -8px;
-            margin-right: -8px;
-        }
-
+        /* ===== Animation 1 : soulèvement 3D (survol ordi OU tap téléphone) ===== */
+        /* Le survol n'est actif que sur les appareils avec souris (évite le "hover collé" sur téléphone) */
         @media (min-width: 768px) {
-            .card-item:hover,
-            .card-item.is-lifted {
+            .card-item.is-lifted,
+            .card-item:hover {
+                z-index: 120 !important;
                 margin-left: -15px;
                 margin-right: -15px;
             }
-        }
-
-        .card-item:hover .card-3d,
-        .card-item.is-lifted .card-3d {
-            transform: translateY(-35px) translateZ(90px) rotateY(-4deg) scale(1.08);
-        }
-
-        @media (min-width: 768px) {
             .card-item:hover .card-3d,
             .card-item.is-lifted .card-3d {
                 transform: translateY(-60px) translateZ(150px) rotateY(-4deg) scale(1.08);
             }
-        }
-
-        .card-item:hover .shadow-floor,
-        .card-item.is-lifted .shadow-floor {
-            transform: rotateX(85deg) translateZ(-30px) scale(1.3);
-            opacity: 0.25;
-            filter: blur(10px);
-        }
-
-        @media (min-width: 768px) {
             .card-item:hover .shadow-floor,
             .card-item.is-lifted .shadow-floor {
                 transform: rotateX(85deg) translateZ(-45px) scale(1.4);
+                opacity: 0.25;
                 filter: blur(12px);
+            }
+        }
+
+        /* ===== MOBILE : étagère à faire glisser au doigt ===== */
+        @media (max-width: 767px) {
+            .stage-3d {
+                perspective: none;
+            }
+
+            .shelf-3d {
+                justify-content: flex-start !important;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+                gap: 6px;
+                /* place en haut pour la carte soulevée, en bas pour l'ombre */
+                padding: 50px calc(50vw - var(--card-w) / 2) 36px !important;
+                min-height: 0;
+                overscroll-behavior-x: contain;
+            }
+            .shelf-3d::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Chaque carte a sa propre perspective (le conteneur scrollable aplatit la 3D) */
+            .card-item {
+                margin-left: 0;
+                margin-right: 0;
+                perspective: 900px;
+                perspective-origin: 50% 45%;
+                scroll-snap-align: center;
+            }
+
+            .card-item.is-lifted {
+                z-index: 120 !important;
+            }
+            .card-item.is-lifted .card-3d {
+                transform: translateY(-28px) translateZ(40px) rotateY(-4deg) scale(1.06);
+            }
+            .card-item.is-lifted .shadow-floor {
+                transform: rotateX(85deg) translateZ(-30px) scale(1.3);
+                opacity: 0.25;
+                filter: blur(10px);
+            }
+        }
+
+        /* ===== Animation 2 & 3 : tilt 3D + ombre au sol (déjà dans .card-3d / .shadow-floor) ===== */
+
+        /* Filtres du bas : défilent horizontalement sur petit écran */
+        .filters-bar {
+            max-width: 95%;
+        }
+        @media (max-width: 767px) {
+            .filters-bar {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                white-space: nowrap;
+            }
+            .filters-bar::-webkit-scrollbar {
+                display: none;
+            }
+            .filters-bar > * {
+                flex-shrink: 0;
             }
         }
     </style>
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
-    <!-- Header Navigation : Ajusté pour être toujours visible sur mobile -->
+    <!-- Header Navigation : toujours visible sur mobile -->
     <header class="w-full px-3 md:px-8 py-4 md:py-6 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 z-50">
         <div class="flex items-center gap-2 md:gap-3 shrink-0">
             <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain">
             <span class="font-bold text-[10px] md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
 
-        <!-- Le menu n'est plus masqué sur mobile, il s'ajuste proprement -->
         <nav class="flex items-center space-x-3 md:space-x-10 text-[9px] md:text-xs font-bold tracking-widest uppercase shrink-0">
             <a href="index.html" class="nav-link">Menu</a>
             <a href="apropos.html" class="nav-link">À propos</a>
@@ -261,21 +303,21 @@
     </header>
 
     <!-- Content -->
-    <main class="flex-1 flex flex-col items-center justify-between py-4 px-3 md:px-0">
-        
-        <h1 class="hero-title my-2">Agathe Rougette</h1>
+    <main class="flex-1 flex flex-col items-center justify-between py-4 px-0 md:px-0">
+
+        <h1 class="hero-title my-2 px-3">Agathe Rougette</h1>
 
         <!-- Stage 3D -->
-        <div class="stage-3d my-4">
+        <div class="stage-3d my-2 md:my-4">
             <div id="shelf-container" class="shelf-3d px-2 md:px-6">
-                
+
                 <!-- Livre 1 : Projet Célene -->
                 <a href="Projet Célene.html" class="card-item" style="z-index: 4; display: block; text-decoration: none;">
                     <div class="card-3d">
                         <div class="face face-front" style="background-image: url('projet1.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[8px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet Personnel</span>
-                                <h4 class="font-bold text-xs md:text-base mt-0.5 md:mt-1 leading-tight">Projet Célene</h4>
+                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet Personnel</span>
+                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Projet Célene</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -291,8 +333,8 @@
                     <div class="card-3d">
                         <div class="face face-front" style="background-image: url('projet2.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[8px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Photographie</span>
-                                <h4 class="font-bold text-xs md:text-base mt-0.5 md:mt-1 leading-tight">DA, Shoot, Retouches</h4>
+                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Photographie</span>
+                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">DA, Shoot, Retouches</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -308,8 +350,8 @@
                     <div class="card-3d">
                         <div class="face face-front" style="background-image: url('projet3.gif');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[8px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Indesign</span>
-                                <h4 class="font-bold text-xs md:text-base mt-0.5 md:mt-1 leading-tight">Fascicule</h4>
+                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Indesign</span>
+                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Fascicule</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -325,8 +367,8 @@
                     <div class="card-3d">
                         <div class="face face-front" style="background-image: url('projet4.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[8px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
-                                <h4 class="font-bold text-xs md:text-base mt-0.5 md:mt-1 leading-tight">Brief de marque Agatha</h4>
+                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
+                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Brief de marque Agatha</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -342,8 +384,8 @@
                     <div class="card-3d">
                         <div class="face face-front" style="background-image: url('projet4.png');">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[8px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
-                                <h4 class="font-bold text-xs md:text-base mt-0.5 md:mt-1 leading-tight">Brief de marque Agatha</h4>
+                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
+                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Brief de marque Agatha</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -358,7 +400,7 @@
         </div>
 
         <!-- Filtres du bas -->
-        <div class="flex flex-wrap justify-center gap-1.5 md:gap-3 text-[10px] md:text-xs font-bold uppercase border border-black/15 py-2.5 md:py-3 px-4 md:px-6 backdrop-blur-md bg-black/5 rounded-2xl md:rounded-full shadow-md my-2 max-w-[95%]">
+        <div class="filters-bar flex flex-wrap justify-center gap-1.5 md:gap-3 text-[10px] md:text-xs font-bold uppercase border border-black/15 py-2.5 md:py-3 px-4 md:px-6 backdrop-blur-md bg-black/5 rounded-2xl md:rounded-full shadow-md my-2 mb-5">
             <button class="bg-black text-[#ECF244] px-3 md:px-4 py-1 md:py-1.5 rounded-full">Tous</button>
             <a href="Projet Célene.html" class="px-2.5 md:px-3 py-1 md:py-1.5 hover:text-[#FA378F] transition-colors inline-block">Projet Célene</a>
             <a href="DA, Shoot, Retouches.html" class="px-2.5 md:px-3 py-1 md:py-1.5 hover:text-[#FA378F] transition-colors inline-block">DA, Shoot, Retouches</a>
@@ -367,11 +409,12 @@
         </div>
     </main>
 
-    <!-- Interaction tactile mobile -->
+    <!-- Interaction tactile mobile : 1er tap = la carte se soulève, 2e tap = ouvre le projet -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.card-item');
-            const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+            const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches
+                || window.matchMedia('(max-width: 767px)').matches;
 
             cards.forEach(card => {
                 card.addEventListener('click', (e) => {
@@ -381,6 +424,7 @@
                         }
                         cards.forEach(c => c.classList.remove('is-lifted'));
                         card.classList.add('is-lifted');
+                        card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                     }
                 });
             });
@@ -390,6 +434,12 @@
                     cards.forEach(c => c.classList.remove('is-lifted'));
                 }
             });
+
+            // Sur mobile, on centre la 1re carte au chargement
+            const shelf = document.getElementById('shelf-container');
+            if (shelf && window.matchMedia('(max-width: 767px)').matches) {
+                shelf.scrollLeft = 0;
+            }
         });
     </script>
 
