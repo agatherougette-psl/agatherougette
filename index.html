@@ -161,21 +161,23 @@
         .hero-title {
             font-family: 'AchilleusScript', cursive, sans-serif;
             font-size: clamp(2.8rem, 12vw, 7.5rem);
-            line-height: 1;
+            /* Hauteur de ligne généreuse + marge basse : les queues des lettres (g, t, y...)
+               de la police script ne sont plus coupées */
+            line-height: 1.3;
             color: #09090b;
             text-align: center;
-            margin: 0.5rem 0;
-            padding: 0 0.75rem;
+            margin: 0.5rem 0 calc(0.5rem - 0.3em);
+            padding: 0.1em 0.75rem 0.25em;
+            overflow: visible;
         }
-        /* Le titre apparaît en douceur dès que la police est là (pas de saut de police) */
+        /* Le titre apparaît en douceur dès que la police est là (pas de saut de police).
+           Fondu seulement, sans déplacement : ça évite que le navigateur recadre le texte. */
         .js .hero-title {
             opacity: 0;
-            transform: translateY(12px);
         }
         .js.fonts-ready .hero-title {
             opacity: 1;
-            transform: none;
-            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.6s ease-out;
         }
 
         .stage-3d {
@@ -482,7 +484,7 @@
 
         @media (prefers-reduced-motion: reduce) {
             .card-item { animation: none; }
-            .js .hero-title { opacity: 1; transform: none; }
+            .js .hero-title { opacity: 1; }
             .js.fonts-ready .hero-title { transition: none; }
             .js .card-img { transition: none; }
         }
