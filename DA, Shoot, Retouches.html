@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>DA, Shoot, Retouches — Agathe Rougette</title>
+
+    <!-- Active le mode "chargement en douceur" dès le tout début -->
     <script>document.documentElement.classList.add('js');</script>
+
+    <!-- Connexion anticipée à Tailwind + chargement prioritaire de la police -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preload" href="Achilleus%20Script.otf" as="font" type="font/otf" crossorigin>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -14,10 +21,12 @@
             src: url('Achilleus Script.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
+            font-display: block;
         }
 
         html {
             -webkit-text-size-adjust: 100%;
+            background-color: #ffffff;
         }
 
         body {
@@ -29,6 +38,40 @@
             min-height: 100vh;
             min-height: 100dvh;
             overflow-x: hidden;
+        }
+
+        /* ---------- Chargement en douceur ----------
+           La page reste invisible le temps que Tailwind, la police et les
+           images soient prêts, puis apparaît d'un seul bloc (plus de flash
+           de page "cassée" au début). */
+        .js body {
+            opacity: 0;
+        }
+        .js.ready body {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+
+        /* Petite barre rose pendant le chargement (CSS pur, ne dépend de rien) */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: #FA378F;
+            transform-origin: left center;
+            transform: scaleX(0);
+            animation: loader 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .ready #loader {
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+        }
+        @keyframes loader {
+            to { transform: scaleX(0.85); }
         }
 
         /* Header avec son fond jaune conservé */
@@ -53,11 +96,52 @@
             color: #09090b;
         }
 
-        /* Apparition douce des images quand on arrive dessus */
+        /* ---------- Texte de description ---------- */
+        .desc {
+            max-width: 36rem;
+            text-align: left;
+        }
+        .desc-lead {
+            font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+            font-weight: 600;
+            line-height: 1.45;
+            color: #09090b;
+            text-wrap: pretty;
+            margin: 0 0 1.5rem;
+        }
+        .desc-list {
+            margin: 0;
+            display: grid;
+            gap: 1.1rem;
+        }
+        .desc-item {
+            border-left: 3px solid #FA378F;
+            padding-left: 0.9rem;
+        }
+        .desc-item dt {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #09090b;
+            margin-bottom: 0.2rem;
+        }
+        .desc-item dd {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #3f3f46;
+            text-wrap: pretty;
+        }
+        .desc-item em {
+            font-style: italic;
+            color: #09090b;
+        }
+
+        /* ---------- Apparition douce, une fois la page prête ---------- */
         .js .reveal {
             opacity: 0;
             transform: translateY(24px);
             transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition-delay: var(--d, 0s);
         }
         .js .reveal.in {
             opacity: 1;
@@ -65,6 +149,13 @@
         }
 
         /* Le fil rose : il se dessine au fil du défilement */
+        #thread {
+            opacity: 0;
+            transition: opacity 0.6s ease-out;
+        }
+        .ready #thread {
+            opacity: 1;
+        }
         #thread-path {
             fill: none;
             stroke: #FA378F;
@@ -98,6 +189,9 @@
         .proj-link.next:hover { transform: translateX(4px); }
 
         @media (prefers-reduced-motion: reduce) {
+            .js.ready body { transition: none; }
+            #loader { animation: none; }
+            #thread { transition: none; }
             .js .reveal { opacity: 1; transform: none; transition: none; }
             .shot:hover img { transform: none !important; }
         }
@@ -109,11 +203,13 @@
 </head>
 <body class="flex flex-col justify-between min-h-screen">
 
+    <div id="loader" aria-hidden="true"></div>
+
     <!-- Header Navigation (Fond Jaune #ECF244), menu visible aussi sur mobile -->
     <header class="w-full px-3 md:px-8 py-4 md:py-5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 z-50 shadow-sm shrink-0 sticky top-0">
         <div class="flex items-center gap-2 md:gap-3 shrink-0">
             <a href="index.html">
-                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain">
+                <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain" fetchpriority="high" decoding="async">
             </a>
             <span class="font-bold text-[10px] md:text-sm tracking-widest uppercase">Portfolio</span>
         </div>
@@ -133,8 +229,8 @@
 
         <!-- Titre de la page -->
         <div class="max-w-[1200px] mx-auto text-center md:text-left mb-8 md:mb-12">
-            <span class="block text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-zinc-700 mb-1">Photographie</span>
-            <h1 class="page-title">da, shoot, retouches</h1>
+            <span class="reveal block text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-zinc-700 mb-1">Photographie</span>
+            <h1 class="reveal page-title" style="--d:0.08s">da, shoot, retouches</h1>
         </div>
 
         <!-- Galerie : le fil rose est calculé automatiquement d'après la position des images -->
@@ -145,36 +241,55 @@
                 <path id="thread-path" d=""/>
             </svg>
 
-            <!-- 1. Texte de Description -->
-            <div class="relative z-10 md:col-start-7 md:col-span-6 md:row-start-1 self-start text-xs md:text-sm font-semibold text-zinc-800 uppercase tracking-wide leading-relaxed text-center md:text-right">
-                <p class="reveal">
-                    Ce projet explore la direction artistique, la prise de vue studio ainsi que le travail de retouche numérique sur différents univers éditoriaux.
+            <!-- 1. Texte de description -->
+            <section class="desc relative z-10 md:col-start-7 md:col-span-6 md:row-start-1 self-start" aria-label="Présentation du projet">
+                <p class="desc-lead reveal" style="--d:0.16s">
+                    Un projet de photographie en trois temps : penser l’image, la réaliser en prise de vue, puis la sublimer en post-production, sur différents univers éditoriaux.
                 </p>
-            </div>
+
+                <dl class="desc-list">
+                    <div class="desc-item reveal" style="--d:0.24s">
+                        <dt>Direction artistique</dt>
+                        <dd>Définition de l’intention visuelle pour chaque image : univers, ambiance, palette et cohérence d’ensemble, avant toute prise de vue.</dd>
+                    </div>
+                    <div class="desc-item reveal" style="--d:0.32s">
+                        <dt>Shoot</dt>
+                        <dd>Réalisation des prises de vue en studio, de la mise en place du sujet à la capture finale, sur des sujets variés : produits et portraits.</dd>
+                    </div>
+                    <div class="desc-item reveal" style="--d:0.4s">
+                        <dt>Retouches</dt>
+                        <dd>Post-production complète sur Adobe Photoshop : retouche beauté et colorimétrie, détourage, correction de la lumière et des couleurs, jusqu’à un rendu éditorial soigné.</dd>
+                    </div>
+                    <div class="desc-item reveal" style="--d:0.48s">
+                        <dt>Livrables</dt>
+                        <dd>Une sélection de visuels finalisés : parfum, sneakers et portraits.</dd>
+                    </div>
+                </dl>
+            </section>
 
             <!-- 2. Flacon Chanel -->
             <div class="shot relative z-10 w-4/5 justify-self-start md:w-auto md:justify-self-stretch md:col-start-1 md:col-span-4 md:row-start-1">
-                <img src="retoucheparfum.png" alt="Parfum Chanel Chance" class="reveal w-full h-auto object-cover shadow-md">
+                <img src="retoucheparfum.png" alt="Parfum Chanel Chance" class="reveal w-full h-auto object-cover shadow-md" decoding="async">
             </div>
 
             <!-- 3. Baskets Nike -->
             <div class="shot relative z-10 w-11/12 justify-self-end md:w-auto md:justify-self-stretch md:col-start-6 md:col-span-7 md:row-start-2 md:-mt-24">
-                <img src="retouchebasket.png" alt="Sneakers Nike 90" class="reveal w-full h-auto object-cover shadow-md">
+                <img src="retouchebasket.png" alt="Sneakers Nike 90" class="reveal w-full h-auto object-cover shadow-md" decoding="async">
             </div>
 
             <!-- 4. Portrait Fond Bleu -->
             <div class="shot relative z-10 w-full md:col-start-5 md:col-span-8 md:row-start-3">
-                <img src="projet2.png" alt="Portrait fond bleu maquillage" class="reveal w-full h-auto object-cover shadow-md">
+                <img src="projet2.png" alt="Portrait fond bleu maquillage" class="reveal w-full h-auto object-cover shadow-md" decoding="async">
             </div>
 
             <!-- 5. Portrait Veste en Cuir -->
             <div class="shot relative z-10 w-4/5 justify-self-start md:w-auto md:justify-self-stretch md:col-start-1 md:col-span-5 md:row-start-4">
-                <img src="retouchevisage2.png" alt="Portrait veste en cuir fond noir" class="reveal w-full h-auto object-cover shadow-md">
+                <img src="retouchevisage2.png" alt="Portrait veste en cuir fond noir" class="reveal w-full h-auto object-cover shadow-md" decoding="async">
             </div>
 
             <!-- 6. Portrait Fond Orange -->
             <div class="shot relative z-10 w-4/5 justify-self-end md:w-auto md:justify-self-stretch md:col-start-8 md:col-span-5 md:row-start-4 md:mt-32">
-                <img src="retouchevisage.png" alt="Portrait fond orange grimace" class="reveal w-full h-auto object-cover shadow-md">
+                <img src="retouchevisage.png" alt="Portrait fond orange grimace" class="reveal w-full h-auto object-cover shadow-md" decoding="async">
             </div>
 
         </div>
@@ -195,6 +310,7 @@
 
     <script>
         (function () {
+            const root = document.documentElement;
             const gallery = document.getElementById('gallery');
             const svg = document.getElementById('thread');
             const path = document.getElementById('thread-path');
@@ -247,30 +363,67 @@
                 path.style.strokeDashoffset = len * (1 - p);
             }
 
-            /* Apparition des images */
-            const reveals = document.querySelectorAll('.reveal');
-            if ('IntersectionObserver' in window) {
-                const io = new IntersectionObserver(function (entries) {
-                    entries.forEach(function (e) {
-                        if (e.isIntersecting) {
-                            e.target.classList.add('in');
-                            io.unobserve(e.target);
-                        }
-                    });
-                }, { threshold: 0.12 });
-                reveals.forEach(function (el) { io.observe(el); });
-            } else {
-                reveals.forEach(function (el) { el.classList.add('in'); });
+            /* Apparition des éléments (lancée seulement quand la page est prête) */
+            function startReveals() {
+                const reveals = document.querySelectorAll('.reveal');
+                if ('IntersectionObserver' in window) {
+                    const io = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (e) {
+                            if (e.isIntersecting) {
+                                e.target.classList.add('in');
+                                io.unobserve(e.target);
+                            }
+                        });
+                    }, { threshold: 0.12 });
+                    reveals.forEach(function (el) { io.observe(el); });
+                } else {
+                    reveals.forEach(function (el) { el.classList.add('in'); });
+                }
             }
 
-            gallery.querySelectorAll('img').forEach(function (img) {
-                if (!img.complete) img.addEventListener('load', buildThread);
-            });
-            window.addEventListener('load', buildThread);
+            /* Attend que la police et toutes les images soient décodées */
+            function waitForAssets() {
+                const fontReady = (document.fonts && document.fonts.load)
+                    ? document.fonts.load('1em AchilleusScript').catch(function () {})
+                    : Promise.resolve();
+
+                const imgsReady = Array.prototype.map.call(document.images, function (img) {
+                    if (img.decode) return img.decode().catch(function () {});
+                    return new Promise(function (res) {
+                        if (img.complete) return res();
+                        img.addEventListener('load', res);
+                        img.addEventListener('error', res);
+                    });
+                });
+
+                return Promise.all([fontReady].concat(imgsReady));
+            }
+
+            let started = false;
+            function showPage() {
+                if (started) return;
+                started = true;
+                buildThread();                 // le fil est tracé avant l'affichage : plus de saut
+                requestAnimationFrame(function () {
+                    root.classList.add('ready');
+                    startReveals();
+                });
+            }
+
+            /* Sécurité : si une image est lente, on affiche quand même après 3,5 s */
+            const safety = new Promise(function (res) { setTimeout(res, 3500); });
+            const domReady = (document.readyState === 'complete')
+                ? Promise.resolve()
+                : new Promise(function (res) { window.addEventListener('load', res); });
+
+            Promise.race([
+                Promise.all([waitForAssets(), domReady]),
+                safety
+            ]).then(showPage);
+
             window.addEventListener('resize', buildThread);
             window.addEventListener('scroll', updateThread, { passive: true });
             if ('ResizeObserver' in window) new ResizeObserver(buildThread).observe(gallery);
-            buildThread();
         })();
     </script>
 
