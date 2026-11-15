@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Agathe Rougette — Portfolio 3D</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
+    <script>document.documentElement.classList.add('js');</script>
+
+    <!-- La police est chargée en priorité (le titre en dépend) -->
+    <link rel="preload" href="Achilleus%20Script.otf" as="font" type="font/otf" crossorigin>
+
+    <!-- Plus de Tailwind CDN sur cette page : tout le style est ci-dessous,
+         donc la page s'affiche immédiatement, sans attendre de script externe. -->
     <style>
-        /* Déclaration de la police personnalisée */
         @font-face {
             font-family: 'AchilleusScript';
             src: url('Achilleus Script.otf') format('opentype');
             font-weight: normal;
             font-style: normal;
+            font-display: block;
         }
+
+        /* ---------- Base (remplace le reset de Tailwind) ---------- */
+        *, *::before, *::after { box-sizing: border-box; }
+        h1, h4, p { margin: 0; }
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
+        button { font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; margin: 0; padding: 0; border: 0; background: none; cursor: pointer; }
 
         /* Mobile par défaut */
         :root {
@@ -41,6 +53,8 @@
 
         html {
             -webkit-text-size-adjust: 100%;
+            line-height: 1.5;
+            background-color: #ECF244;
         }
 
         body {
@@ -53,13 +67,95 @@
             min-height: 100dvh;
             overflow-x: hidden;
             padding-bottom: env(safe-area-inset-bottom, 0px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
+        /* ---------- Header ---------- */
+        .site-header {
+            position: relative;
+            z-index: 50;
+            width: 100%;
+            padding: 1rem 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            row-gap: 0.75rem;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+        .brand img {
+            height: 1.75rem;
+            width: auto;
+            object-fit: contain;
+        }
+        .brand span {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
         .nav-link {
             transition: color 0.2s ease-in-out;
         }
         .nav-link:hover {
-            color: #FA378F !important;
+            color: #FA378F;
+        }
+        .cta {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 0.5rem 0.75rem;
+            border-radius: 9999px;
+            background: #000;
+            color: #ECF244;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .cta:hover {
+            background: #CC1F6D;
+            color: #fff;
+        }
+        @media (min-width: 640px) {
+            .site-header { flex-wrap: nowrap; }
+        }
+        @media (min-width: 768px) {
+            .site-header { padding: 1.5rem 2rem; }
+            .brand { gap: 0.75rem; }
+            .brand img { height: 2.25rem; }
+            .brand span { font-size: 0.875rem; }
+            .main-nav { gap: 2.5rem; font-size: 0.75rem; }
+            .cta { padding: 0.75rem 1.5rem; font-size: 0.75rem; }
+        }
+
+        /* ---------- Contenu ---------- */
+        .main {
+            flex: 1 1 0%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
         }
 
         .hero-title {
@@ -68,13 +164,25 @@
             line-height: 1;
             color: #09090b;
             text-align: center;
-            margin: 0;
+            margin: 0.5rem 0;
+            padding: 0 0.75rem;
+        }
+        /* Le titre apparaît en douceur dès que la police est là (pas de saut de police) */
+        .js .hero-title {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        .js.fonts-ready .hero-title {
+            opacity: 1;
+            transform: none;
+            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .stage-3d {
             perspective: 1400px;
             perspective-origin: 50% 45%;
             width: 100%;
+            margin: 0.5rem 0;
         }
 
         .shelf-3d {
@@ -84,16 +192,25 @@
             justify-content: center !important;
             min-height: 250px;
             width: 100%;
+            padding: 0 0.5rem;
         }
 
         @media (min-width: 768px) {
+            .stage-3d { margin: 1rem 0; }
             .shelf-3d {
                 min-height: 360px;
+                padding: 0 1.5rem;
             }
+        }
+
+        /* Apparition des cartes : un seul mouvement d'ensemble, en cascade */
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(28px); }
         }
 
         .card-item {
             position: relative;
+            display: block;
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), margin 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
@@ -101,6 +218,7 @@
             margin-right: -70px;
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
+            animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) backwards;
         }
 
         .card-3d {
@@ -110,6 +228,7 @@
             transform-style: preserve-3d;
             transform: rotateY(-14deg) rotateX(5deg) rotateZ(1deg);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
         }
 
         .face {
@@ -124,14 +243,57 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: -4px 8px 16px rgba(0, 0, 0, 0.2);
-            background-size: cover;
-            background-position: center;
+            background-color: #18181b; /* fond sombre le temps que l'image arrive */
         }
 
         @media (min-width: 768px) {
             .face-front {
                 border-radius: 10px;
             }
+        }
+
+        /* Image de la carte (vraie balise <img> : le navigateur la charge en priorité) */
+        .card-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .js .card-img {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+        }
+        .js .card-img.is-in {
+            opacity: 1;
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            color: #fff;
+            background-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+        }
+        .card-overlay span {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #ECF244;
+        }
+        .card-overlay h4 {
+            margin-top: 0.125rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+        @media (min-width: 768px) {
+            .card-overlay { padding: 1.25rem; }
+            .card-overlay span { font-size: 10px; }
+            .card-overlay h4 { margin-top: 0.25rem; font-size: 1rem; }
         }
 
         .face-back {
@@ -194,7 +356,6 @@
         }
 
         /* ===== Animation 1 : soulèvement 3D (survol ordi OU tap téléphone) ===== */
-        /* Le survol n'est actif que sur les appareils avec souris (évite le "hover collé" sur téléphone) */
         @media (min-width: 768px) {
             .card-item.is-lifted,
             .card-item:hover {
@@ -259,11 +420,48 @@
             }
         }
 
-        /* ===== Animation 2 & 3 : tilt 3D + ombre au sol (déjà dans .card-3d / .shadow-floor) ===== */
-
-        /* Filtres du bas : défilent horizontalement sur petit écran */
+        /* ---------- Filtres du bas ---------- */
         .filters-bar {
             max-width: 95%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.375rem;
+            margin: 0.5rem 0 1.25rem;
+            padding: 0.625rem 1rem;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 1rem;
+            background: rgba(0, 0, 0, 0.05);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .filter-all {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            background: #000;
+            color: #ECF244;
+        }
+        .filter-link {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            transition: color 0.2s ease-in-out;
+        }
+        .filter-link:hover {
+            color: #FA378F;
+        }
+        @media (min-width: 768px) {
+            .filters-bar {
+                gap: 0.75rem;
+                padding: 0.75rem 1.5rem;
+                font-size: 0.75rem;
+                border-radius: 9999px;
+            }
+            .filter-all { padding: 0.375rem 1rem; }
+            .filter-link { padding: 0.375rem 0.75rem; }
         }
         @media (max-width: 767px) {
             .filters-bar {
@@ -281,43 +479,49 @@
                 flex-shrink: 0;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card-item { animation: none; }
+            .js .hero-title { opacity: 1; transform: none; }
+            .js.fonts-ready .hero-title { transition: none; }
+            .js .card-img { transition: none; }
+        }
     </style>
 </head>
-<body class="flex flex-col justify-between min-h-screen">
+<body>
 
     <!-- Header Navigation : toujours visible sur mobile -->
-    <header class="w-full px-3 md:px-8 py-4 md:py-6 flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-3 z-50">
-        <div class="flex items-center gap-2 md:gap-3 shrink-0">
-            <img src="header1.gif" alt="Logo Agathe Rougette" class="h-7 md:h-9 w-auto object-contain">
-            <span class="font-bold text-[10px] md:text-sm tracking-widest uppercase">Portfolio</span>
+    <header class="site-header">
+        <div class="brand">
+            <img src="header1.gif" alt="Logo Agathe Rougette" fetchpriority="high" decoding="async">
+            <span>Portfolio</span>
         </div>
 
-        <nav class="flex items-center space-x-3 md:space-x-10 text-[9px] md:text-xs font-bold tracking-widest uppercase shrink-0">
+        <nav class="main-nav">
             <a href="index.html" class="nav-link">Menu</a>
             <a href="apropos.html" class="nav-link">À propos</a>
         </nav>
 
-        <a href="mecontacter.html" class="bg-black text-[#ECF244] text-[9px] md:text-xs font-bold uppercase tracking-wider px-3 md:px-6 py-2 md:py-3 rounded-full shadow-lg hover:bg-[#CC1F6D] hover:text-white transition-colors inline-block text-center shrink-0">
-            Me contacter
-        </a>
+        <a href="mecontacter.html" class="cta">Me contacter</a>
     </header>
 
     <!-- Content -->
-    <main class="flex-1 flex flex-col items-center justify-between py-4 px-0 md:px-0">
+    <main class="main">
 
-        <h1 class="hero-title my-2 px-3">Agathe Rougette</h1>
+        <h1 class="hero-title">Agathe Rougette</h1>
 
         <!-- Stage 3D -->
-        <div class="stage-3d my-2 md:my-4">
-            <div id="shelf-container" class="shelf-3d px-2 md:px-6">
+        <div class="stage-3d">
+            <div id="shelf-container" class="shelf-3d">
 
                 <!-- Livre 1 : Projet Célene -->
-                <a href="Projet Célene.html" class="card-item" style="z-index: 4; display: block; text-decoration: none;">
+                <a href="Projet Célene.html" class="card-item" style="z-index: 4; --d: 0.05s;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet1.png');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet Personnel</span>
-                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Projet Célene</h4>
+                        <div class="face face-front">
+                            <img class="card-img" src="projet1.png" alt="" fetchpriority="high" decoding="async">
+                            <div class="card-overlay">
+                                <span>Projet Personnel</span>
+                                <h4>Projet Célene</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -329,12 +533,13 @@
                 </a>
 
                 <!-- Livre 2 : DA, Shoot, Retouches -->
-                <a href="DA, Shoot, Retouches.html" class="card-item" style="z-index: 5; display: block; text-decoration: none;">
+                <a href="DA, Shoot, Retouches.html" class="card-item" style="z-index: 5; --d: 0.12s;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet2.png');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Photographie</span>
-                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">DA, Shoot, Retouches</h4>
+                        <div class="face face-front">
+                            <img class="card-img" src="projet2.png" alt="" fetchpriority="high" decoding="async">
+                            <div class="card-overlay">
+                                <span>Photographie</span>
+                                <h4>DA, Shoot, Retouches</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -345,13 +550,14 @@
                     <div class="shadow-floor"></div>
                 </a>
 
-                <!-- Livre 3 : Fascicule -->
-                <a href="Fascicule.html" class="card-item" style="z-index: 7; display: block; text-decoration: none;">
+                <!-- Livre 3 : Fascicule (le GIF, plus lourd, est chargé en dernier : voir le script) -->
+                <a href="Fascicule.html" class="card-item" style="z-index: 7; --d: 0.19s;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet3.gif');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Indesign</span>
-                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Fascicule</h4>
+                        <div class="face face-front">
+                            <img class="card-img" data-src="projet3.gif" alt="" decoding="async">
+                            <div class="card-overlay">
+                                <span>Indesign</span>
+                                <h4>Fascicule</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -363,12 +569,13 @@
                 </a>
 
                 <!-- Livre 4 : Brief Agatha -->
-                <a href="Brief de marque Agatha.html" class="card-item" style="z-index: 5; display: block; text-decoration: none;">
+                <a href="Brief de marque Agatha.html" class="card-item" style="z-index: 5; --d: 0.26s;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet4.png');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
-                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Brief de marque Agatha</h4>
+                        <div class="face face-front">
+                            <img class="card-img" src="projet4.png" alt="" decoding="async">
+                            <div class="card-overlay">
+                                <span>Projet de Groupe</span>
+                                <h4>Brief de marque Agatha</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -380,12 +587,13 @@
                 </a>
 
                 <!-- Livre 5 : Extra -->
-                <div class="card-item" style="z-index: 4;">
+                <div class="card-item" style="z-index: 4; --d: 0.33s;">
                     <div class="card-3d">
-                        <div class="face face-front" style="background-image: url('projet4.png');">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 p-3 md:p-5 flex flex-col justify-end text-white">
-                                <span class="text-[9px] md:text-[10px] font-extrabold uppercase text-[#ECF244]">Projet de Groupe</span>
-                                <h4 class="font-bold text-sm md:text-base mt-0.5 md:mt-1 leading-tight">Brief de marque Agatha</h4>
+                        <div class="face face-front">
+                            <img class="card-img" src="projet4.png" alt="" decoding="async">
+                            <div class="card-overlay">
+                                <span>Projet de Groupe</span>
+                                <h4>Brief de marque Agatha</h4>
                             </div>
                         </div>
                         <div class="face face-back"></div>
@@ -400,14 +608,68 @@
         </div>
 
         <!-- Filtres du bas -->
-        <div class="filters-bar flex flex-wrap justify-center gap-1.5 md:gap-3 text-[10px] md:text-xs font-bold uppercase border border-black/15 py-2.5 md:py-3 px-4 md:px-6 backdrop-blur-md bg-black/5 rounded-2xl md:rounded-full shadow-md my-2 mb-5">
-            <button class="bg-black text-[#ECF244] px-3 md:px-4 py-1 md:py-1.5 rounded-full">Tous</button>
-            <a href="Projet Célene.html" class="px-2.5 md:px-3 py-1 md:py-1.5 hover:text-[#FA378F] transition-colors inline-block">Projet Célene</a>
-            <a href="DA, Shoot, Retouches.html" class="px-2.5 md:px-3 py-1 md:py-1.5 hover:text-[#FA378F] transition-colors inline-block">DA, Shoot, Retouches</a>
-            <a href="Fascicule.html" class="px-2.5 md:px-3 py-1 md:py-1.5 hover:text-[#FA378F] transition-colors inline-block">Fascicule</a>
-            <a href="Brief de marque Agatha.html" class="px-2.5 md:px-3 py-1 md:py-1.5 hover:text-[#FA378F] transition-colors inline-block">Brief de marque Agatha</a>
+        <div class="filters-bar">
+            <button class="filter-all">Tous</button>
+            <a href="Projet Célene.html" class="filter-link">Projet Célene</a>
+            <a href="DA, Shoot, Retouches.html" class="filter-link">DA, Shoot, Retouches</a>
+            <a href="Fascicule.html" class="filter-link">Fascicule</a>
+            <a href="Brief de marque Agatha.html" class="filter-link">Brief de marque Agatha</a>
         </div>
     </main>
+
+    <!-- Chargement : images en fondu, GIF différé, pages projets préchargées -->
+    <script>
+        (function () {
+            const root = document.documentElement;
+
+            /* Les images apparaissent en fondu dès qu'elles sont prêtes */
+            function show(img) { img.classList.add('is-in'); }
+            document.querySelectorAll('.card-img').forEach(function (img) {
+                if (img.dataset.src) return;               // le GIF est géré plus bas
+                if (img.complete && img.naturalWidth) show(img);
+                else {
+                    img.addEventListener('load', function () { show(img); });
+                    img.addEventListener('error', function () { show(img); });
+                }
+            });
+
+            /* Le titre attend la police pour apparaître (plus de changement de police visible) */
+            function showTitle() { root.classList.add('fonts-ready'); }
+            if (document.fonts && document.fonts.load) {
+                document.fonts.load('1em AchilleusScript').then(showTitle, showTitle);
+                setTimeout(showTitle, 1500);               // sécurité
+            } else {
+                showTitle();
+            }
+
+            /* Une fois le reste chargé : le GIF (le plus lourd), puis les pages projets en avance */
+            function loadGif() {
+                const g = document.querySelector('.card-img[data-src]');
+                if (!g) return;
+                g.addEventListener('load', function () { show(g); });
+                g.addEventListener('error', function () { show(g); });
+                g.src = g.dataset.src;
+            }
+
+            function prefetchPages() {
+                const conn = navigator.connection;
+                if (conn && conn.saveData) return;         // on respecte le mode économie de données
+                document.querySelectorAll('a.card-item[href]').forEach(function (a) {
+                    const l = document.createElement('link');
+                    l.rel = 'prefetch';
+                    l.href = a.href;
+                    document.head.appendChild(l);
+                });
+            }
+
+            function afterLoad() {
+                loadGif();
+                (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(prefetchPages);
+            }
+            if (document.readyState === 'complete') afterLoad();
+            else window.addEventListener('load', afterLoad);
+        })();
+    </script>
 
     <!-- Interaction tactile mobile : 1er tap = la carte se soulève, 2e tap = ouvre le projet -->
     <script>
