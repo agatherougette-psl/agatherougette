@@ -552,11 +552,11 @@
                     <div class="shadow-floor"></div>
                 </a>
 
-                <!-- Livre 3 : Fascicule (le GIF, plus lourd, est chargé en dernier : voir le script) -->
+                <!-- Livre 3 : Fascicule (vidéo mp4 en boucle, muette : bien plus légère qu'un GIF) -->
                 <a href="Fascicule.html" class="card-item" style="z-index: 7; --d: 0.19s;">
                     <div class="card-3d">
                         <div class="face face-front">
-                            <img class="card-img" data-src="projet3.gif" alt="" decoding="async">
+                            <video class="card-img" src="projet3.mp4" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"></video>
                             <div class="card-overlay">
                                 <span>Indesign</span>
                                 <h4>Fascicule</h4>
@@ -608,8 +608,21 @@
 
             /* Les images apparaissent en fondu dès qu'elles sont prêtes */
             function show(img) { img.classList.add('is-in'); }
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             document.querySelectorAll('.card-img').forEach(function (img) {
-                if (img.dataset.src) return;               // le GIF est géré plus bas
+                if (img.tagName === 'VIDEO') {
+                    /* Vidéo de la carte Fascicule : muette, en boucle, lancée tout de suite */
+                    img.muted = true;
+                    if (img.readyState >= 2) show(img);
+                    else {
+                        img.addEventListener('loadeddata', function () { show(img); }, { once: true });
+                        img.addEventListener('error', function () { show(img); }, { once: true });
+                    }
+                    if (reduceMotion) { img.pause(); return; }   // mouvement réduit : image fixe
+                    const p = img.play();
+                    if (p && p.catch) p.catch(function () {});
+                    return;
+                }
                 if (img.complete && img.naturalWidth) show(img);
                 else {
                     img.addEventListener('load', function () { show(img); });
@@ -626,15 +639,7 @@
                 showTitle();
             }
 
-            /* Une fois le reste chargé : le GIF (le plus lourd), puis les pages projets en avance */
-            function loadGif() {
-                const g = document.querySelector('.card-img[data-src]');
-                if (!g) return;
-                g.addEventListener('load', function () { show(g); });
-                g.addEventListener('error', function () { show(g); });
-                g.src = g.dataset.src;
-            }
-
+            /* Une fois le reste chargé : on précharge les pages projets en arrière-plan */
             function prefetchPages() {
                 const conn = navigator.connection;
                 if (conn && conn.saveData) return;         // on respecte le mode économie de données
@@ -647,7 +652,6 @@
             }
 
             function afterLoad() {
-                loadGif();
                 (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(prefetchPages);
             }
             if (document.readyState === 'complete') afterLoad();
