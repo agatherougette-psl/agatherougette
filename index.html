@@ -556,7 +556,7 @@
                 <a href="Fascicule.html" class="card-item" style="z-index: 7; --d: 0.19s;">
                     <div class="card-3d">
                         <div class="face face-front">
-                            <video class="card-img" src="projet3.mp4" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"></video>
+                            <video class="card-img" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"><source src="projet3.mp4" type="video/mp4"></video>
                             <div class="card-overlay">
                                 <span>Indesign</span>
                                 <h4>Fascicule</h4>
@@ -608,19 +608,37 @@
 
             /* Les images apparaissent en fondu dès qu'elles sont prêtes */
             function show(img) { img.classList.add('is-in'); }
-            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             document.querySelectorAll('.card-img').forEach(function (img) {
                 if (img.tagName === 'VIDEO') {
-                    /* Vidéo de la carte Fascicule : muette, en boucle, lancée tout de suite */
+                    /* Vidéo de la carte Fascicule : muette, en boucle, lancée tout de suite.
+                       Plusieurs relances pour être sûr qu'elle démarre sur tous les navigateurs. */
                     img.muted = true;
-                    if (img.readyState >= 2) show(img);
-                    else {
-                        img.addEventListener('loadeddata', function () { show(img); }, { once: true });
-                        img.addEventListener('error', function () { show(img); }, { once: true });
-                    }
-                    if (reduceMotion) { img.pause(); return; }   // mouvement réduit : image fixe
-                    const p = img.play();
-                    if (p && p.catch) p.catch(function () {});
+                    img.defaultMuted = true;
+                    img.loop = true;
+                    img.playsInline = true;
+
+                    const showVideo = function () { show(img); };
+                    if (img.readyState >= 2) showVideo();
+                    ['loadeddata', 'canplay', 'playing'].forEach(function (ev) {
+                        img.addEventListener(ev, showVideo, { once: true });
+                    });
+                    img.addEventListener('error', showVideo, { once: true });
+                    setTimeout(showVideo, 2500);               // sécurité : on l'affiche quoi qu'il arrive
+
+                    const tryPlay = function () {
+                        const p = img.play();
+                        if (p && p.catch) p.catch(function () {});
+                    };
+                    tryPlay();
+                    img.addEventListener('canplay', tryPlay, { once: true });
+
+                    /* Si le navigateur bloque la lecture automatique : le 1er geste de la visiteuse la lance */
+                    ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(function (ev) {
+                        window.addEventListener(ev, function onFirst() {
+                            window.removeEventListener(ev, onFirst);
+                            if (img.paused) tryPlay();
+                        }, { passive: true });
+                    });
                     return;
                 }
                 if (img.complete && img.naturalWidth) show(img);
