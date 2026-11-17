@@ -10,6 +10,10 @@
     <!-- La police est chargée en priorité (le titre en dépend) -->
     <link rel="preload" href="Achilleus%20Script.otf" as="font" type="font/otf" crossorigin>
 
+    <!-- OPTIMISATION : l'image poster de la vidéo est chargée en priorité,
+         elle s'affiche instantanément avant que la vidéo démarre -->
+    <link rel="preload" href="projet3-poster.webp" as="image" type="image/webp">
+
     <!-- Plus de Tailwind CDN sur cette page : tout le style est ci-dessous,
          donc la page s'affiche immédiatement, sans attendre de script externe. -->
     <style>
@@ -495,7 +499,8 @@
     <!-- Header Navigation : toujours visible sur mobile -->
     <header class="site-header">
         <div class="brand">
-            <img src="header1.gif" alt="Logo Agathe Rougette" fetchpriority="high" decoding="async">
+            <!-- OPTIMISATION : fetchpriority="high" retiré, le logo ne bloque plus le chargement des cartes -->
+            <img src="header1.gif" alt="Logo Agathe Rougette" decoding="async">
             <span>Portfolio</span>
         </div>
 
@@ -552,11 +557,12 @@
                     <div class="shadow-floor"></div>
                 </a>
 
-                <!-- Livre 3 : Fascicule (vidéo mp4 en boucle, muette : bien plus légère qu'un GIF) -->
+                <!-- Livre 3 : Fascicule (vidéo mp4 en boucle, muette : bien plus légère qu'un GIF)
+                     OPTIMISATION : poster = image affichée instantanément, la vidéo prend le relais -->
                 <a href="Fascicule.html" class="card-item" style="z-index: 7; --d: 0.19s;">
                     <div class="card-3d">
                         <div class="face face-front">
-                            <video class="card-img" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"><source src="projet3.mp4" type="video/mp4"></video>
+                            <video class="card-img" poster="projet3-poster.webp" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"><source src="projet3.mp4" type="video/mp4"></video>
                             <div class="card-overlay">
                                 <span>Indesign</span>
                                 <h4>Fascicule</h4>
@@ -570,11 +576,12 @@
                     <div class="shadow-floor"></div>
                 </a>
 
-                <!-- Livre 4 : Brief Agatha -->
+                <!-- Livre 4 : Brief Agatha
+                     OPTIMISATION : loading="lazy" (sur téléphone la carte est hors écran) -->
                 <a href="Brief de marque Agatha.html" class="card-item" style="z-index: 5; --d: 0.26s;">
                     <div class="card-3d">
                         <div class="face face-front">
-                            <img class="card-img" src="projet4.webp" alt="" decoding="async">
+                            <img class="card-img" src="projet4.webp" alt="" loading="lazy" decoding="async">
                             <div class="card-overlay">
                                 <span>Projet de Groupe</span>
                                 <h4>Brief de marque Agatha</h4>
@@ -601,29 +608,26 @@
         </div>
     </main>
 
-    <!-- Chargement : images en fondu, GIF différé, pages projets préchargées -->
+    <!-- Chargement : images en fondu, vidéo lancée immédiatement, pages projets préchargées en dernier -->
     <script>
         (function () {
             const root = document.documentElement;
+            let videoStarted = false;
+            let pageLoaded = false;
 
             /* Les images apparaissent en fondu dès qu'elles sont prêtes */
             function show(img) { img.classList.add('is-in'); }
             document.querySelectorAll('.card-img').forEach(function (img) {
                 if (img.tagName === 'VIDEO') {
                     /* Vidéo de la carte Fascicule : muette, en boucle, lancée tout de suite.
-                       Plusieurs relances pour être sûr qu'elle démarre sur tous les navigateurs. */
+                       OPTIMISATION : elle est visible immédiatement (le poster s'affiche),
+                       on n'attend plus que la vidéo soit chargée. */
                     img.muted = true;
                     img.defaultMuted = true;
                     img.loop = true;
                     img.playsInline = true;
 
-                    const showVideo = function () { show(img); };
-                    if (img.readyState >= 2) showVideo();
-                    ['loadeddata', 'canplay', 'playing'].forEach(function (ev) {
-                        img.addEventListener(ev, showVideo, { once: true });
-                    });
-                    img.addEventListener('error', showVideo, { once: true });
-                    setTimeout(showVideo, 2500);               // sécurité : on l'affiche quoi qu'il arrive
+                    show(img);
 
                     const tryPlay = function () {
                         const p = img.play();
@@ -631,6 +635,10 @@
                     };
                     tryPlay();
                     img.addEventListener('canplay', tryPlay, { once: true });
+                    img.addEventListener('playing', function () {
+                        videoStarted = true;
+                        maybePrefetch();
+                    }, { once: true });
 
                     /* Si le navigateur bloque la lecture automatique : le 1er geste de la visiteuse la lance */
                     ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(function (ev) {
@@ -657,7 +665,8 @@
                 showTitle();
             }
 
-            /* Une fois le reste chargé : on précharge les pages projets en arrière-plan */
+            /* On précharge les pages projets en arrière-plan, mais seulement quand la vidéo
+               tourne déjà (ou après 4 s), pour ne pas ralentir son démarrage */
             function prefetchPages() {
                 const conn = navigator.connection;
                 if (conn && conn.saveData) return;         // on respecte le mode économie de données
@@ -669,8 +678,20 @@
                 });
             }
 
+            let prefetched = false;
+            function maybePrefetch() {
+                if (prefetched || !pageLoaded || !videoStarted) return;
+                prefetched = true;
+                (window.requestIdleCallback || function (fn) { setTimeout(fn, 500); })(prefetchPages);
+            }
+
             function afterLoad() {
-                (window.requestIdleCallback || function (fn) { setTimeout(fn, 1200); })(prefetchPages);
+                pageLoaded = true;
+                maybePrefetch();
+                setTimeout(function () {                   // sécurité : si la vidéo ne démarre pas
+                    videoStarted = true;
+                    maybePrefetch();
+                }, 4000);
             }
             if (document.readyState === 'complete') afterLoad();
             else window.addEventListener('load', afterLoad);
